@@ -1,15 +1,21 @@
 {
-  "name": "Talenta ESS Platform",
-  "short_name": "TalentaESS",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#0F2C59",
-  "theme_color": "#0F2C59",
+  "short_name": "Fullmoon Cargo",
+  "name": "Fullmoon x BAL Jnt Cargo",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/9365/9365267.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "head.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "head.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
-  ]
+  ],
+  "start_url": "index.html",
+  "background_color": "#0F2C59",
+  "display": "standalone",
+  "theme_color": "#0F2C59",
+  "orientation": "portrait"
 }
