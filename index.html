@@ -362,7 +362,7 @@
     function updateAbsenButtonStates() {
         const hariIni = new Date();
         const hariAngka = hariIni.getDay(); // 0 = Minggu, 1 = Senin, dst.
-        const tanggalKey = hariIni.toDateString(); 
+        const tanggalKey = hariIni.toDateString(); // ID Unik berbasis tanggal hari ini
 
         const btnIn = document.getElementById('btn-clockin');
         const btnOut = document.getElementById('btn-clockout');
@@ -370,7 +370,7 @@
         const btnIzin = document.getElementById('btn-submit-izin');
         const statusBox = document.getElementById('status-absen-box');
 
-        // 1. JIKA HARI MINGGU (TETAP DIBUKA ATAU KUNCI BEBAS, DI SINI KITA KUNCI KARENA HARI LIBUR)
+        // 1. JIKA HARI MINGGU (LIBUR TOTAL)
         if(hariAngka === 0) {
             btnIn.disabled = true;
             btnOut.disabled = true;
@@ -382,32 +382,23 @@
             return "minggu";
         }
 
-        // 2. CEK STATUS ABSEN HARI INI DARI LOCAL STORAGE
+        // 2. CEK APAKAH SUDAH CLOCK IN / OUT HARI INI
         const sudahClockIn = localStorage.getItem('in_' + tanggalKey);
         const sudahClockOut = localStorage.getItem('out_' + tanggalKey);
 
-        // ========================================================
-        // LOGIKA TOMBOL CLOCK IN (BEBAS JAM BERAPA SAJA - HANYA 1 KALI KLIK)
-        // ========================================================
         if(sudahClockIn) {
-            btnIn.disabled = true; // Kunci jika sudah pernah klik Clock In hari ini
+            btnIn.disabled = true;
         } else {
-            btnIn.disabled = false; // Selalu terbuka jika belum klik Clock In
+            btnIn.disabled = false;
         }
 
-        // ========================================================
-        // LOGIKA TOMBOL CLOCK OUT (BEBAS JAM BERAPA SAJA - HANYA 1 KALI KLIK)
-        // ========================================================
         if(sudahClockOut) {
-            btnOut.disabled = true; // Kunci jika sudah pernah klik Clock Out hari ini
-        } else if(!sudahClockIn) {
-            btnOut.disabled = true; // Kunci jika belum Clock In sama sekali (wajib masuk dulu baru bisa pulang)
+            btnOut.disabled = true;
         } else {
-            btnOut.disabled = false; // Terbuka bebas jam berapa saja setelah Clock In dilakukan
+            btnOut.disabled = false;
         }
-        // ========================================================
 
-        // TULIS STATUS DI KOTAK INDIKATOR BIAR KARYAWAN TAHU
+        // TULIS STATUS DI KOTAK INDIKATOR
         if(sudahClockIn && sudahClockOut) {
             statusBox.style.background = "#D1FAE5";
             statusBox.style.color = "#065F46";
@@ -415,13 +406,56 @@
         } else if(sudahClockIn) {
             statusBox.style.background = "#FEF3C7";
             statusBox.style.color = "#92400E";
-            statusBox.innerText = "Status Hari Ini: Sudah Clock In (Silakan Clock Out Jika Selesai Bekerja)";
+            statusBox.innerText = "Status Hari Ini: Baru Melakukan Clock In (Belum Pulang)";
         } else {
             statusBox.style.background = "#EFF6FF";
             statusBox.style.color = "#1E40AF";
             statusBox.innerText = "Status Hari Ini: Belum Melakukan Absensi";
         }
         return "kerja";
+    }
+
+    function prosesLogin() {
+        const idUser = document.getElementById('login-id').value;
+        const passUser = document.getElementById('login-pass').value;
+        
+        if(!idUser || !passUser) {
+            showPopup("Perhatian!", "Silahkan masukan kata sandi dan pasword denga benar", "error");
+            return;
+        }
+
+        showLoader("Mengautentikasi akun...");
+
+        fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "login", id: idUser, password: passUser })
+        })
+        .then(res => res.json())
+        .then(res => {
+            hideLoader();
+            if(res.status === "success") {
+                namaKaryawanTerlogin = res.nama;
+                document.getElementById('user-greeting').innerText = `Hi, ${namaKaryawanTerlogin}!`;
+                document.getElementById('page-login').classList.add('hidden');
+                document.getElementById('main-app').classList.remove('hidden');
+                
+                // JALANKAN CEK STATUS KUNCI TOMBOL
+                const statusHari = updateAbsenButtonStates();
+                
+                // JIKA HARI MINGGU TAMPILKAN POPUP BERLIBUR
+                if(statusHari === "minggu") {
+                    setTimeout(() => {
+                        showPopup("Selamat Berlibur!", "Hari ini adalah hari libur nasional perusahaan. Nikmati waktu istirahat Anda!", "success");
+                    }, 500);
+                }
+            } else {
+                showPopup("Login Gagal", "Silahkan masukan kata sandi dan pasword denga benar", "error");
+            }
+        })
+        .catch(err => {
+            hideLoader();
+            showPopup("Error", "Gagal terhubung ke server login.", "error");
+        });
     }
 
     function triggerAbsen(jenis) {
@@ -536,6 +570,19 @@
                 showPopup("Error", "Gagal mengirim data presensi.", "error");
             });
         });
+    }
+
+    // FUNGSI MATEMATIKA UNTUK MENGHITUNG JARAK ANTARA DUA KOORDINAT (METER)
+    function hitungJarakMeter(lat1, lon1, lat2, lon2) {
+        const R = 6371000; // Jari-jari bumi dalam meter
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = 
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c; // Hasil akhir dalam satuan meter
     }
 
     function resetFormAbsen() {
