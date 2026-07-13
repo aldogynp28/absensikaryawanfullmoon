@@ -362,7 +362,7 @@
     function updateAbsenButtonStates() {
         const hariIni = new Date();
         const hariAngka = hariIni.getDay(); // 0 = Minggu, 1 = Senin, dst.
-        const tanggalKey = hariIni.toDateString(); // ID Unik berbasis tanggal hari ini
+        const tanggalKey = hariIni.toDateString(); 
 
         const btnIn = document.getElementById('btn-clockin');
         const btnOut = document.getElementById('btn-clockout');
@@ -370,7 +370,7 @@
         const btnIzin = document.getElementById('btn-submit-izin');
         const statusBox = document.getElementById('status-absen-box');
 
-        // 1. JIKA HARI MINGGU (LIBUR TOTAL)
+        // 1. JIKA HARI MINGGU (TETAP DIBUKA ATAU KUNCI BEBAS, DI SINI KITA KUNCI KARENA HARI LIBUR)
         if(hariAngka === 0) {
             btnIn.disabled = true;
             btnOut.disabled = true;
@@ -382,23 +382,32 @@
             return "minggu";
         }
 
-        // 2. CEK APAKAH SUDAH CLOCK IN / OUT HARI INI
+        // 2. CEK STATUS ABSEN HARI INI DARI LOCAL STORAGE
         const sudahClockIn = localStorage.getItem('in_' + tanggalKey);
         const sudahClockOut = localStorage.getItem('out_' + tanggalKey);
 
+        // ========================================================
+        // LOGIKA TOMBOL CLOCK IN (BEBAS JAM BERAPA SAJA - HANYA 1 KALI KLIK)
+        // ========================================================
         if(sudahClockIn) {
-            btnIn.disabled = true;
+            btnIn.disabled = true; // Kunci jika sudah pernah klik Clock In hari ini
         } else {
-            btnIn.disabled = false;
+            btnIn.disabled = false; // Selalu terbuka jika belum klik Clock In
         }
 
+        // ========================================================
+        // LOGIKA TOMBOL CLOCK OUT (BEBAS JAM BERAPA SAJA - HANYA 1 KALI KLIK)
+        // ========================================================
         if(sudahClockOut) {
-            btnOut.disabled = true;
+            btnOut.disabled = true; // Kunci jika sudah pernah klik Clock Out hari ini
+        } else if(!sudahClockIn) {
+            btnOut.disabled = true; // Kunci jika belum Clock In sama sekali (wajib masuk dulu baru bisa pulang)
         } else {
-            btnOut.disabled = false;
+            btnOut.disabled = false; // Terbuka bebas jam berapa saja setelah Clock In dilakukan
         }
+        // ========================================================
 
-        // TULIS STATUS DI KOTAK INDIKATOR
+        // TULIS STATUS DI KOTAK INDIKATOR BIAR KARYAWAN TAHU
         if(sudahClockIn && sudahClockOut) {
             statusBox.style.background = "#D1FAE5";
             statusBox.style.color = "#065F46";
@@ -406,7 +415,7 @@
         } else if(sudahClockIn) {
             statusBox.style.background = "#FEF3C7";
             statusBox.style.color = "#92400E";
-            statusBox.innerText = "Status Hari Ini: Baru Melakukan Clock In (Belum Pulang)";
+            statusBox.innerText = "Status Hari Ini: Sudah Clock In (Silakan Clock Out Jika Selesai Bekerja)";
         } else {
             statusBox.style.background = "#EFF6FF";
             statusBox.style.color = "#1E40AF";
@@ -510,8 +519,8 @@
             // ========================================================
             // 📝 PENGATURAN KOORDINAT PABRIK KAKAK (SILAHKAN DIUBAH)
             // ========================================================
-            const PABRIK_LAT = -6.135961;  // Ganti dengan Latitude pabrik Kakak
-            const PABRIK_LNG = 106.609341; // Ganti dengan Longitude pabrik Kakak
+            const PABRIK_LAT = -6.135961 ;  // Ganti dengan Latitude pabrik Kakak
+            const PABRIK_LNG = 106.609341 ; // Ganti dengan Longitude pabrik Kakak
             const MAKSIMAL_JARAK_METER = 500; // Batas radius toleransi (dalam meter)
             // ========================================================
 
@@ -520,7 +529,7 @@
             const userLat = parseFloat(koordinatUser[0]);
             const userLng = parseFloat(koordinatUser[1]);
 
-            // Hitung jarak antara HP karyawan dengan Pabrik menggunakan rumus Haversine
+            // Hitung jarak antara HP karyawan dengan Pabrik
             const jarakKePabrik = hitungJarakMeter(userLat, userLng, PABRIK_LAT, PABRIK_LNG);
 
             // Cek apakah karyawan berada di luar radius pabrik
@@ -551,11 +560,23 @@
                 })
             }).then(() => {
                 hideLoader();
-                showPopup("Absen Sukses!", `Anda berhasil melakukan ${jenisAbsenTerpilih} hari ini.`, "success");
                 
+                // ========================================================
+                // 📝 NOTIFIKASI POP-UP BERHASIL SESUAI REKUES KAKAK
+                // ========================================================
+                if (jenisAbsenTerpilih === 'Clock In') {
+                    showPopup("BERHASIL!", "Selamat Bekerja", "success");
+                } else if (jenisAbsenTerpilih === 'Clock Out') {
+                    showPopup("BERHASIL!", "Selamat Beristirahat", "success");
+                }
+                // ========================================================
+                
+                // Simpan status penguncian tombol di Local Storage agar tidak dobel klik
                 const tanggalKey = new Date().toDateString();
                 if(jenisAbsenTerpilih === 'Clock In') {
                     localStorage.setItem('in_' + tanggalKey, 'true');
+                    
+                    // Tambah data ke statistik grafik
                     let stats = JSON.parse(localStorage.getItem('absensi_stats'));
                     stats.tepatWaktu += 1;
                     localStorage.setItem('absensi_stats', JSON.stringify(stats));
@@ -572,6 +593,18 @@
         });
     }
 
+    // FUNGSI MATEMATIKA UNTUK MENGHITUNG JARAK ANTARA DUA KOORDINAT (METER)
+    function hitungJarakMeter(lat1, lon1, lat2, lon2) {
+        const R = 6371000; // Jari-jari bumi dalam meter
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = 
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c; 
+    }
     // FUNGSI MATEMATIKA UNTUK MENGHITUNG JARAK ANTARA DUA KOORDINAT (METER)
     function hitungJarakMeter(lat1, lon1, lat2, lon2) {
         const R = 6371000; // Jari-jari bumi dalam meter
