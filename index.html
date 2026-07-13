@@ -507,6 +507,35 @@
         dapatkanLokasi(function(success) {
             if(!success) return; 
 
+            // ========================================================
+            // 📝 PENGATURAN KOORDINAT PABRIK KAKAK (SILAHKAN DIUBAH)
+            // ========================================================
+            const PABRIK_LAT = -6.135961;  // Ganti dengan Latitude pabrik Kakak
+            const PABRIK_LNG = 106.609341; // Ganti dengan Longitude pabrik Kakak
+            const MAKSIMAL_JARAK_METER = 500; // Batas radius toleransi (dalam meter)
+            // ========================================================
+
+            // Ambil koordinat dari HP karyawan
+            const koordinatUser = userLocation.split(',');
+            const userLat = parseFloat(koordinatUser[0]);
+            const userLng = parseFloat(koordinatUser[1]);
+
+            // Hitung jarak antara HP karyawan dengan Pabrik menggunakan rumus Haversine
+            const jarakKePabrik = hitungJarakMeter(userLat, userLng, PABRIK_LAT, PABRIK_LNG);
+
+            // Cek apakah karyawan berada di luar radius pabrik
+            if (jarakKePabrik > MAKSIMAL_JARAK_METER) {
+                hideLoader();
+                showPopup(
+                    "Gagal Absen!", 
+                    `Anda berada di luar area pabrik (Jarak: ${Math.round(jarakKePabrik)} meter). Silakan masuk ke area pabrik terlebih dahulu!`, 
+                    "error"
+                );
+                resetFormAbsen();
+                return; // Batalkan proses kirim ke Google Sheets
+            }
+
+            // Jika posisi karyawan sudah sesuai di dalam area pabrik, lanjutkan kirim data
             showLoader(`Menghubungkan GPS & Mengirim ${jenisAbsenTerpilih}...`);
             
             fetch(API_URL, {
@@ -524,12 +553,9 @@
                 hideLoader();
                 showPopup("Absen Sukses!", `Anda berhasil melakukan ${jenisAbsenTerpilih} hari ini.`, "success");
                 
-                // SIMPAN LOCKING DI LOCAL STORAGE BERDASARKAN TANGGAL HARI INI
                 const tanggalKey = new Date().toDateString();
                 if(jenisAbsenTerpilih === 'Clock In') {
                     localStorage.setItem('in_' + tanggalKey, 'true');
-                    
-                    // TAMBAH ANGKA HISTORI GRAFIK UNTUK TEPAT WAKTU/HADIR
                     let stats = JSON.parse(localStorage.getItem('absensi_stats'));
                     stats.tepatWaktu += 1;
                     localStorage.setItem('absensi_stats', JSON.stringify(stats));
