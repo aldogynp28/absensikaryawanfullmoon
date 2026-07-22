@@ -2,6 +2,33 @@
 <html lang="id" data-theme="light">
 <head>
     <meta charset="UTF-8">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AbsensiPro | Sistem Absensi Profesional</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#0066FF">
+    <meta name="apple-mobile-web-app-title" content="AbsensiPro">
+    <meta name="theme-color" content="#0066FF">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="AbsensiPro">
+    
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="data:application/json;base64,ewogICAgIm5hbWUiOiAiQWJzZW5zaVBybyIsCiAgICAic2hvcnRfbmFtZSI6ICJBYnNlbnNpUHJvIiwKICAgICJkZXNjcmlwdGlvbiI6ICJTaXN0ZW0gQWJzZW5zaSBLYXJ5YXdhbiBQcm9mZXNpb25hbCIsCiAgICAic3RhcnRfdXJsIjogIi8iLAogICAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDA2NkZGIiwKICAgICJ0aGVtZV9jb2xvciI6ICIjMDA2NkZGIiwKICAgICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdC1wcmltYXJ5IiwKICAgICJpY29ucyI6IFsKICAgICAgICB7CiAgICAgICAgICAgICJzcmMiOiAic2lkawsxLnBuZyIsCiAgICAgICAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAic3JjIjogInNpZGlrMS5wbmciLAogICAgICAgICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICAgICAgICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIKICAgICAgICB9CiAgICBdCn0=">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="sidik1.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="sidik1.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="sidik1.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="sidik1.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="sidik1.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="sidik1.png">
+    
+    <!-- ... lanjutan kode CSS dan lainnya ... -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AbsensiPro | Sistem Absensi Profesional</title>
     <link rel="icon" href="sidik1.png">
@@ -1590,6 +1617,60 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Backspace') { APP.pin = APP.pin.slice(0, -1); updatePD(); }
     if (e.key === 'Escape') { closeAttModal(); closeEditModal(); }
 });
-</script>
+
+        // ... kode terakhir ...
+
+        // ==================== PWA INSTALL ====================
+        let deferredPrompt;
+
+        // Tangkap event install
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        // Deteksi sudah ter-install
+        window.addEventListener('appinstalled', () => {
+            deferredPrompt = null;
+            console.log('✅ Aplikasi ter-install');
+        });
+
+        // Fungsi install manual
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        toast('✅ Aplikasi berhasil di-install!', 'success');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert('📲 Cara Install:\n\nAndroid: Klik ⋮ > Tambahkan ke Layar Utama\niPhone: Klik Share > Tambahkan ke Layar Utama\nLaptop: Klik icon ⊕ di address bar');
+            }
+        }
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(reg) {
+                    console.log('SW registered');
+                }).catch(function(err) {
+                    console.log('SW failed:', err);
+                });
+            });
+        }
+
+    </script>
+    
+    <!-- PWA Install Script (Tambahan) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
+    
 </body>
 </html>
