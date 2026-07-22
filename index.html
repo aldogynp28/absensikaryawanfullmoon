@@ -1,1404 +1,1425 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fullmoon x BAL Jnt Cargo</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="head.png">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>AbsensiPro | Sistem Absensi Profesional</title>
+    <link rel="icon" href="sidik1.png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         :root {
-            --primary: #0F2C59;
-            --accent: #DAC0A3;
-            --bg: #F8F9FA;
-            --text-dark: #1E293B;
-            --success: #10B981;
-            --danger: #EF4444;
-            --disabled: #CBD5E1;
+            --bg: #F8FAFC; --card: #FFFFFF; --text: #1E293B; --text2: #64748B;
+            --border: #E2E8F0; --input-bg: #F1F5F9; --hover: #F1F5F9;
+            --primary: #0066FF; --primary-dark: #0052CC; --primary-light: #E6F0FF;
+            --success: #00C853; --warning: #FFB300; --danger: #FF3D00; --purple: #7C4DFF;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1); --radius: 12px; --radius-lg: 16px;
+            --sidebar-w: 260px; --sidebar-c: 65px; --transition: all 0.3s ease;
         }
-        body { font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text-dark); margin: 0; padding-bottom: 80px; overflow-x: hidden; }
-        
-        /* HEADER - DENGAN TOMBOL PROFIL (FOTO) DAN LOGOUT CEPAT */
-        .header { 
-            background: var(--primary); 
-            color: white; 
-            padding: 12px 15px; 
-            border-bottom-left-radius: 20px; 
-            border-bottom-right-radius: 20px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            z-index: 99;
+        [data-theme="dark"] {
+            --bg: #0F172A; --card: #1E293B; --text: #F1F5F9; --text2: #94A3B8;
+            --border: #334155; --input-bg: #1E293B; --hover: #334155; --primary-light: #1E3A5F;
         }
-        .header h3 {
-            margin: 0; 
-            font-weight: 600; 
-            letter-spacing: 0.5px;
-            font-size: 14px;
-        }
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn-header-profile {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            background: #E2E8F0;
-            background-size: cover;
-            background-position: center;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            overflow: hidden;
-            transition: 0.2s;
-        }
-        .btn-header-profile:hover {
-            border-color: white;
-            transform: scale(1.05);
-        }
-        .btn-header-logout {
-            background: var(--danger);
-            border: none;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-header-logout:hover {
-            background: #D32F2F;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: var(--transition); }
+        .login-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; }
+        .login-container { background: var(--card); border-radius: var(--radius-lg); padding: 36px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideUp 0.5s; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .login-header { text-align: center; margin-bottom: 20px; } .login-header h1 { font-size: 26px; font-weight: 800; }
+        .role-tabs { display: flex; background: var(--input-bg); padding: 4px; border-radius: var(--radius); margin-bottom: 20px; }
+        .role-tab { flex: 1; padding: 10px; border: none; background: transparent; color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 10px; font-family: inherit; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .role-tab.active { background: var(--card); color: var(--primary); box-shadow: var(--shadow); }
+        .pin-display { display: flex; gap: 10px; justify-content: center; margin: 16px 0; }
+        .pin-dot { width: 42px; height: 42px; border: 3px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; background: var(--input-bg); transition: var(--transition); }
+        .pin-dot.filled { border-color: var(--primary); background: var(--primary-light); }
+        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .num-btn { padding: 13px; border: 2px solid var(--border); background: var(--card); border-radius: var(--radius); font-size: 17px; font-weight: 700; cursor: pointer; font-family: inherit; color: var(--text); transition: var(--transition); }
+        .num-btn:hover { background: var(--primary-light); border-color: var(--primary); }
+        .num-btn.clear { color: var(--danger); font-size: 12px; }
+        .num-btn.submit { background: var(--primary); color: white; border-color: var(--primary); }
+        .form-group { margin-bottom: 12px; } .form-label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text2); margin-bottom: 6px; }
+        .form-input { width: 100%; padding: 10px 12px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 13px; font-family: inherit; background: var(--input-bg); color: var(--text); transition: var(--transition); }
+        .form-input:focus { outline: none; border-color: var(--primary); }
+        .input-with-icon { position: relative; } .input-with-icon .toggle-vis { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text2); background: none; border: none; font-size: 16px; padding: 4px; }
+        .btn-submit { width: 100%; padding: 13px; background: var(--success); color: white; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; transition: var(--transition); }
 
-        .container { padding: 20px; max-width: 480px; margin: 0 auto; position: relative; }
-        .card { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #E2E8F0; box-sizing: border-box; }
-        .hidden { display: none !important; }
-        
-        /* TRANSISI NAVIGASI HALAMAN */
-        .page {
-            animation: slideUpFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-            transform: translateY(12px);
-        }
-        @keyframes slideUpFade {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .live-clock { font-size: 32px; font-weight: 700; color: var(--primary); text-align: center; margin: 10px 0; letter-spacing: 1px; }
-        .live-date { text-align: center; color: #64748B; font-weight: 500; margin-bottom: 20px; }
-        
-        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; color: #475569; }
-        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #CBD5E1; border-radius: 8px; box-sizing: border-box; background: #F8FAFC; font-size: 14px; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; margin-bottom: 10px; transition: 0.2s; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn:disabled { background: var(--disabled) !important; color: #94A3B8 !important; cursor: not-allowed; }
-
-        /* BOX SELEKSI BERKAS / FOTO */
-        .camera-box { border: 2px dashed #CBD5E1; border-radius: 8px; padding: 15px; text-align: center; background: #F8FAFC; cursor: pointer; margin-bottom: 15px; }
-        .preview-img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; display: none; margin-top: 10px; }
-
-        /* NAVIGASI BAWAH */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; height: 65px; display: flex; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); border-top: 1px solid #E2E8F0; z-index: 100; }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #94A3B8; cursor: pointer; text-decoration: none; position: relative; }
-        .nav-item.active { color: var(--primary); font-weight: 700; }
-        .nav-item-icon { font-size: 20px; margin-bottom: 3px; }
-        
-        /* NOTIFIKASI BULAT MERAH (PENGUMUMAN) */
-        .badge-notif {
-            position: absolute;
-            top: 8px;
-            right: 24%;
-            width: 8px;
-            height: 8px;
-            background: var(--danger);
-            border-radius: 50%;
-            display: none;
-        }
-
-        .info-card { border-left: 5px solid var(--primary); background: #EFF6FF; margin-bottom: 15px; cursor: pointer; transition: 0.2s; }
-        .info-card:hover { background: #DBEAFE; }
-        .chart-wrapper { max-width: 230px; margin: 0 auto 20px auto; }
-        .greeting-text { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 15px; }
-
-        .jam-kerja-info { background: #F1F5F9; padding: 12px; border-radius: 8px; margin-top: 15px; font-size: 13px; color: #475569; line-height: 1.5; border: 1px solid #E2E8F0; }
-        .status-absen-hari-ini { text-align: center; font-size: 13px; font-weight: 600; margin-bottom: 15px; padding: 6px; border-radius: 6px; }
-
-        /* BACKGROUND LOGIN */
-        #page-login-wrapper {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url(bg1.png) no-repeat center center;
-            background-size: cover;
-            display: flex; align-items: center; justify-content: center;
-            z-index: 999;
-        }
-        .login-card {
-            background: rgba(255, 255, 255, 0.96);
-            padding: 32px 24px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            width: 90%; max-width: 360px;
-            backdrop-filter: blur(5px);
-            box-sizing: border-box;
-            animation: slideUpFade 0.5s ease-out;
-        }
-        .login-logo { display: block; max-width: 100px; height: auto; margin: 0 auto 15px auto; }
-        .login-title { text-align: center; color: var(--primary); font-size: 20px; font-weight: 700; margin: 0 0 25px 0; line-height: 1.4; }
-
-        .password-container { position: relative; width: 100%; }
-        .password-container input { padding-right: 45px; }
-        .toggle-password-eye { position: absolute; right: 15px; top: 38%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #64748B; user-select: none; }
-
-        /* LOADING SCREEN */
-        .overlay-loader { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(15, 44, 89, 0.95); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-        .overlay-loader.show { opacity: 1; pointer-events: auto; }
-        .spinner { width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; margin-bottom: 20px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* POPUP STATUS & POPUP KONFIRMASI */
-        .popup-success { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7); background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 10000; text-align: center; width: 80%; max-width: 320px; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .popup-success.show { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
-        .success-icon { width: 70px; height: 70px; background: #D1FAE5; color: #10B981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; margin: 0 auto 15px auto; }
-
-        /* EDITABLE PROFILE CARD */
-        .profile-header { text-align: center; margin-bottom: 25px; position: relative; }
-        .profile-avatar-container {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 0 auto 10px auto;
-            border: 3px solid var(--primary);
-            position: relative;
-            background: #E2E8F0;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 45px;
-            cursor: pointer;
-            overflow: hidden;
-        }
-        .profile-avatar-upload-hint {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: rgba(15, 44, 89, 0.8);
-            color: white;
-            font-size: 9px;
-            text-align: center;
-            padding: 2px 0;
-            font-weight: 600;
-        }
-        .profile-name { font-size: 18px; font-weight: 700; color: var(--primary); margin: 5px 0; }
-        .profile-status { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; background: #D1FAE5; color: #065F46; }
-        .profile-details { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
-        .profile-row { display: flex; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px; font-size: 14px; }
-        .profile-row .label { color: #64748B; font-weight: 500; }
-        .profile-row .value { color: var(--text-dark); font-weight: 600; text-align: right; }
-
-        /* LIST DETAIL HISTORI */
-        .history-list { display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 5px; margin-top: 10px; }
-        .history-item { background: #F8FAFC; border: 1px solid #E2E8F0; padding: 10px; border-radius: 8px; font-size: 13px; display: flex; flex-direction: column; gap: 4px; }
-        .history-meta { display: flex; justify-content: space-between; font-weight: 600; font-size: 11px; }
+        .app-layout { display: none; min-height: 100vh; } .app-layout.show { display: flex; }
+        .sidebar { width: var(--sidebar-w); background: var(--card); border-right: 1px solid var(--border); position: fixed; height: 100vh; display: flex; flex-direction: column; z-index: 100; transition: var(--transition); overflow: hidden; }
+        .sidebar.collapsed { width: var(--sidebar-c); }
+        .sidebar-brand { padding: 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+        .sidebar-brand h2 { font-size: 17px; font-weight: 800; } .sidebar.collapsed .sidebar-brand h2 { opacity: 0; width: 0; }
+        .sidebar-nav { flex: 1; padding: 10px 8px; overflow-y: auto; }
+        .nav-section-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text2); padding: 8px 12px; white-space: nowrap; }
+        .sidebar.collapsed .nav-section-title { opacity: 0; height: 0; padding: 0; overflow: hidden; }
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; color: var(--text2); border-radius: var(--radius); font-weight: 500; font-size: 12px; cursor: pointer; transition: var(--transition); margin-bottom: 2px; white-space: nowrap; position: relative; }
+        .nav-item:hover { background: var(--hover); color: var(--text); } .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+        .nav-item i { width: 20px; text-align: center; font-size: 14px; } .sidebar.collapsed .nav-item span, .sidebar.collapsed .nav-item .badge { display: none; }
+        .nav-item .badge { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: var(--danger); color: white; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; min-width: 18px; text-align: center; display: none; }
+        .sidebar-footer { padding: 12px; border-top: 1px solid var(--border); }
+        .user-card { display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--input-bg); border-radius: var(--radius); margin-bottom: 10px; }
+        .sidebar.collapsed .user-card div { display: none; }
+        .user-av { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); min-width: 36px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 15px; }
+        .btn-logout { width: 100%; padding: 10px; background: var(--card); color: var(--text2); border: 2px solid var(--border); border-radius: var(--radius); font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .sidebar.collapsed .btn-logout span { display: none; }
+        .main-area { flex: 1; margin-left: var(--sidebar-w); transition: var(--transition); } .main-area.expanded { margin-left: var(--sidebar-c); }
+        .topbar { background: var(--card); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+        .topbar-left { display: flex; align-items: center; gap: 10px; }
+        .sidebar-toggle { width: 34px; height: 34px; border-radius: 8px; border: none; background: var(--input-bg); color: var(--text2); font-size: 16px; cursor: pointer; }
+        .topbar-left h2 { font-size: 16px; font-weight: 800; } .datetime-inline { font-size: 11px; color: var(--text2); display: flex; gap: 8px; }
+        .theme-btn { width: 34px; height: 34px; border-radius: 8px; border: none; background: var(--input-bg); color: var(--text2); font-size: 16px; cursor: pointer; }
+        .content-area { padding: 20px; }
+        .welcome-banner { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: var(--radius-lg); padding: 24px; color: white; margin-bottom: 20px; }
+        .big-clock { font-size: 38px; font-weight: 800; font-family: 'Courier New', monospace; margin: 10px 0; }
+        .att-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+        .btn-att { flex: 1; min-width: 110px; padding: 12px 16px; border: 2px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; border-radius: var(--radius); font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-att:disabled { opacity: 0.3; cursor: not-allowed; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: var(--card); padding: 14px; border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border); }
+        .stat-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-bottom: 6px; }
+        .stat-icon.blue { background: #E6F0FF; color: var(--primary); } .stat-icon.green { background: #E8F5E9; color: var(--success); }
+        .stat-label { font-size: 9px; text-transform: uppercase; color: var(--text2); font-weight: 600; } .stat-value { font-size: 20px; font-weight: 800; }
+        .section-card { background: var(--card); border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 18px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .section-header h3 { font-size: 15px; font-weight: 700; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .data-table th { padding: 8px 10px; text-align: left; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); background: var(--input-bg); border-bottom: 2px solid var(--border); }
+        .data-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+        .status-chip { display: inline-block; padding: 3px 8px; border-radius: 50px; font-size: 9px; font-weight: 700; }
+        .status-chip.present, .status-chip.approved { background: #E8F5E9; color: #1B5E20; }
+        .status-chip.late { background: #FFF8E1; color: #E65100; } .status-chip.absent, .status-chip.rejected { background: #FFEBEE; color: #B71C1C; }
+        .status-chip.pending { background: #E3F2FD; color: #0D47A1; }
+        .btn-action { padding: 6px 10px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 10px; display: inline-flex; align-items: center; gap: 4px; margin: 1px; }
+        .btn-primary { background: var(--primary); color: white; } .btn-success { background: var(--success); color: white; }
+        .btn-warning { background: var(--warning); color: white; } .btn-danger { background: var(--danger); color: white; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-overlay.active { display: flex; } .modal-dialog { background: var(--card); border-radius: var(--radius-lg); width: 95%; max-width: 550px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: modalIn 0.3s; }
+        @keyframes modalIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .modal-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 15px; font-weight: 800; } .modal-close { width: 28px; height: 28px; border-radius: 50%; border: none; background: var(--input-bg); color: var(--text2); font-size: 14px; cursor: pointer; }
+        .modal-body { padding: 16px; }
+        .camera-container { background: #000; border-radius: var(--radius); overflow: hidden; margin-bottom: 10px; }
+        .camera-container video { width: 100%; display: block; transform: scaleX(-1); }
+        .map-container { width: 100%; height: 160px; border-radius: var(--radius); overflow: hidden; margin-bottom: 10px; }
+        .map-container iframe { width: 100%; height: 100%; border: none; }
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { padding: 14px 20px; border-radius: var(--radius); color: white; font-weight: 600; font-size: 13px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: slideIn 0.3s; display: flex; align-items: center; gap: 10px; }
+        .toast.success { background: var(--success); } .toast.error { background: var(--danger); } .toast.warning { background: var(--warning); color: #000; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+        .summary-box { background: var(--primary-light); padding: 14px; border-radius: var(--radius); margin-bottom: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; text-align: center; }
+        .summary-item strong { display: block; font-size: 18px; color: var(--primary); } .summary-item small { font-size: 9px; color: var(--text2); text-transform: uppercase; }
+        .tab-buttons { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+        .tab-btn { padding: 5px 12px; border: 2px solid var(--border); background: var(--card); border-radius: 20px; font-size: 10px; font-weight: 600; cursor: pointer; font-family: inherit; color: var(--text2); }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .img-thumb { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; cursor: pointer; border: 1px solid var(--border); }
+        .img-preview { max-width: 100%; max-height: 400px; border-radius: 8px; display: block; margin: 10px auto; }
+        .chart-sm { max-height: 200px; } .chart-sm canvas { max-height: 200px !important; }
+        @media (max-width: 768px) { .sidebar { display: none; } .main-area { margin-left: 0 !important; } }
     </style>
 </head>
 <body>
 
-<!-- ANIMASI LOADING GLOBAL -->
-<div id="global-loader" class="overlay-loader">
-    <div class="spinner"></div>
-    <div id="loader-text" class="loading-text">Memproses data...</div>
-</div>
-
-<!-- POPUP NOTIFIKASI GLOBAL -->
-<div id="global-success-popup" class="popup-success">
-    <div class="success-icon" id="global-popup-icon">✓</div>
-    <h3 id="popup-title" style="margin: 0 0 10px 0; color: var(--primary);">Berhasil!</h3>
-    <p id="popup-msg" style="margin: 0 0 20px 0; color: #64748B; font-size: 14px; line-height: 1.4;">Data Anda telah diperbarui.</p>
-    <button class="btn btn-primary" style="margin:0; padding:10px;" onclick="tutupPopup()">Oke</button>
-</div>
-
-<!-- POPUP KONFIRMASI LOGOUT KUSTOM -->
-<div id="logout-confirm-popup" class="popup-success">
-    <div class="success-icon" style="background: #FEE2E2; color: #EF4444;">🚪</div>
-    <h3 style="margin: 0 0 10px 0; color: var(--primary);">Konfirmasi Keluar</h3>
-    <p style="margin: 0 0 20px 0; color: #64748B; font-size: 14px; line-height: 1.4;">Apakah Anda yakin ingin keluar dari aplikasi?</p>
-    <div style="display: flex; gap: 10px;">
-        <button class="btn btn-danger" style="margin:0; padding:10px;" onclick="eksekusiLogout()">Yakin</button>
-        <button class="btn btn-primary" style="margin:0; padding:10px; background: #64748B;" onclick="tutupLogoutPopup()">Tidak</button>
-    </div>
-</div>
-
-<!-- 0. HALAMAN LOGIN -->
-<div id="page-login" class="hidden">
-    <div id="page-login-wrapper">
-        <div class="login-card">
-            <img src="head.png" alt="Logo" class="login-logo">
-            <div class="login-title">Fullmoon x Bal JNT CARGO Login</div>
-            
-            <label>ID Karyawan</label>
-            <input type="text" id="login-id" placeholder="Masukkan ID Karyawan...">
-            
-            <label>Password</label>
-            <div class="password-container">
-                <input type="password" id="login-pass" placeholder="Masukkan Password...">
-                <span class="toggle-password-eye" id="eye-icon" onclick="togglePasswordVisibility()">👁️‍count</span>
+<div id="loginPage" class="login-wrapper">
+    <div class="login-container">
+        <div class="login-header">
+            <img src="sidik1.png" width="70" height="70" style="border-radius:16px;" alt="Logo Perusahaan">
+            <h1>AbsensiPro</h1><p>Sistem Absensi Profesional</p>
+        </div>
+        <div class="role-tabs">
+            <button class="role-tab active" onclick="switchRole('employee', this)"><i class="fas fa-user"></i> Karyawan</button>
+            <button class="role-tab" onclick="switchRole('hrd', this)"><i class="fas fa-briefcase"></i> HRD</button>
+        </div>
+        <div id="employeeLoginSection">
+            <div style="text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text2);">MASUKKAN PIN</div>
+            <div class="pin-display"><div class="pin-dot" id="d1"></div><div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div><div class="pin-dot" id="d4"></div></div>
+            <div class="numpad">
+                <button class="num-btn" onclick="inputPin('1')">1</button><button class="num-btn" onclick="inputPin('2')">2</button><button class="num-btn" onclick="inputPin('3')">3</button>
+                <button class="num-btn" onclick="inputPin('4')">4</button><button class="num-btn" onclick="inputPin('5')">5</button><button class="num-btn" onclick="inputPin('6')">6</button>
+                <button class="num-btn" onclick="inputPin('7')">7</button><button class="num-btn" onclick="inputPin('8')">8</button><button class="num-btn" onclick="inputPin('9')">9</button>
+                <button class="num-btn clear" onclick="clearPin()">HAPUS</button><button class="num-btn" onclick="inputPin('0')">0</button><button class="num-btn submit" onclick="loginWithPin()">MASUK</button>
             </div>
-            
-            <button class="btn btn-primary" style="margin-top: 15px; background-color: #0F2C59;" onclick="prosesLogin()">Masuk</button>
+        </div>
+        <div id="hrdLoginSection" style="display:none;">
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="hrdEmail" value=""></div>
+            <div class="form-group"><label class="form-label">Password</label><div class="input-with-icon"><input type="password" class="form-input" id="hrdPassword" value=""><button class="toggle-vis" onclick="togglePass('hrdPassword', this)"><i class="fas fa-eye-slash"></i></button></div></div>
+            <button class="btn-submit" onclick="loginHRD()"><i class="fas fa-sign-in-alt"></i> Masuk</button>
         </div>
     </div>
 </div>
 
-<!-- HALAMAN UTAMA APLIKASI -->
-<div id="main-app" class="hidden">
-    <!-- HEADER BAR DENGAN AKSES PROFIL CEPAT DAN LOGOUT LANGSUNG -->
-    <div class="header">
-        <h3>Fullmoon x BAL Jnt Cargo</h3>
-        <div class="header-actions">
-            <!-- Tombol profil berupa wajah karyawan -->
-            <div id="header-profile-btn" class="btn-header-profile hidden" onclick="keHalamanProfil()" title="Menu Profil">👤</div>
-            <!-- Tombol log out kustom di pojok kanan atas -->
-            <button id="header-logout-btn" class="btn-header-logout hidden" onclick="prosesLogout()">🚪 Keluar</button>
+<div id="dashboardPage" class="app-layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <img src="sidik1.png" width="40" height="40" style="border-radius:10px;" alt="Logo">
+                <h2>AbsensiPro</h2>
         </div>
-    </div>
-
-    <div class="container">
-        <!-- 1. DASHBOARD -->
-        <div id="page-dashboard" class="page">
-            <div class="card">
-                <div class="greeting-text" id="user-greeting">Hi, Karyawan!</div>
-                
-                <div class="live-clock" id="clock">00:00:00</div>
-                <div class="live-date" id="date">Memuat waktu...</div>
-                
-                <!-- INDIKATOR STATUS ABSEN HARIAN -->
-                <div id="status-absen-box" class="status-absen-hari-ini">Memeriksa status absen...</div>
-
-                <div id="box-preview-absen" class="camera-box hidden" style="border-style: solid;">
-                    <img id="prev-absen" class="preview-img" style="margin-top:0;">
-                    <p style="font-size:12px; color:var(--danger); margin:8px 0 0 0;" onclick="bukaKameraLangsung('Clock In/Out')">🔄 Foto Ulang</p>
-                </div>
-
-                <div style="display:flex; gap:10px;">
-                    <button class="btn btn-success" id="btn-clockin" onclick="triggerAbsen('Clock In')">Clock In</button>
-                    <button class="btn btn-danger" id="btn-clockout" onclick="triggerAbsen('Clock Out')">Clock Out</button>
-                </div>
-                <button class="btn btn-primary" id="btn-lembur-trigger" style="background:#475569;" onclick="bukaFormLembur()">Catat Lembur</button>
-                
-                <!-- INFO JAM KERJA -->
-                <div class="jam-kerja-info">
-                    <strong>ℹ️ Informasi Jam Kerja:</strong><br>
-                    • Senin - Jumat: 09:00 - 18:00 WIB<br>
-                    • Sabtu: 09:00 - 14:00 WIB<br>
-                    • Minggu: <span style="color:var(--danger); font-weight:bold;">Libur (Sistem Terkunci)</span>
-                </div>
+        <nav class="sidebar-nav" id="sidebarNav"></nav>
+        <div class="sidebar-footer">
+            <div class="user-card"><img id="sidebarPhoto" src="" style="display:none;"><div id="sidebarAvatar" class="user-av" style="display:flex;">B</div><div><strong id="sidebarName" style="font-size:11px;">User</strong><small id="sidebarRole" style="font-size:9px;color:var(--text2);">Role</small></div></div>
+            <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>Keluar</span></button>
+        </div>
+    </aside>
+    <main class="main-area" id="mainArea">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                <img src="sidik1.png" width="30" height="30" style="border-radius:8px;" alt="Logo">
+                <div><h2 id="pageTitle">Dashboard</h2><div class="datetime-inline"><span id="currentDateInline"></span><span>|</span><span id="currentTimeInline"></span></div></div>
             </div>
-
-            <!-- INTERACTIVE FORM LEMBUR -->
-            <div id="form-lembur-area" class="card hidden">
-                <h4 style="margin-top:0; color:var(--primary); display:flex; justify-content:space-between; align-items:center;">
-                    <span>Form Catat Lembur</span>
-                    <span style="cursor:pointer; color:var(--danger); font-size:14px;" onclick="tutupFormLembur()">Batal ✕</span>
-                </h4>
-                <hr style="border:0; border-top:1px solid #E2E8F0; margin-bottom:15px;">
-                
-                <label>Jenis Lembur</label>
-                <select id="lembur-jenis">
-                    <option value="Lembur Proyek">Lembur Proyek</option>
-                    <option value="Lembur Operasional">Lembur Operasional</option>
-                    <option value="Tugas Mendadak">Tugas Mendadak</option>
-                    <option value="Lainnya">Lainnya</option>
-                </select>
-
-                <label>Keterangan / Alasan Lembur</label>
-                <textarea id="lembur-ket" placeholder="Tulis rincian pekerjaan atau alasan lembur..." rows="3" style="font-family:inherit;"></textarea>
-
-                <label>Foto Lampiran (Opsional)</label>
-                <div class="camera-box" onclick="bukaKameraLangsung('Lembur')">
-                    <span id="cam-text-lembur">📷 Ambil Foto Bukti (Jika Ada)</span>
-                    <img id="prev-lembur" class="preview-img">
-                </div>
-
-                <button class="btn btn-primary" style="margin-top: 10px;" onclick="kirimFormLembur()">Kirim Data Lembur</button>
+            <div class="topbar-right">
+                <button class="theme-btn" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+                <button class="btn-action btn-primary" onclick="refreshData()"><i class="fas fa-sync-alt"></i></button>
             </div>
-        </div>
-
-        <!-- 2. IZIN -->
-        <div id="page-izin" class="page hidden">
-    <!-- Navigasi Menu Tab Utama -->
-    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-        <button class="btn btn-primary" id="tab-btn-form" style="flex: 1;" onclick="saklarTabIzin('form')">Form Pengajuan</button>
-        <button class="btn style-secondary" id="tab-btn-riwayat" style="flex: 1; background-color: #6c757d; color: white; border: none;" onclick="saklarTabIzin('riwayat')">Riwayat Izin</button>
-    </div>
-
-    <!-- TAB CONTAINER 1: FORM PENGAJUAN -->
-    <div id="konten-tab-form" class="card">
-        <h4 style="margin-top:0; color:var(--primary)">Form Pengajuan Izin</h4>
-        
-        <!-- Tambahan Input Tanggal Izin -->
-        <label>Tanggal Mulai Izin</label>
-        <input type="date" id="izin-tanggal" style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
-
-        <label>Keperluan Izin</label>
-        <select id="izin-keperluan" style="width: 100%; padding: 8px; margin-bottom: 15px;">
-            <option value="Sakit SKD">Sakit dengan SKD</option>
-            <option value="Sakit Tanpa SKD">Sakit Tanpa SKD</option>
-            <option value="Menikah">Menikah</option>
-            <option value="Melahirkan">Melahirkan</option>
-            <option value="Keperluan Keluarga">Keperluan Keluarga</option>
-        </select>
-
-        <!-- Input Berkas/Foto dari HP secara bebas -->
-        <label>Dokumen Bukti Pendukung (Bebas Ambil Foto/Galeri HP)</label>
-        <div class="camera-box" onclick="bukaGaleriIzin()" style="cursor: pointer; border: 1px dashed #ccc; padding: 15px; text-align: center; border-radius: 4px; margin-bottom: 15px;">
-            <span id="cam-text-izin">📄 Lampirkan Foto / File dari Galeri HP</span>
-            <img id="prev-izin" class="preview-img" style="max-width: 100%; max-height: 150px; display: none; margin-top: 10px;">
-        </div>
-
-        <button class="btn btn-primary" id="btn-submit-izin" onclick="kirimIzin()">Kirim Permohonan</button>
-    </div>
-
-    <!-- TAB CONTAINER 2: RIWAYAT PENGAJUAN -->
-    <div id="konten-tab-riwayat" class="card" style="display: none;">
-        <h4 style="margin-top:0; color:var(--primary)">Riwayat Pengajuan Izin</h4>
-        
-        <!-- Tempat Menampilkan Daftar Riwayat -->
-        <div id="riwayatIzinContainer">
-            <p style="text-align: center; color: #888; padding: 10px;">Belum ada riwayat pengajuan izin.</p>
-        </div>
-    </div>
+        </header>
+        <div class="content-area" id="mainContent"></div>
+    </main>
 </div>
 
-        <!-- 3. GRAFIK -->
-        <div id="page-grafik" class="page hidden">
-            <div class="card">
-                <h4 style="margin-top:0; text-align:center; color:var(--primary);" id="grafik-user-title">Ringkasan Presensi</h4>
-                <div class="chart-wrapper">
-                    <canvas id="chartPie"></canvas>
-                </div>
-            </div>
-            <!-- Daftar Otomatis Pertanggal Sesuai ID Karyawan -->
-            <div id="detail-grafik" class="card">
-                <h5 id="detail-title" style="margin-top:0; color:var(--primary);">Detail Riwayat Presensi Anda</h5>
-                <div id="detail-content" class="history-list">
-                    <!-- Data histori otomatis terisi via JS -->
-                </div>
-            </div>
-        </div>
-
-        <!-- 4. MENU PROFIL (DATA DIRI LENGKAP) -->
-        <div id="page-profil" class="page hidden">
-            <div class="card">
-                <div class="profile-header">
-                    <!-- Foto Profil interaktif bisa diunggah/diubah langsung -->
-                    <div class="profile-avatar-container" id="profile-pic-box" onclick="gantiFotoProfil()" title="Ketuk untuk ubah foto">
-                        <span id="profile-avatar-default">👤</span>
-                        <div class="profile-avatar-upload-hint">UBAH FOTO</div>
-                    </div>
-                    <div class="profile-name" id="profile-emp-name">Nama Karyawan</div>
-                    <div class="profile-status">Karyawan Aktif</div>
-                </div>
-                <div class="profile-details">
-                    <div class="profile-row">
-                        <span class="label">ID Karyawan</span>
-                        <span class="value" id="profile-emp-id">-</span>
-                    </div>
-                    <div class="profile-row">
-                        <span class="label">Tempat, Tanggal Lahir</span>
-                        <span class="value" id="profile-emp-ttl">-</span>
-                    </div>
-                    <div class="profile-row">
-                        <span class="label">Nomor Handphone</span>
-                        <span class="value" id="profile-emp-phone">-</span>
-                    </div>
-                    <div class="profile-row">
-                        <span class="label">Divisi / Departemen</span>
-                        <span class="value" id="profile-emp-dept">-</span>
-                    </div>
-                </div>
-                <button class="btn btn-primary" style="background:#475569; margin-top: 15px;" onclick="tampilkanEditProfilPopup()">Lengkapi / Edit Data Diri</button>
-            </div>
-        </div>
-
-        <!-- POPUP EDITOR PROFIL -->
-        <div id="profile-edit-popup" class="card hidden" style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:90%; max-width:400px; z-index:10001; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-            <h4 style="margin-top:0; color:var(--primary); display:flex; justify-content:space-between;">
-                <span>Lengkapi Profil Karyawan</span>
-                <span style="cursor:pointer; color:var(--danger);" onclick="tutupEditProfilPopup()">✕</span>
-            </h4>
-            <hr style="border:0; border-top:1px solid #E2E8F0; margin-bottom:15px;">
-            
-            <label>Tempat, Tanggal Lahir</label>
-            <input type="text" id="edit-profile-ttl" placeholder="Contoh: Tangerang, 28 Mei 2001">
-
-            <label>Nomor Handphone</label>
-            <input type="text" id="edit-profile-phone" placeholder="Contoh: 0812XXXXXXXX">
-
-            <label>Divisi / Departemen</label>
-            <input type="text" id="edit-profile-dept" placeholder="Contoh: Supervisor Control Project">
-
-            <button class="btn btn-primary" onclick="simpanEditProfil()">Simpan Perubahan</button>
-        </div>
-
-        <!-- 5. INFO (PENGUMUMAN DENGAN SISTEM NOTIFIKASI & POPUP) -->
-        <div id="page-info" class="page hidden">
-            <div id="info-container">
-                <div class="card info-card">
-                    <strong style="color:var(--primary)">Pemberitahuan</strong>
-                    <p style="margin:5px 0 0 0; font-size:14px; color:#475569;">Memuat informasi...</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- BOTTOM NAV (NAVIGASI UTAMA 4 MENU) -->
-    <div class="bottom-nav">
-        <div id="nav-home" class="nav-item active" onclick="switchPage('dashboard', this)">
-            <div class="nav-item-icon">🕒</div>Home
-        </div>
-        <div id="nav-izin" class="nav-item" onclick="switchPage('izin', this)">
-            <div class="nav-item-icon">📄</div>Izin
-        </div>
-        <div id="nav-grafik" class="nav-item" onclick="switchPage('grafik', this); renderChartAndList();">
-            <div class="nav-item-icon">📊</div>Grafik
-        </div>
-        <div id="nav-info" class="nav-item" onclick="bukaMenuInfo(this)">
-            <div class="badge-notif" id="notif-red-dot"></div>
-            <div class="nav-item-icon">🔔</div>Info
-        </div>
-    </div>
+<div id="attModal" class="modal-overlay">
+    <div class="modal-dialog"><div class="modal-header"><h3 id="attModalTitle">Check In</h3><button class="modal-close" onclick="closeAttModal()">✕</button></div>
+    <div class="modal-body">
+        <div class="camera-container"><video id="camVideo" autoplay playsinline></video><canvas id="camCanvas" style="display:none;"></canvas></div>
+        <div style="text-align:center;margin-bottom:8px;"><img id="photoPreview" style="display:none;" class="img-preview"></div>
+        <button class="btn-action btn-primary" id="btnCapture" onclick="capturePhoto()" style="margin-bottom:6px;"><i class="fas fa-camera"></i> Ambil Foto</button>
+        <button class="btn-action btn-warning" id="btnRetake" onclick="retakePhoto()" style="display:none;margin-bottom:6px;"><i class="fas fa-redo"></i> Ulangi</button>
+        <div style="background:var(--input-bg);padding:10px;border-radius:8px;margin-bottom:8px;"><i class="fas fa-map-marker-alt"></i> <span id="locText">Mendeteksi lokasi...</span></div>
+        <div class="map-container" id="miniMap"></div>
+        <button class="btn-submit" onclick="submitAtt()"><i class="fas fa-check-circle"></i> Konfirmasi</button>
+    </div></div>
 </div>
 
-<input type="file" id="input-kamera" accept="image/jpeg, image/png" capture="user" class="hidden">
-<!-- Input Berkas Fleksibel untuk Form Izin -->
-<input type="file" id="input-galeri-izin" accept="image/*,application/pdf" class="hidden">
-<input type="file" id="input-avatar" accept="image/jpeg, image/png" class="hidden">
+<div id="editModal" class="modal-overlay">
+    <div class="modal-dialog"><div class="modal-header"><h3 id="editModalTitle">Edit</h3><button class="modal-close" onclick="closeEditModal()">✕</button></div>
+    <div class="modal-body" id="editModalContent"></div></div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
 
 <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzU2lpcDJHcsZG0Up_7fDB7HrneVxRpJwrPh280a_8/dev";
-
-    let namaKaryawanTerlogin = "";
-    let idKaryawanTerlogin = "";
-    let base64Foto = "";
-    let targetFoto = "";
-    let userLocation = "";
-    let jenisAbsenTerpilih = "";
-    let myChart = null;
-    let daftarPengumuman = [];
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedName = localStorage.getItem('login_emp_name');
-        const savedId = localStorage.getItem('login_emp_id');
-        
-        if (savedName && savedId) {
-            namaKaryawanTerlogin = savedName;
-            idKaryawanTerlogin = savedId;
-            bukaAplikasiUtama();
-        } else {
-            document.getElementById('page-login').classList.remove('hidden');
-            document.getElementById('main-app').classList.add('hidden');
+// ==================== DATABASE ====================
+class DB {
+    constructor() { this.name = 'AbsProV6'; this.ver = 8; }
+    async open() {
+        return new Promise((r, j) => {
+            const req = indexedDB.open(this.name, this.ver);
+            req.onerror = () => j(req.error);
+            req.onsuccess = () => { this.db = req.result; r(this.db); };
+            req.onupgradeneeded = (e) => {
+                const d = e.target.result;
+                if (!d.objectStoreNames.contains('employees')) { const s = d.createObjectStore('employees', { keyPath: 'id' }); s.createIndex('pin', 'pin', { unique: true }); s.createIndex('company', 'company', { unique: false }); }
+                if (!d.objectStoreNames.contains('hrd')) { const s = d.createObjectStore('hrd', { keyPath: 'id', autoIncrement: true }); s.createIndex('email', 'email', { unique: true }); }
+                if (!d.objectStoreNames.contains('attendance')) { const s = d.createObjectStore('attendance', { keyPath: 'id', autoIncrement: true }); s.createIndex('uid_date', ['userId', 'date'], { unique: true }); }
+                if (!d.objectStoreNames.contains('requests')) { d.createObjectStore('requests', { keyPath: 'id', autoIncrement: true }); }
+                if (!d.objectStoreNames.contains('announcements')) { d.createObjectStore('announcements', { keyPath: 'id', autoIncrement: true }); }
+                if (!d.objectStoreNames.contains('slip_gaji')) { d.createObjectStore('slip_gaji', { keyPath: 'id', autoIncrement: true }); }
+                if (!d.objectStoreNames.contains('warnings')) { d.createObjectStore('warnings', { keyPath: 'id', autoIncrement: true }); }
+                if (!d.objectStoreNames.contains('notifications')) { const s = d.createObjectStore('notifications', { keyPath: 'id', autoIncrement: true }); s.createIndex('userId', 'userId', { unique: false }); s.createIndex('menu_type', ['userId', 'menuType'], { unique: false }); }
+            };
+        });
+    }
+    async getAll(s) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readonly'); const req = t.objectStore(s).getAll(); req.onsuccess = () => r(req.result); req.onerror = () => j(req.error); }); }
+    async get(s, id) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readonly'); const req = t.objectStore(s).get(id); req.onsuccess = () => r(req.result); req.onerror = () => j(req.error); }); }
+    async getByIdx(s, idx, val) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readonly'); const req = t.objectStore(s).index(idx).get(val); req.onsuccess = () => r(req.result); req.onerror = () => j(req.error); }); }
+    async getAllByIdx(s, idx, val) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readonly'); const req = t.objectStore(s).index(idx).getAll(val); req.onsuccess = () => r(req.result); req.onerror = () => j(req.error); }); }
+    async put(s, data) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readwrite'); const st = t.objectStore(s); if (data.id) st.put(data); else { data.id = Date.now(); st.add(data); } t.oncomplete = () => r(data); t.onerror = () => j(t.error); }); }
+    async del(s, id) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readwrite'); t.objectStore(s).delete(id); t.oncomplete = () => r(); t.onerror = () => j(t.error); }); }
+    async addNotif(userId, menuType, msg) { await this.put('notifications', { userId, menuType, msg, read: false, createdAt: new Date().toISOString() }); }
+    async getUnreadCount(userId, menuType) { const all = await this.getAll('notifications'); return all.filter(n => n.userId === userId && n.menuType === menuType && !n.read).length; }
+    async markRead(userId, menuType) { const all = await this.getAll('notifications'); for (const n of all) { if (n.userId === userId && n.menuType === menuType && !n.read) { n.read = true; await this.put('notifications', n); } } }
+    async init() {
+        const emps = await this.getAll('employees');
+        if (emps.length === 0) {
+            const def = [
+                { id: 1001, pin: '1001', name: 'Budi Santoso', email: 'budi@demo.com', position: 'Staff IT', department: 'Technology', division: 'Development', company: 'PT Teknologi Maju', workArea: 'Kantor Pusat Jakarta', workStart: '08:00', workEnd: '17:00', latitude: -6.2088, longitude: 106.8456, locationRadius: 100, leaveQuota: 12, leaveUsed: 0, photo: '', active: true },
+                { id: 1002, pin: '1002', name: 'Siti Rahayu', email: 'siti@demo.com', position: 'Marketing Lead', department: 'Marketing', division: 'Digital', company: 'PT Kreatif Nusantara', workArea: 'Kantor Cabang Bandung', workStart: '09:00', workEnd: '18:00', latitude: -6.2000, longitude: 106.8400, locationRadius: 150, leaveQuota: 12, leaveUsed: 0, photo: '', active: true },
+                { id: 1003, pin: '1003', name: 'Ahmad Fauzi', email: 'ahmad@demo.com', position: 'Finance Analyst', department: 'Finance', division: 'Accounting', company: 'PT Teknologi Maju', workArea: 'Kantor Pusat Jakarta', workStart: '08:00', workEnd: '17:00', latitude: -6.2100, longitude: 106.8500, locationRadius: 100, leaveQuota: 0, leaveUsed: 0, photo: '', active: true },
+            ];
+            for (const e of def) await this.put('employees', e);
         }
-    });
-
-    // ==========================================
-// FUNGSI NAVIGASI TAB MENU IZIN (FORM VS RIWAYAT)
-// ==========================================
-function saklarTabIzin(targetTab) {
-  const tabForm = document.getElementById("konten-tab-form");
-  const tabRiwayat = document.getElementById("konten-tab-riwayat");
-  const btnForm = document.getElementById("tab-btn-form");
-  const btnRiwayat = document.getElementById("tab-btn-riwayat");
-
-  if (targetTab === 'form') {
-    tabForm.style.display = "block";
-    tabRiwayat.style.display = "none";
-    btnForm.style.backgroundColor = "var(--primary)";
-    btnRiwayat.style.backgroundColor = "#6c757d";
-  } else if (targetTab === 'riwayat') {
-    tabForm.style.display = "none";
-    tabRiwayat.style.display = "block";
-    btnForm.style.backgroundColor = "#6c757d";
-    btnRiwayat.style.backgroundColor = "var(--primary)";
-    
-    // Panggil fungsi mengambil data riwayat dari gSheet
-    if (typeof muatRiwayatIzin === "function") {
-      muatRiwayatIzin();
+        const hrds = await this.getAll('hrd');
+        if (hrds.length === 0) {
+            await this.put('hrd', { id: 999, name: 'Aldo Giyantoro Putra', email: 'hrd@demo.com', password: 'demo123', department: 'Human Resources', isPermanent: true, photo: '' });
+        }
     }
-  }
 }
-// ===================================================
-// FUNGSI AMBIL RIWAYAT IZIN DENGAN FILTER TUTUP BUKU
-// ===================================================
-// ===================================================
-// FUNGSI AMBIL RIWAYAT IZIN DENGAN FILTER TUTUP BUKU (VERSI AMAN)
-// ===================================================
-function muatRiwayatIzin() {
-  const container = document.getElementById("riwayatIzinContainer");
-  if (!container) return;
 
-  container.innerHTML = `<div style="text-align: center; padding: 10px;">Memuat riwayat izin...</div>`;
+const db = new DB();
+const APP = { user: null, role: null, pin: '', attType: null, photo: null, loc: null, stream: null, collapsed: false, theme: 'light', chartInstance: null };
 
-  // Pastikan ID penampung nama user login sesuai dengan aplikasi Anda (misal: namaKaryawanTerlogin)
-  const namaUser = document.getElementById("namaUser")?.innerText || "";
-  
-  let batasSiklus;
-  try {
-    batasSiklus = dapatkanTanggalAwalSiklus();
-  } catch(e) {
-    // Pengaman jika fungsi batas siklus belum terpasang
-    console.warn("Fungsi dapatkanTanggalAwalSiklus belum ada, menggunakan default.");
-    batasSiklus = new Date(new Date().getFullYear(), new Date().getMonth(), 1); 
-  }
+function toast(msg, type = 'info') {
+    const c = document.getElementById('toastContainer');
+    const t = document.createElement('div'); t.className = `toast ${type}`;
+    t.innerHTML = `<span>${type==='success'?'✅':type==='error'?'❌':type==='warning'?'⚠️':'ℹ️'}</span> ${msg}`;
+    c.appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 4000);
+}
+function togglePass(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const icon = btn.querySelector('i');
+    if (input.type === 'password') { input.type = 'text'; icon.className = 'fas fa-eye'; }
+    else { input.type = 'password'; icon.className = 'fas fa-eye-slash'; }
+}
+function formatDate(d) { if (!d) return '-'; const parts = d.split('-'); return `${parts[2]}/${parts[1]}/${parts[0]}`; }
+async function initApp() { await db.open(); await db.init(); updateDT(); setInterval(updateDT, 1000); if (localStorage.getItem('theme') === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); APP.theme = 'dark'; } }
+initApp();
+function updateDT() {
+    const n = new Date();
+    document.getElementById('currentDateInline').textContent = '📅 ' + n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById('currentTimeInline').textContent = '🕐 ' + n.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+function toggleTheme() { APP.theme = APP.theme === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', APP.theme); localStorage.setItem('theme', APP.theme); document.querySelector('.theme-btn i').className = APP.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'; }
 
-  fetch(`${API_URL}?action=getIzin`, {
-    method: "GET"
-  })
-  .then(response => {
-    if (!response.ok) throw new Error("Network response was not ok");
-    return response.json();
-  })
-  .then(data => {
-    container.innerHTML = ""; 
+let selRole = 'employee';
+function switchRole(r, el) { selRole = r; document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); document.getElementById('employeeLoginSection').style.display = r === 'employee' ? 'block' : 'none'; document.getElementById('hrdLoginSection').style.display = r === 'hrd' ? 'block' : 'none'; clearPin(); }
+function inputPin(d) { if (APP.pin.length >= 4) return; APP.pin += d; updatePD(); if (APP.pin.length === 4) loginWithPin(); }
+function clearPin() { APP.pin = ''; updatePD(); }
+function updatePD() { for (let i = 1; i <= 4; i++) { const dot = document.getElementById('d' + i); dot.classList.toggle('filled', i <= APP.pin.length); dot.textContent = i <= APP.pin.length ? '●' : ''; } }
+async function loginWithPin() {
+    if (APP.pin.length !== 4) return toast('Masukkan 4 digit PIN', 'warning');
+    const e = await db.getByIdx('employees', 'pin', APP.pin);
+    if (!e?.active) { toast('PIN tidak valid!', 'error'); clearPin(); return; }
+    APP.user = e; APP.role = 'employee'; showDashboard();
+}
+async function loginHRD() {
+    const h = await db.getByIdx('hrd', 'email', document.getElementById('hrdEmail').value.trim());
+    if (h && h.password === document.getElementById('hrdPassword').value) {
+        APP.user = { ...h, role: 'hrd' }; APP.role = 'hrd'; showDashboard();
+    } else toast('Email/password salah!', 'error');
+}
 
-    if (!Array.isArray(data)) {
-      container.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">Data kosong atau format salah.</p>`;
-      return;
+
+async function showDashboard() {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('dashboardPage').classList.add('show');
+    updateSidebar();
+    if (APP.role === 'employee') { setupEmpSidebar(); await loadEmpDashboard(); }
+    else { setupHRDSidebar(); await loadHRDDashboard(); }
+    updateAllBadges();
+}
+function updateSidebar() {
+    document.getElementById('sidebarName').textContent = APP.user.name;
+    document.getElementById('sidebarRole').textContent = APP.user.position || APP.user.department || '';
+    const av = document.getElementById('sidebarAvatar'), ph = document.getElementById('sidebarPhoto');
+    if (APP.user.photo) { ph.src = APP.user.photo; ph.style.display = 'block'; av.style.display = 'none'; }
+    else { ph.style.display = 'none'; av.style.display = 'flex'; av.textContent = APP.user.name.charAt(0); }
+}
+function toggleSidebar() { APP.collapsed = !APP.collapsed; document.getElementById('sidebar').classList.toggle('collapsed', APP.collapsed); document.getElementById('mainArea').classList.toggle('expanded', APP.collapsed); }
+
+async function updateAllBadges() {
+    if (APP.role === 'employee') {
+        const historyCount = await db.getUnreadCount(APP.user.id, 'history');
+        const announceCount = await db.getUnreadCount(APP.user.id, 'pengumuman');
+        const slipCount = await db.getUnreadCount(APP.user.id, 'slip');
+        const warningCount = await db.getUnreadCount(APP.user.id, 'warning');
+        document.querySelectorAll('.badge-history').forEach(b => { b.textContent = historyCount; b.style.display = historyCount > 0 ? 'inline' : 'none'; });
+        document.querySelectorAll('.badge-announce').forEach(b => { b.textContent = announceCount; b.style.display = announceCount > 0 ? 'inline' : 'none'; });
+        document.querySelectorAll('.badge-slip').forEach(b => { b.textContent = slipCount; b.style.display = slipCount > 0 ? 'inline' : 'none'; });
+        document.querySelectorAll('.badge-warning').forEach(b => { b.textContent = warningCount; b.style.display = warningCount > 0 ? 'inline' : 'none'; });
+    } else {
+        const approvalCount = await db.getUnreadCount('all', 'approval');
+        document.querySelectorAll('.badge-approval').forEach(b => { b.textContent = approvalCount; b.style.display = approvalCount > 0 ? 'inline' : 'none'; });
     }
+}
 
-    // Filter nama dan siklus tutup buku
-    const riwayatKaryawan = data.filter(item => {
-      if (!item.nama || !item.tanggalIzin) return false;
-      
-      const cocokNama = item.nama.toString().trim().toLowerCase() === namaUser.toString().trim().toLowerCase();
-      
-      // Mengubah string tanggal YYYY-MM-DD menjadi objek Date secara aman
-      const partTgl = item.tanggalIzin.toString().split("-");
-      let tanggalItem = new Date(item.tanggalIzin);
-      if (partTgl.length === 3) {
-        tanggalItem = new Date(parseInt(partTgl[0]), parseInt(partTgl[1]) - 1, parseInt(partTgl[2]));
-      }
-      
-      const cocokSiklus = tanggalItem >= batasSiklus;
-      return cocokNama && cocokSiklus;
-    });
+function setupEmpSidebar() {
+    document.getElementById('sidebarNav').innerHTML = `
+        <div class="nav-section-title">Menu</div>
+        <div class="nav-item active" onclick="navTo('dashboard', this)"><i class="fas fa-th-large"></i> <span>Dashboard</span></div>
+        <div class="nav-item" onclick="navTo('attendance', this)"><i class="fas fa-camera"></i> <span>Absensi</span></div>
+        <div class="nav-section-title">Pengajuan</div>
+        <div class="nav-item" onclick="navTo('izin', this)"><i class="fas fa-clipboard"></i> <span>Izin</span></div>
+        <div class="nav-item" onclick="navTo('cuti', this)"><i class="fas fa-umbrella-beach"></i> <span>Cuti</span></div>
+        <div class="nav-item" onclick="navTo('lembur', this)"><i class="fas fa-business-time"></i> <span>Lembur</span></div>
+        <div class="nav-item" onclick="navTo('absen_miss', this)"><i class="fas fa-clock"></i> <span>Lupa Absen</span></div>
+        <div class="nav-section-title">Riwayat</div>
+        <div class="nav-item" onclick="navTo('history', this)"><i class="fas fa-history"></i> <span>Riwayat</span> <span class="badge badge-history">0</span></div>
+        <div class="nav-section-title">Lainnya</div>
+        <div class="nav-item" onclick="navTo('pengumuman', this)"><i class="fas fa-bullhorn"></i> <span>Pengumuman</span> <span class="badge badge-announce">0</span></div>
+        <div class="nav-item" onclick="navTo('slip_gaji', this)"><i class="fas fa-money-bill-wave"></i> <span>Slip Gaji</span> <span class="badge badge-slip">0</span></div>
+        <div class="nav-item" onclick="navTo('warnings', this)"><i class="fas fa-exclamation-triangle"></i> <span>Peringatan</span> <span class="badge badge-warning">0</span></div>
+        <div class="nav-item" onclick="navTo('profile', this)"><i class="fas fa-user-circle"></i> <span>Profil</span></div>
+        <div class="nav-item" onclick="navTo('about', this)"><i class="fas fa-info-circle"></i> <span>Tentang</span></div>`;
+}
+function setupHRDSidebar() {
+    document.getElementById('sidebarNav').innerHTML = `
+        <div class="nav-section-title">Management</div>
+        <div class="nav-item active" onclick="navTo('dashboard', this)"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></div>
+        <div class="nav-item" onclick="navTo('rekap', this)"><i class="fas fa-clipboard-list"></i> <span>Rekap Absensi</span></div>
+        <div class="nav-item" onclick="navTo('employees', this)"><i class="fas fa-users"></i> <span>Data Karyawan</span></div>
+        <div class="nav-section-title">Approval</div>
+        <div class="nav-item" onclick="navTo('approval', this)"><i class="fas fa-check-double"></i> <span>Persetujuan</span> <span class="badge badge-approval">0</span></div>
+        <div class="nav-section-title">Komunikasi</div>
+        <div class="nav-item" onclick="navTo('pengumuman_hrd', this)"><i class="fas fa-bullhorn"></i> <span>Pengumuman</span></div>
+        <div class="nav-item" onclick="navTo('warnings_hrd', this)"><i class="fas fa-exclamation-triangle"></i> <span>Peringatan</span></div>
+        <div class="nav-item" onclick="navTo('slip_gaji_hrd', this)"><i class="fas fa-money-bill-wave"></i> <span>Slip Gaji</span></div>
+        <div class="nav-section-title">Pengaturan</div>
+        <div class="nav-item" onclick="navTo('hrd_settings', this)"><i class="fas fa-cog"></i> <span>Pengaturan</span></div>
+        <div class="nav-item" onclick="navTo('about', this)"><i class="fas fa-info-circle"></i> <span>Tentang</span></div>
+        <div class="nav-item" onclick="exportExcel()"><i class="fas fa-file-excel"></i> <span>Export Excel</span></div>`;
+}
 
-    if (riwayatKaryawan.length === 0) {
-      container.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">Belum ada riwayat izin di periode ini.</p>`;
-      return;
+async function navTo(page, el) {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    if (el) el.classList.add('active');
+    if (APP.role === 'employee') {
+        if (page === 'history') await db.markRead(APP.user.id, 'history');
+        if (page === 'pengumuman') await db.markRead(APP.user.id, 'pengumuman');
+        if (page === 'slip_gaji') await db.markRead(APP.user.id, 'slip');
+        if (page === 'warnings') await db.markRead(APP.user.id, 'warning');
+    } else {
+        if (page === 'approval') await db.markRead('all', 'approval');
     }
+    const empPages = {
+        dashboard: loadEmpDashboard, attendance: loadEmpAttendance,
+        izin: () => loadReqForm('izin'), cuti: () => loadReqForm('cuti'), lembur: () => loadReqForm('lembur'),
+        absen_miss: () => loadReqForm('absen_miss'), history: loadEmpHistory, pengumuman: loadEmpAnnounce,
+        slip_gaji: loadEmpSlip, warnings: loadEmpWarnings, profile: loadEmpProfile, about: loadAbout
+    };
+    const hrdPages = {
+        dashboard: loadHRDDashboard, rekap: loadHRDRekap, employees: loadHRDEmployees,
+        approval: loadHRDApproval, pengumuman_hrd: loadHRDAnnounce, warnings_hrd: loadHRDWarnings,
+        slip_gaji_hrd: loadHRDSlip, hrd_settings: loadHRDSettings, about: loadAbout
+    };
+    const pages = APP.role === 'employee' ? empPages : hrdPages;
+    if (pages[page]) await pages[page]();
+    updateAllBadges();
+}
 
-    riwayatKaryawan.forEach(item => {
-      let badgeColor = "#ffc107";
-      if (item.status === "Disetujui") badgeColor = "#198754";
-      if (item.status === "Ditolak") badgeColor = "#dc3545";
 
-      let htmlLampiran = "";
-      if (item.linkFoto && item.linkFoto.startsWith("http")) {
-        htmlLampiran = `<div style="margin-top: 8px;"><a href="${item.linkFoto}" target="_blank" style="font-size: 12px; color: var(--primary); text-decoration: none; font-weight: bold;">📄 Lihat Lampiran</a></div>`;
-      }
-
-      const card = `
-        <div style="border-left: 3px solid #0dcaf0; padding: 12px; margin-bottom: 10px; background: #f8f9fa; border-radius: 4px; text-align: left; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-            <span style="font-size: 12px; font-weight: bold; color: #555;">Tgl Izin: ${item.tanggalIzin}</span>
-            <span style="background: ${badgeColor}; color: white; padding: 2px 6px; font-size: 11px; border-radius: 3px; font-weight: bold;">${item.status}</span>
-          </div>
-          <p style="margin: 0; font-size: 13px; color: #333;"><strong>Keperluan:</strong> ${item.keperluan}</p>
-          ${htmlLampiran}
+// ==================== EMPLOYEE PAGES ====================
+async function loadEmpDashboard() {
+    document.getElementById('pageTitle').textContent = 'Dashboard';
+    const today = new Date().toISOString().split('T')[0];
+    const todayAtt = await db.getByIdx('attendance', 'uid_date', [APP.user.id, today]);
+    const userAtt = (await db.getAll('attendance')).filter(a => a.userId === APP.user.id);
+    const thisMonth = userAtt.filter(a => { const d = new Date(a.date); const n = new Date(); return d.getMonth() === n.getMonth(); });
+    const isSun = new Date().getDay() === 0;
+    const isIn = todayAtt?.checkIn && !todayAtt?.checkOut;
+    const isOut = todayAtt?.checkOut;
+    document.getElementById('mainContent').innerHTML = `
+        <div class="welcome-banner">
+            <h2>${isSun ? '😴 LIBUR!' : 'Selamat Datang, ' + APP.user.name + '!'}</h2>
+            <p>${APP.user.company} • ${APP.user.workArea}</p>
+            <div class="big-clock" id="heroClock">00:00:00</div>
+            <div class="att-actions">
+                <button class="btn-att" style="background:rgba(0,200,83,0.3);" ${isSun||isIn||isOut?'disabled':''} onclick="openAttModal('checkin')"><i class="fas fa-sign-in-alt"></i> CHECK IN</button>
+                <button class="btn-att" style="background:rgba(255,61,0,0.3);" ${isSun||!isIn||isOut?'disabled':''} onclick="openAttModal('checkout')"><i class="fas fa-sign-out-alt"></i> CHECK OUT</button>
+            </div>
         </div>
-      `;
-      container.innerHTML += card;
-    });
-  })
-  .catch(error => {
-    console.error("Gagal memuat riwayat izin:", error);
-    container.innerHTML = `<p style="text-align: center; color: red; padding: 10px;">Gagal memuat data.<br><span style="font-size:10px; color:#aaa;">Pastikan Web App sudah di-Deploy ulang.</span></p>`;
-  });
+        <div class="map-container"><iframe src="https://maps.google.com/maps?q=${APP.user.latitude||-6.2088},${APP.user.longitude||106.8456}&z=16&output=embed" width="100%" height="180"></iframe></div>
+        <div class="summary-box">
+            <div class="summary-item"><strong>${thisMonth.filter(a=>a.checkIn).length}</strong><small>Hadir</small></div>
+            <div class="summary-item"><strong>${thisMonth.filter(a=>a.status==='late').length}</strong><small>Terlambat</small></div>
+            <div class="summary-item"><strong>${(APP.user.leaveQuota||12)-(APP.user.leaveUsed||0)}</strong><small>Sisa Cuti</small></div>
+        </div>`;
+    setInterval(() => { const el = document.getElementById('heroClock'); if (el) el.textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }, 1000);
 }
-    function bukaAplikasiUtama() {
-        document.getElementById('user-greeting').innerText = `Hi, ${namaKaryawanTerlogin}!`;
-        document.getElementById('page-login').classList.add('hidden');
-        document.getElementById('main-app').classList.remove('hidden');
-        
-        document.getElementById('header-profile-btn').classList.remove('hidden');
-        document.getElementById('header-logout-btn').classList.remove('hidden');
-        
-        sinkronisasiFotoProfilHeader();
-        updateAbsenButtonStates();
-        cekNotifikasiPengumuman();
-    }
+async function loadEmpAttendance() { await loadEmpDashboard(); }
 
-    if(!localStorage.getItem('absensi_stats_v3')) {
-        localStorage.setItem('absensi_stats_v3', JSON.stringify({}));
+async function loadReqForm(type) {
+    document.getElementById('pageTitle').textContent = { izin:'Izin', cuti:'Cuti', lembur:'Lembur', absen_miss:'Lupa Absen' }[type];
+    const sisa = (APP.user.leaveQuota||12) - (APP.user.leaveUsed||0);
+    let extraHTML = '';
+    if (type === 'lembur') {
+        extraHTML = `
+        <div class="form-group"><label class="form-label">Jam Mulai Lembur</label><input type="time" class="form-input" id="reqOvertimeStart"></div>
+        <div class="form-group"><label class="form-label">Jam Selesai Lembur</label><input type="time" class="form-input" id="reqOvertimeEnd" onchange="calcOvertime()"></div>
+        <div class="form-group"><label class="form-label">Total Jam Lembur</label><input class="form-input" id="reqOvertimeTotal" readonly placeholder="Otomatis terisi"></div>`;
     }
-    if(!localStorage.getItem('absensi_history_v3')) {
-        localStorage.setItem('absensi_history_v3', JSON.stringify([]));
+    if (type === 'absen_miss') {
+        extraHTML = `
+        <div class="form-group"><label class="form-label">Jenis</label><select class="form-input" id="reqJenis"><option value="checkin">Lupa Check In</option><option value="checkout">Lupa Check Out</option></select></div>
+        <div class="form-group"><label class="form-label">Jam (24 jam, contoh: 08:00 atau 17:30)</label><input type="time" class="form-input" id="reqJam"></div>`;
     }
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card"><h3>${type==='absen_miss'?'Lupa Absen':type.toUpperCase()}</h3>${type==='cuti'?`<p>Sisa: ${sisa}${sisa<=0?' (HABIS)':''}</p>`:''}
+        <div class="form-group"><label class="form-label">Tanggal</label><input type="date" id="reqDate" class="form-input"></div>
+        ${type!=='absen_miss'&&type!=='lembur'?'<div class="form-group"><label class="form-label">Tanggal Selesai</label><input type="date" id="reqEnd" class="form-input"></div>':''}
+        ${extraHTML}
+        <div class="form-group"><label class="form-label">Alasan</label><textarea id="reqReason" class="form-input" rows="3"></textarea></div>
+        <div class="form-group"><label class="form-label">Upload Bukti</label><input type="file" id="reqBukti" class="form-input" accept="image/*"></div>
+        <button class="btn-submit" onclick="submitReq('${type}')" ${type==='cuti'&&sisa<=0?'disabled':''}>Kirim</button></div>`;
+}
+function calcOvertime() {
+    const start = document.getElementById('reqOvertimeStart')?.value;
+    const end = document.getElementById('reqOvertimeEnd')?.value;
+    if (start && end) {
+        const [sh, sm] = start.split(':').map(Number);
+        const [eh, em] = end.split(':').map(Number);
+        const totalMinutes = (eh * 60 + em) - (sh * 60 + sm);
+        const hours = Math.floor(totalMinutes / 60);
+        const mins = totalMinutes % 60;
+        document.getElementById('reqOvertimeTotal').value = `${hours} jam ${mins} menit`;
+    }
+}
+async function submitReq(type) {
+    const date = document.getElementById('reqDate')?.value;
+    if (!date) return toast('Pilih tanggal!', 'warning');
+    let bukti = null;
+    const f = document.getElementById('reqBukti')?.files[0];
+    if (f) bukti = await new Promise(r => { const rd = new FileReader(); rd.onload = () => r(rd.result); rd.readAsDataURL(f); });
+    const data = { userId: APP.user.id, userName: APP.user.name, userDept: APP.user.department, type, startDate: date, endDate: document.getElementById('reqEnd')?.value || date, reason: document.getElementById('reqReason')?.value, bukti, status: 'pending', createdAt: new Date().toISOString() };
+    if (type === 'lembur') {
+        data.overtimeStart = document.getElementById('reqOvertimeStart')?.value;
+        data.overtimeEnd = document.getElementById('reqOvertimeEnd')?.value;
+        data.hours = document.getElementById('reqOvertimeTotal')?.value;
+    }
+    if (type === 'absen_miss') { data.jenis = document.getElementById('reqJenis')?.value; data.jam = document.getElementById('reqJam')?.value; }
+    await db.put('requests', data);
+    await db.addNotif('all', 'approval', `Pengajuan ${type} dari ${APP.user.name}`);
+    toast('✅ Terkirim!', 'success'); updateAllBadges();
+}
 
-    setInterval(() => {
-        const d = new Date();
-        document.getElementById('clock').innerText = d.toLocaleTimeString('id-ID');
-        document.getElementById('date').innerText = d.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    }, 1000);
+async function loadEmpHistory() {
+    await db.markRead(APP.user.id, 'history');
+    document.getElementById('pageTitle').textContent = 'Riwayat';
+    const att = (await db.getAll('attendance')).filter(a => a.userId === APP.user.id);
+    const reqs = (await db.getAll('requests')).filter(r => r.userId === APP.user.id);
+    reqs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const thisMonth = att.filter(a => { const d = new Date(a.date); const n = new Date(); return d.getMonth() === n.getMonth(); });
+    document.getElementById('mainContent').innerHTML = `
+        <div class="summary-box"><div class="summary-item"><strong>${thisMonth.filter(a=>a.checkIn).length}</strong><small>Absen</small></div><div class="summary-item"><strong>${reqs.filter(r=>r.status==='approved').length}</strong><small>Approved</small></div></div>
+        <div class="section-card"><h3>Pengajuan Terbaru</h3><table class="data-table"><thead><tr><th>Jenis</th><th>Tgl</th><th>Alasan</th><th>Status</th></tr></thead><tbody>${reqs.map(r => `<tr><td>${r.type.toUpperCase()}</td><td>${formatDate(r.startDate)}</td><td>${r.reason||'-'}</td><td><span class="status-chip ${r.status}">${r.status.toUpperCase()}</span></td></tr>`).join('')}</tbody></table></div>
+        <div class="section-card"><h3>Absensi</h3><table class="data-table"><thead><tr><th>Tgl</th><th>In</th><th>Out</th><th>Foto</th><th>Status</th></tr></thead><tbody>${att.slice(0,20).map(a => `<tr><td>${formatDate(a.date)}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td>${a.photoData ? `<img src="${a.photoData}" class="img-thumb" onclick="showImage('${a.photoData}')">` : '-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td></tr>`).join('')}</tbody></table></div>`;
+    updateAllBadges();
+}
+function showImage(src) {
+    document.getElementById('editModalTitle').textContent = 'Lihat Gambar';
+    document.getElementById('editModalContent').innerHTML = `<img src="${src}" class="img-preview">`;
+    document.getElementById('editModal').classList.add('active');
+}
+async function loadEmpAnnounce() {
+    await db.markRead(APP.user.id, 'pengumuman');
+    document.getElementById('pageTitle').textContent = 'Pengumuman';
+    const ann = await db.getAll('announcements');
+    const filtered = ann.filter(a => !a.targetCompany || a.targetCompany === 'all' || a.targetCompany === APP.user.company);
+    filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>📢 Pengumuman</h3>${filtered.map(a => `
+        <div style="background:var(--primary-light);padding:12px;border-radius:8px;margin-bottom:8px;">
+            <strong>${a.title}</strong> ${a.targetCompany && a.targetCompany !== 'all' ? `<span style="font-size:10px;color:var(--primary);">(${a.targetCompany})</span>` : ''}
+            <p style="font-size:12px;">${a.content}</p>
+            ${a.fileData ? `<a href="${a.fileData}" download="${a.fileName||'file'}" class="btn-action btn-primary" style="margin-top:4px;"><i class="fas fa-download"></i> ${a.fileName||'Download'}</a>` : ''}
+            <small style="color:var(--text2);">${new Date(a.createdAt).toLocaleString('id-ID')}</small>
+        </div>`).join('') || '<p>Tidak ada</p>'}</div>`;
+    updateAllBadges();
+}
+async function loadEmpSlip() {
+    document.getElementById('pageTitle').textContent = 'Slip Gaji';
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card"><h3>🔒 Verifikasi PIN</h3>
+        <div class="form-group"><label class="form-label">PIN</label><div class="input-with-icon"><input type="password" class="form-input" id="slipPin" maxlength="4" placeholder="PIN 4 digit"><button class="toggle-vis" onclick="togglePass('slipPin', this)"><i class="fas fa-eye-slash"></i></button></div></div>
+        <button class="btn-submit" onclick="verifySlipPin()">Lihat Slip</button>
+        <div id="slipResult" style="margin-top:14px;"></div></div>`;
+}
+async function verifySlipPin() {
+    if (document.getElementById('slipPin').value !== APP.user.pin) return toast('PIN salah!', 'error');
+    await db.markRead(APP.user.id, 'slip');
+    const slips = (await db.getAll('slip_gaji')).filter(s => s.userId === APP.user.id);
+    document.getElementById('slipResult').innerHTML = slips.map(s => `
+        <div style="background:var(--card);padding:12px;border-radius:8px;margin-bottom:8px;border:1px solid var(--border);">
+            <strong>${s.periode}</strong>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:11px;margin-top:6px;">
+                <div>Gaji Pokok: Rp ${s.gajiPokok?.toLocaleString()}</div><div>Bonus: Rp ${(s.bonus||0).toLocaleString()}</div>
+                <div>PPh: -Rp ${(s.pph||0).toLocaleString()}</div><div>BPJS Kes: -Rp ${(s.bpjsKes||0).toLocaleString()}</div>
+                <div>BPJS TK: -Rp ${(s.bpjsTk||0).toLocaleString()}</div><div><strong>TOTAL: Rp ${s.total?.toLocaleString()}</strong></div>
+            </div></div>`).join('') || '<p>Belum ada slip</p>';
+    updateAllBadges();
+}
+async function loadEmpWarnings() {
+    await db.markRead(APP.user.id, 'warning');
+    document.getElementById('pageTitle').textContent = 'Peringatan';
+    const warns = (await db.getAll('warnings')).filter(w => w.userId === APP.user.id);
+    warns.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>⚠️ Peringatan</h3>${warns.length > 0 ? warns.map(w => `<div style="background:#FFF8E1;padding:12px;border-radius:8px;margin-bottom:8px;border-left:4px solid var(--warning);"><strong>${w.title}</strong><p style="font-size:12px;margin-top:4px;">${w.content}</p><small>${new Date(w.createdAt).toLocaleDateString('id-ID')}</small></div>`).join('') : '<p style="text-align:center;padding:20px;">Tidak ada</p>'}</div>`;
+    updateAllBadges();
+}
+async function loadEmpProfile() {
+    const u = APP.user;
+    document.getElementById('pageTitle').textContent = 'Profil';
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card"><div style="text-align:center;">${u.photo?`<img src="${u.photo}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--primary);">`:'<div class="user-av" style="width:80px;height:80px;font-size:32px;margin:0 auto;">'+u.name.charAt(0)+'</div>'}<h2>${u.name}</h2><p>${u.position||'-'} • ${u.division||'-'}</p><p>${u.company}</p><button class="btn-action btn-primary" onclick="changeProfilePhoto()"><i class="fas fa-camera"></i> Ganti Foto</button></div>
+        <div style="display:grid;gap:6px;margin-top:14px;font-size:12px;"><div><strong>PIN:</strong> ${u.pin}</div><div><strong>Area:</strong> ${u.workArea||'-'}</div><div><strong>Jam:</strong> ${u.workStart}-${u.workEnd}</div></div></div>`;
+}
+async function changeProfilePhoto() {
+    document.getElementById('attModal').classList.add('active');
+    document.getElementById('attModalTitle').textContent = 'Ganti Foto Profil';
+    document.getElementById('btnCapture').style.display = 'inline-block';
+    await startCam();
+    document.querySelector('#attModal .btn-submit').onclick = async () => {
+        if (!APP.photo) return toast('Ambil foto!', 'warning');
+        APP.user.photo = APP.photo;
+        await db.put('employees', APP.user);
+        closeAttModal(); updateSidebar(); loadEmpProfile(); toast('✅ Tersimpan!', 'success');
+    };
+}
+async function loadAbout() {
+    document.getElementById('pageTitle').textContent = 'Tentang';
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card" style="text-align:center;">
+            <svg width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="url(#lg)"/><text x="32" y="38" text-anchor="middle" fill="white" font-size="24" font-weight="bold">AP</text></svg>
+            <h2>AbsensiPro Ultimate</h2><p>Sistem Absensi Profesional</p>
+            <div style="margin-top:16px;text-align:left;display:inline-block;font-size:13px;">
+                <p><strong>Developer:</strong> Aldo Giyantoro Putra</p>
+                <p><strong>Versi:</strong> 6.0 Final</p>
+            </div></div>`;
+}
 
-    function showLoader(text) {
-        document.getElementById('loader-text').innerText = text;
-        document.getElementById('global-loader').classList.add('show');
+// ==================== ATTENDANCE ====================
+async function openAttModal(type) {
+    if (new Date().getDay() === 0) return toast('Minggu libur!', 'warning');
+    APP.attType = type; APP.photo = null;
+    document.getElementById('attModalTitle').textContent = type === 'checkin' ? '📸 Check In' : '📸 Check Out';
+    document.querySelector('#attModal .btn-submit').onclick = submitAtt;
+    document.getElementById('attModal').classList.add('active');
+    document.getElementById('photoPreview').style.display = 'none';
+    document.getElementById('btnCapture').style.display = 'inline-block';
+    document.getElementById('btnRetake').style.display = 'none';
+    document.querySelector('.camera-container').style.display = 'block';
+    await startCam();
+    getLoc();
+}
+async function startCam() {
+    try {
+        const v = document.getElementById('camVideo');
+        APP.stream = await navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1280 }, height: { ideal: 720 } } });
+        v.srcObject = APP.stream;
+    } catch (e) { document.querySelector('.camera-container').innerHTML = '<p style="color:white;text-align:center;padding:30px;">⚠️ Kamera tidak tersedia</p>'; }
+}
+function capturePhoto() {
+    const v = document.getElementById('camVideo'), c = document.getElementById('camCanvas');
+    c.width = v.videoWidth; c.height = v.videoHeight;
+    const ctx = c.getContext('2d'); ctx.translate(c.width, 0); ctx.scale(-1, 1); ctx.drawImage(v, 0, 0);
+    APP.photo = c.toDataURL('image/jpeg', 0.9);
+    document.getElementById('photoPreview').src = APP.photo;
+    document.getElementById('photoPreview').style.display = 'block';
+    document.querySelector('.camera-container').style.display = 'none';
+    document.getElementById('btnCapture').style.display = 'none';
+    document.getElementById('btnRetake').style.display = 'inline-block';
+}
+function retakePhoto() {
+    document.querySelector('.camera-container').style.display = 'block';
+    document.getElementById('photoPreview').style.display = 'none';
+    document.getElementById('btnCapture').style.display = 'inline-block';
+    document.getElementById('btnRetake').style.display = 'none';
+    APP.photo = null;
+}
+function getLoc() {
+    const locText = document.getElementById('locText');
+    if (!('geolocation' in navigator)) { locText.textContent = '⚠️ Geolocation tidak didukung!'; return; }
+    navigator.geolocation.getCurrentPosition(p => {
+        APP.loc = { lat: p.coords.latitude, lng: p.coords.longitude };
+        locText.innerHTML = `📍 ${p.coords.latitude.toFixed(6)}, ${p.coords.longitude.toFixed(6)}`;
+        document.getElementById('miniMap').innerHTML = `<iframe src="https://maps.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}&z=18&output=embed" width="100%" height="160"></iframe>`;
+        if (APP.user?.latitude && APP.user?.locationRadius) {
+            const dist = getDistance(p.coords.latitude, p.coords.longitude, APP.user.latitude, APP.user.longitude);
+            if (dist > APP.user.locationRadius) toast(`⚠️ Anda di luar area! (${dist.toFixed(0)}m)`, 'warning');
+        }
+    }, () => { locText.textContent = '⚠️ Gagal deteksi! Aktifkan GPS.'; toast('Aktifkan GPS!', 'error'); }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+}
+function getDistance(lat1, lng1, lat2, lng2) {
+    const R = 6371000, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+async function submitAtt() {
+    if (!APP.photo) return toast('Ambil foto!', 'warning');
+    if (!APP.loc) return toast('GPS belum terdeteksi!', 'error');
+    const n = new Date(), ts = n.toTimeString().split(' ')[0].substring(0, 5), ds = n.toISOString().split('T')[0];
+    if (APP.attType === 'checkin') {
+        const st = ts > (APP.user.workStart||'08:00') ? 'late' : 'present';
+        await db.put('attendance', { userId: APP.user.id, userName: APP.user.name, userDept: APP.user.department, userCompany: APP.user.company, date: ds, checkIn: ts, checkOut: null, totalHours: 0, status: st, latitude: APP.loc.lat, longitude: APP.loc.lng, photoData: APP.photo });
+        toast(`✅ CHECK IN ${ts}`, 'success');
+    } else {
+        const tr = await db.getByIdx('attendance', 'uid_date', [APP.user.id, ds]);
+        if (!tr) return toast('Belum check-in!', 'error');
+        const [ih, im] = tr.checkIn.split(':'), [oh, om] = ts.split(':');
+        tr.checkOut = ts; tr.totalHours = Math.round(((parseInt(oh)*60+parseInt(om))-(parseInt(ih)*60+parseInt(im)))/60*100)/100;
+        await db.put('attendance', tr);
+        toast(`✅ CHECK OUT ${ts}`, 'success');
+    }
+    closeAttModal(); await loadEmpDashboard();
+}
+function closeAttModal() {
+    document.getElementById('attModal').classList.remove('active');
+    if (APP.stream) { APP.stream.getTracks().forEach(t => t.stop()); APP.stream = null; }
+    APP.photo = null;
+}
+function closeEditModal() { document.getElementById('editModal').classList.remove('active'); }
+
+// ==================== HRD PAGES ====================
+async function loadHRDDashboard() {
+    document.getElementById('pageTitle').textContent = 'Dashboard HRD';
+    const allAtt = await db.getAll('attendance');
+    const today = new Date().toISOString().split('T')[0];
+    const todayData = allAtt.filter(a => a.date === today);
+    const emps = await db.getAll('employees');
+    const companies = [...new Set(emps.map(e => e.company).filter(Boolean))];
+    const reqs = await db.getAll('requests');
+    const pending = reqs.filter(r => r.status === 'pending');
+    const last7 = []; for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); last7.push(d.toISOString().split('T')[0]); }
+    const weeklyData = last7.map(d => allAtt.filter(a => a.date === d).length);
+    document.getElementById('mainContent').innerHTML = `
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div class="stat-label">Karyawan</div><div class="stat-value">${emps.length}</div></div>
+            <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-building"></i></div><div class="stat-label">Perusahaan</div><div class="stat-value">${companies.length}</div></div>
+            <div class="stat-card"><div class="stat-icon green"><i class="fas fa-user-check"></i></div><div class="stat-label">Hadir Hari Ini</div><div class="stat-value">${todayData.length}</div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:#FFF8E1;color:#FFB300;"><i class="fas fa-clock"></i></div><div class="stat-label">Pending</div><div class="stat-value">${pending.length}</div></div>
+        </div>
+        <div class="section-card">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchHRDChart('daily', this)">Harian</button>
+                <button class="tab-btn" onclick="switchHRDChart('weekly', this)">Mingguan</button>
+                <button class="tab-btn" onclick="switchHRDChart('monthly', this)">Bulanan</button>
+            </div>
+            <div class="chart-sm"><canvas id="hrdChart"></canvas></div>
+        </div>
+        <div class="section-card"><div class="section-header"><h3>Absensi Hari Ini</h3><div><label class="form-label" style="display:inline;">Dari:</label><input type="date" class="form-input" id="filterStartDate" style="width:130px;display:inline;margin:0 8px;" onchange="filterAttByDate()"> <label class="form-label" style="display:inline;">Sampai:</label><input type="date" class="form-input" id="filterEndDate" style="width:130px;display:inline;" onchange="filterAttByDate()"> <input type="text" class="form-input" id="filterName" placeholder="🔍 Nama..." style="width:150px;" onkeyup="filterAttTable()"></div></div>
+        <table class="data-table" id="exportTable"><thead><tr><th>Nama</th><th>In</th><th>Out</th><th>Foto</th><th>Status</th></tr></thead><tbody id="attTableBody">${todayData.map(a => `<tr><td>${a.userName}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td>${a.photoData?`<img src="${a.photoData}" class="img-thumb" onclick="showImage('${a.photoData}')">`:'-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td></tr>`).join('')}</tbody></table></div>`;
+    setTimeout(() => renderHRDChart('daily', last7.map(d => d.substring(5)), weeklyData), 300);
+}
+// ==================== FUNGSI HAPUS PENGAJUAN ====================
+
+// Hapus semua pengajuan
+async function hapusSemuaPengajuan() {
+    const reqs = await db.getAll('requests');
+    if (reqs.length === 0) return toast('Tidak ada pengajuan!', 'warning');
+    
+    if (!confirm(`⚠️ HAPUS SEMUA PENGAJUAN?\n\nJumlah: ${reqs.length} pengajuan\n\nTermasuk:\n- Izin\n- Cuti\n- Lembur\n- Lupa Absen\n\nData tidak bisa dikembalikan!\n\nKlik OK untuk melanjutkan.`)) return;
+    
+    for (const r of reqs) {
+        await db.del('requests', r.id);
+    }
+    toast(`✅ ${reqs.length} pengajuan berhasil dihapus!`, 'success');
+    await loadHRDApproval();
+    updateAllBadges();
+}
+
+// Hapus pengajuan yang pending saja
+async function hapusPengajuanPending() {
+    const reqs = await db.getAll('requests');
+    const pending = reqs.filter(r => r.status === 'pending');
+    
+    if (pending.length === 0) return toast('Tidak ada pengajuan pending!', 'warning');
+    
+    if (!confirm(`⚠️ HAPUS ${pending.length} PENGAJUAN PENDING?\n\nHanya pengajuan dengan status PENDING yang akan dihapus.\n\nKlik OK untuk melanjutkan.`)) return;
+    
+    for (const r of pending) {
+        await db.del('requests', r.id);
+    }
+    toast(`✅ ${pending.length} pengajuan pending dihapus!`, 'success');
+    await loadHRDApproval();
+    updateAllBadges();
+}
+
+// Hapus satu pengajuan
+async function hapusSatuPengajuan(id) {
+    if (!confirm('Hapus pengajuan ini?')) return;
+    
+    await db.del('requests', id);
+    toast('✅ Pengajuan dihapus!', 'success');
+    await loadHRDApproval();
+    updateAllBadges();
+}
+
+function renderHRDChart(type, labels, data) {
+    const ctx = document.getElementById('hrdChart')?.getContext('2d');
+    if (!ctx) return;
+    if (APP.chartInstance) APP.chartInstance.destroy();
+    APP.chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: { labels, datasets: [{ label: type === 'daily' ? 'Harian' : type === 'weekly' ? 'Mingguan' : 'Bulanan', data, backgroundColor: '#0066FF', borderRadius: 4 }] },
+        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { font: { size: 10 } } }, x: { ticks: { font: { size: 10 } } } } }
+    });
+}
+function switchHRDChart(type, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    db.getAll('attendance').then(allAtt => {
+        const last7 = []; for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); last7.push(d.toISOString().split('T')[0]); }
+        const weeks = ['M1', 'M2', 'M3', 'M4'];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+        if (type === 'daily') renderHRDChart('daily', last7.map(d => d.substring(5)), last7.map(d => allAtt.filter(a => a.date === d).length));
+        else if (type === 'weekly') renderHRDChart('weekly', weeks, weeks.map((_, i) => allAtt.filter(a => { const d = new Date(a.date); return Math.floor(d.getDate()/7) === i && d.getMonth() === new Date().getMonth(); }).length));
+        else renderHRDChart('monthly', months, months.map((_, i) => allAtt.filter(a => new Date(a.date).getMonth() === i).length));
+    });
+}
+async function filterAttByDate() {
+    const start = document.getElementById('filterStartDate')?.value;
+    const end = document.getElementById('filterEndDate')?.value;
+    const allAtt = await db.getAll('attendance');
+    let filtered = allAtt;
+    if (start) filtered = filtered.filter(a => a.date >= start);
+    if (end) filtered = filtered.filter(a => a.date <= end);
+    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+    document.getElementById('attTableBody').innerHTML = filtered.map(a => `<tr><td>${a.userName}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td>${a.photoData?`<img src="${a.photoData}" class="img-thumb" onclick="showImage('${a.photoData}')">`:'-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;padding:20px;">Tidak ada data</td></tr>';
+}
+function filterAttTable() {
+    const filter = document.getElementById('filterName')?.value.toLowerCase() || '';
+    document.querySelectorAll('#attTableBody tr').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+    });
+}
+async function loadHRDRekap() {
+    document.getElementById('pageTitle').textContent = 'Rekap Absensi';
+    const data = await db.getAll('attendance');
+    data.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card">
+            <div class="section-header">
+                <h3>📋 Semua Absensi (Total: ${data.length})</h3>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <input type="date" class="form-input" id="filterRekapStart" style="width:130px;" onchange="filterRekapByDate()" title="Dari tanggal">
+                    <span style="font-size:11px;color:var(--text2);">s/d</span>
+                    <input type="date" class="form-input" id="filterRekapEnd" style="width:130px;" onchange="filterRekapByDate()" title="Sampai tanggal">
+                    <input type="text" class="form-input" id="filterRekap" placeholder="🔍 Cari nama..." style="width:150px;" onkeyup="filterRekapTable()">
+                    <button class="btn-action btn-success" onclick="exportExcel()" title="Export ke Excel">
+                        <i class="fas fa-file-excel"></i> Export
+                    </button>
+                    <button class="btn-action btn-danger" onclick="hapusSemuaAbsensi()" title="Hapus semua data absensi">
+                        <i class="fas fa-trash"></i> Hapus Semua
+                    </button>
+                    <button class="btn-action btn-warning" onclick="hapusAbsensiByDate()" title="Hapus berdasarkan tanggal">
+                        <i class="fas fa-calendar-times"></i> Hapus per Tanggal
+                    </button>
+                </div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="data-table" id="exportTable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Nama</th>
+                            <th>PT</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Total Jam</th>
+                            <th>Foto</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rekapTableBody">
+                        ${data.length > 0 ? data.map((a, index) => `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${formatDate(a.date)}</td>
+                                <td><strong>${a.userName}</strong></td>
+                                <td>${a.userCompany || '-'}</td>
+                                <td>${a.checkIn || '-'}</td>
+                                <td>${a.checkOut || '-'}</td>
+                                <td>${a.totalHours ? a.totalHours + ' jam' : '-'}</td>
+                                <td>${a.photoData ? `<img src="${a.photoData}" class="img-thumb" onclick="showImage('${a.photoData}')" title="Klik untuk lihat">` : '-'}</td>
+                                <td><span class="status-chip ${a.status || 'absent'}">${(a.status || 'absent').toUpperCase()}</span></td>
+                                <td>
+                                    <button class="btn-action btn-danger" onclick="hapusSatuAbsensi(${a.id})" title="Hapus data ini">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('') : '<tr><td colspan="10" style="text-align:center;padding:40px;color:var(--text2);">📭 Belum ada data absensi</td></tr>'}
+                    </tbody>
+                </table>
+            </div>
+        </div>`;
+}
+
+// ==================== FUNGSI HAPUS ABSENSI ====================
+
+// Hapus semua data absensi
+async function hapusSemuaAbsensi() {
+    const data = await db.getAll('attendance');
+    
+    if (data.length === 0) {
+        return toast('📭 Tidak ada data absensi!', 'warning');
     }
     
-    function hideLoader() {
-        document.getElementById('global-loader').classList.remove('show');
+    if (!confirm(`⚠️ HAPUS SEMUA DATA ABSENSI?\n\nJumlah: ${data.length} record\n\nSemua data absensi akan dihapus permanen!\nData tidak bisa dikembalikan.\n\nKlik OK untuk melanjutkan.`)) return;
+    
+    if (!confirm('⚠️ KONFIRMASI FINAL\n\nKetik OK untuk menghapus semua data absensi.')) return;
+    
+    // Hapus per record
+    let deleted = 0;
+    for (const a of data) {
+        await db.del('attendance', a.id);
+        deleted++;
     }
-
-    function showPopup(title, msg, type = "success") {
-        const iconEl = document.getElementById('global-popup-icon');
-        document.getElementById('popup-title').innerText = title;
-        document.getElementById('popup-msg').innerText = msg;
-        
-        if (type === "error") {
-            iconEl.style.background = '#FEE2E2';
-            iconEl.style.color = '#EF4444';
-            iconEl.innerText = '✕';
-        } else {
-            iconEl.style.background = '#D1FAE5';
-            iconEl.style.color = '#10B981';
-            iconEl.innerText = '✓';
-        }
-        document.getElementById('global-success-popup').classList.add('show');
-    }
-
-    function tutupPopup() {
-        document.getElementById('global-success-popup').classList.remove('show');
-    }
-
-    function togglePasswordVisibility() {
-        const passInput = document.getElementById('login-pass');
-        const eyeIcon = document.getElementById('eye-icon');
-        if (passInput.type === "password") {
-            passInput.type = "text";
-            eyeIcon.innerText = "👁️";
-        } else {
-            passInput.type = "password";
-            eyeIcon.innerText = "👁️‍🗨️";
-        }
-    }
-
-    function updateAbsenButtonStates() {
-        const hariIni = new Date();
-        const hariAngka = hariIni.getDay(); 
-        const tanggalKey = hariIni.toDateString(); 
-
-        const btnIn = document.getElementById('btn-clockin');
-        const btnOut = document.getElementById('btn-clockout');
-        const btnLembur = document.getElementById('btn-lembur-trigger');
-        const btnIzin = document.getElementById('btn-submit-izin');
-        const statusBox = document.getElementById('status-absen-box');
-
-        if(hariAngka === 0) {
-            btnIn.disabled = true;
-            btnOut.disabled = true;
-            btnLembur.disabled = true;
-            btnIzin.disabled = true;
-            statusBox.style.background = "#FEE2E2";
-            statusBox.style.color = "#EF4444";
-            statusBox.innerText = "Hari Minggu: Sistem Terkunci Otomatis (Libur)";
-            return "minggu";
-        }
-
-        const userPrefix = idKaryawanTerlogin + "_";
-        const sudahClockIn = localStorage.getItem(userPrefix + 'in_' + tanggalKey);
-        const sudahClockOut = localStorage.getItem(userPrefix + 'out_' + tanggalKey);
-
-        if(sudahClockIn) {
-            btnIn.disabled = true; 
-        } else {
-            btnIn.disabled = false; 
-        }
-
-        if(sudahClockOut) {
-            btnOut.disabled = true; 
-        } else if(!sudahClockIn) {
-            btnOut.disabled = true; 
-        } else {
-            btnOut.disabled = false; 
-        }
-
-        if(sudahClockIn && sudahClockOut) {
-            statusBox.style.background = "#D1FAE5";
-            statusBox.style.color = "#065F46";
-            statusBox.innerText = "Status Hari Ini: Selesai (Sudah Clock In & Out)";
-        } else if(sudahClockIn) {
-            statusBox.style.background = "#FEF3C7";
-            statusBox.style.color = "#92400E";
-            statusBox.innerText = "Status Hari Ini: Sudah Clock In (Silakan Clock Out Jika Selesai Bekerja)";
-        } else {
-            statusBox.style.background = "#EFF6FF";
-            statusBox.style.color = "#1E40AF";
-            statusBox.innerText = "Status Hari Ini: Belum Melakukan Absensi";
-        }
-        return "kerja";
-    }
-
-    function prosesLogin() {
-        const idUser = document.getElementById('login-id').value;
-        const passUser = document.getElementById('login-pass').value;
-        
-        if(!idUser || !passUser) {
-            showPopup("Perhatian!", "Silahkan masukan kata sandi dan password dengan benar", "error");
-            return;
-        }
-
-        showLoader("Mengautentikasi akun...");
-
-        fetch(API_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "login", id: idUser, password: passUser })
-        })
-        .then(res => res.json())
-        .then(res => {
-            hideLoader();
-            if(res.status === "success") {
-                namaKaryawanTerlogin = res.nama;
-                idKaryawanTerlogin = idUser;
-
-                localStorage.setItem('login_emp_name', namaKaryawanTerlogin);
-                localStorage.setItem('login_emp_id', idKaryawanTerlogin);
-
-                bukaAplikasiUtama();
-            } else {
-                showPopup("Login Gagal", "Silahkan masukan kata sandi dan password dengan benar", "error");
-            }
-        })
-        .catch(err => {
-            hideLoader();
-            showPopup("Error", "Gagal terhubung ke server login.", "error");
-        });
-    }
-
-    // MEMBUKA POP-UP KONFIRMASI LOG OUT KUSTOM
-    function prosesLogout() {
-        document.getElementById('logout-confirm-popup').classList.add('show');
-    }
-
-    function tutupLogoutPopup() {
-        document.getElementById('logout-confirm-popup').classList.remove('show');
-    }
-
-    // EKSEKUSI LOGOUT JIKA "YAKIN" DITEKAN
-    function eksekusiLogout() {
-        tutupLogoutPopup();
-        
-        localStorage.removeItem('login_emp_name');
-        localStorage.removeItem('login_emp_id');
-
-        document.getElementById('login-id').value = "";
-        document.getElementById('login-pass').value = "";
-
-        document.getElementById('main-app').classList.add('hidden');
-        document.getElementById('header-profile-btn').classList.add('hidden');
-        document.getElementById('header-logout-btn').classList.add('hidden');
-        document.getElementById('page-login').classList.remove('hidden');
-        
-        switchPage('dashboard', document.getElementById('nav-home'));
-        showPopup("Sampai Jumpa!", "Anda telah keluar dari aplikasi.", "success");
-    }
-
-    function triggerAbsen(jenis) {
-        jenisAbsenTerpilih = jenis;
-        bukaKameraLangsung('Clock In/Out');
-    }
-
-    function bukaKameraLangsung(tipe) {
-        targetFoto = tipe;
-        document.getElementById('input-kamera').click();
-    }
-
-    function bukaGaleriIzin() {
-        targetFoto = 'Izin';
-        document.getElementById('input-galeri-izin').click();
-    }
-
-    document.getElementById('input-kamera').addEventListener('change', function(e) {
-        prosesFileGambar(e.target.files[0]);
-    });
-
-    document.getElementById('input-galeri-izin').addEventListener('change', function(e) {
-        prosesFileGambar(e.target.files[0]);
-    });
-
-    function prosesFileGambar(file) {
-        if (!file) return;
-        
-        showLoader("Memproses berkas...");
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            base64Foto = event.target.result;
-            hideLoader();
-
-            if (targetFoto === 'Clock In/Out') {
-                const previewBox = document.getElementById('box-preview-absen');
-                const imgEl = document.getElementById('prev-absen');
-                imgEl.src = base64Foto;
-                imgEl.style.display = 'block';
-                previewBox.classList.remove('hidden');
-                
-                eksekusiKirimAbsen();
-            } else if (targetFoto === 'Lembur') {
-                const imgEl = document.getElementById('prev-lembur');
-                const txtEl = document.getElementById('cam-text-lembur');
-                imgEl.src = base64Foto;
-                imgEl.style.display = 'block';
-                txtEl.style.display = 'none';
-            } else {
-                const imgEl = document.getElementById('prev-izin');
-                const txtEl = document.getElementById('cam-text-izin');
-                imgEl.src = base64Foto;
-                imgEl.style.display = 'block';
-                txtEl.style.display = 'none';
-            }
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function eksekusiKirimAbsen() {
-        dapatkanLokasi(function(success) {
-            if(!success) return; 
-
-            const PABRIK_LAT = -6.135961;  
-            const PABRIK_LNG = 106.609341; 
-            const MAKSIMAL_JARAK_METER = 500; 
-
-            const koordinatUser = userLocation.split(',');
-            const userLat = parseFloat(koordinatUser[0]);
-            const userLng = parseFloat(koordinatUser[1]);
-
-            const jarakKePabrik = hitungJarakMeter(userLat, userLng, PABRIK_LAT, PABRIK_LNG);
-
-            if (jarakKePabrik > MAKSIMAL_JARAK_METER) {
-                hideLoader();
-                showPopup(
-                    "Gagal Absen!", 
-                    `Anda berada di luar area kantor (Jarak: ${Math.round(jarakKePabrik)} meter). Silakan masuk ke area terdekat!`, 
-                    "error"
-                );
-                resetFormAbsen();
-                return; 
-            }
-
-            showLoader(`Memproses GPS & Mengirim ${jenisAbsenTerpilih}...`);
-            
-            const waktuSkrg = new Date().toLocaleTimeString('id-ID', { hour12: false });
-            const tglSkrg = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-
-            fetch(API_URL, {
-                method: "POST",
-                mode: "no-cors",
-                body: JSON.stringify({
-                    action: "absen",
-                    nama: namaKaryawanTerlogin,
-                    id: idKaryawanTerlogin,
-                    jenis: jenisAbsenTerpilih,
-                    waktu: waktuSkrg,
-                    lokasi: userLocation,
-                    foto: base64Foto
-                })
-            }).then(() => {
-                hideLoader();
-                
-                if (jenisAbsenTerpilih === 'Clock In') {
-                    showPopup("BERHASIL!", "Selamat Bekerja", "success");
-                } else if (jenisAbsenTerpilih === 'Clock Out') {
-                    showPopup("BERHASIL!", "Selamat Beristirahat", "success");
-                }
-                
-                const tanggalKey = new Date().toDateString();
-                const userPrefix = idKaryawanTerlogin + "_";
-                
-                if(jenisAbsenTerpilih === 'Clock In') {
-                    localStorage.setItem(userPrefix + 'in_' + tanggalKey, 'true');
-                    tambahStatistikLokal('tepatWaktu');
-                    catatKeHistoriLokal(tglSkrg, waktuSkrg, 'Hadir', 'Hadir');
-                } else if(jenisAbsenTerpilih === 'Clock Out') {
-                    localStorage.setItem(userPrefix + 'out_' + tanggalKey, 'true');
-                }
-
-                updateAbsenButtonStates();
-                resetFormAbsen();
-            }).catch(err => {
-                hideLoader();
-                showPopup("Error", "Gagal mengirim data presensi.", "error");
-            });
-        });
-    }
-
-    // ==========================================
-// FUNGSI MENDAPATKAN BATAS AWAL TANGGAL SIKLUS (TUTUP BUKU TGL 20)
-// ==========================================
-function dapatkanTanggalAwalSiklus() {
-  const hariIni = new Date();
-  const tanggalHariIni = hariIni.getDate();
-  let tahunAwal = hariIni.getFullYear();
-  let bulanAwal = hariIni.getMonth();
-  
-  if (tanggalHariIni <= 20) {
-    bulanAwal = bulanAwal - 1;
-    if (bulanAwal < 0) {
-      bulanAwal = 11;
-      tahunAwal = tahunAwal - 1;
-    }
-  }
-  return new Date(tahunAwal, bulanAwal, 21, 0, 0, 0);
+    
+    toast(`✅ ${deleted} data absensi berhasil dihapus!`, 'success');
+    await loadHRDRekap();
 }
-    function hitungJarakMeter(lat1, lon1, lat2, lon2) {
-        const R = 6371000; 
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = 
-            Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return R * c; 
+
+// Hapus satu data absensi
+async function hapusSatuAbsensi(id) {
+    const data = await db.get('attendance', id);
+    if (!data) return toast('Data tidak ditemukan!', 'error');
+    
+    if (!confirm(`Hapus absensi ini?\n\n${data.userName}\n${formatDate(data.date)}\n${data.checkIn || '-'} - ${data.checkOut || '-'}`)) return;
+    
+    await db.del('attendance', id);
+    toast('✅ 1 data absensi dihapus!', 'success');
+    await loadHRDRekap();
+}
+
+// Hapus absensi berdasarkan rentang tanggal
+async function hapusAbsensiByDate() {
+    const startDate = document.getElementById('filterRekapStart')?.value;
+    const endDate = document.getElementById('filterRekapEnd')?.value;
+    
+    if (!startDate && !endDate) {
+        return toast('⚠️ Pilih dulu rentang tanggal di filter atas!', 'warning');
     }
-
-    function dapatkanStatistikKaryawan() {
-        const statsObj = JSON.parse(localStorage.getItem('absensi_stats_v3')) || {};
-        if (!statsObj[idKaryawanTerlogin]) {
-            statsObj[idKaryawanTerlogin] = { tepatWaktu: 0, lembur: 0, izin: 0 };
-        }
-        return statsObj[idKaryawanTerlogin];
+    
+    const allData = await db.getAll('attendance');
+    let filtered = allData;
+    
+    if (startDate) filtered = filtered.filter(a => a.date >= startDate);
+    if (endDate) filtered = filtered.filter(a => a.date <= endDate);
+    
+    if (filtered.length === 0) {
+        return toast('📭 Tidak ada data di rentang tanggal tersebut!', 'warning');
     }
-
-    function tambahStatistikLokal(kategori) {
-        const statsObj = JSON.parse(localStorage.getItem('absensi_stats_v3')) || {};
-        if (!statsObj[idKaryawanTerlogin]) {
-            statsObj[idKaryawanTerlogin] = { tepatWaktu: 0, lembur: 0, izin: 0 };
-        }
-        statsObj[idKaryawanTerlogin][kategori] += 1;
-        localStorage.setItem('absensi_stats_v3', JSON.stringify(statsObj));
+    
+    if (!confirm(`⚠️ HAPUS DATA ABSENSI?\n\nRentang: ${startDate || 'Awal'} s/d ${endDate || 'Akhir'}\nJumlah: ${filtered.length} record\n\nData akan dihapus permanen!\n\nKlik OK untuk melanjutkan.`)) return;
+    
+    let deleted = 0;
+    for (const a of filtered) {
+        await db.del('attendance', a.id);
+        deleted++;
     }
-
-    function catatKeHistoriLokal(tanggal, waktu, kategori, keterangan) {
-        let history = JSON.parse(localStorage.getItem('absensi_history_v3')) || [];
-        history.unshift({
-            idKaryawan: idKaryawanTerlogin,
-            tanggal: tanggal,
-            waktu: waktu,
-            kategori: kategori,
-            keterangan: keterangan
-        });
-        localStorage.setItem('absensi_history_v3', JSON.stringify(history));
-    }
-
-    function resetFormAbsen() {
-        base64Foto = "";
-        document.getElementById('box-preview-absen').classList.add('hidden');
-    }
-
-    function bukaFormLembur() {
-        document.getElementById('form-lembur-area').classList.remove('hidden');
-        document.getElementById('form-lembur-area').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function tutupFormLembur() {
-        document.getElementById('form-lembur-area').classList.add('hidden');
-        resetFormLembur();
-    }
-
-    function resetFormLembur() {
-        document.getElementById('lembur-ket').value = "";
-        document.getElementById('prev-lembur').style.display = 'none';
-        document.getElementById('cam-text-lembur').style.display = 'block';
-        base64Foto = ""; 
-    }
-
-    function kirimFormLembur() {
-        const jenisLembur = document.getElementById('lembur-jenis').value;
-        const keteranganLembur = document.getElementById('lembur-ket').value;
-        
-        if(!keteranganLembur) return alert("Keterangan atau Alasan lembur wajib diisi!");
-
-        showLoader("Mencatat data lembur...");
-        const waktuSkrg = new Date().toLocaleTimeString('id-ID');
-        const tglSkrg = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-
-        fetch(API_URL, {
-            method: "POST",
-            mode: "no-cors",
-            body: JSON.stringify({
-                action: "lembur", 
-                nama: namaKaryawanTerlogin,
-                id: idKaryawanTerlogin,
-                jenis: jenisLembur,
-                keterangan: keteranganLembur,
-                foto: base64Foto
-            })
-        }).then(() => {
-            hideLoader();
-            showPopup("Berhasil!", "Data pengajuan lembur Anda telah dicatat ke sistem.", "success");
-            
-            tambahStatistikLokal('lembur');
-            catatKeHistoriLokal(tglSkrg, waktuSkrg, 'Lembur', `${jenisLembur}: ${keteranganLembur}`);
-
-            tutupFormLembur();
-        }).catch(err => {
-            hideLoader();
-            showPopup("Error", "Gagal mengirim data lembur.", "error");
-        });
-    }
-
-    function kirimIzin() {
-        const keperluan = document.getElementById('izin-keperluan').value;
-        if(!base64Foto) return alert("Wajib menyertakan bukti pendukung!");
-
-        showLoader("Mengunggah berkas izin...");
-        const waktuSkrg = new Date().toLocaleTimeString('id-ID');
-        const tglSkrg = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-
-        fetch(API_URL, {
-            method: "POST",
-            mode: "no-cors",
-            body: JSON.stringify({
-                action: "izin",
-                nama: namaKaryawanTerlogin,
-                id: idKaryawanTerlogin,
-                keperluan: keperluan,
-                foto: base64Foto
-            })
-        }).then(() => {
-            hideLoader();
-            showPopup("Izin Terkirim!", "Permohonan izin Anda berhasil dicatat ke sistem.", "success");
-            
-            tambahStatistikLokal('izin');
-            catatKeHistoriLokal(tglSkrg, waktuSkrg, 'Izin', keperluan);
-
-            base64Foto = "";
-            document.getElementById('prev-izin').style.display = 'none';
-            document.getElementById('cam-text-izin').style.display = 'block';
-        }).catch(err => {
-            hideLoader();
-            showPopup("Error", "Gagal mengunggah dokumen.", "error");
-        });
-    }
-
-    function switchPage(pageId, element) {
-        const targetPage = document.getElementById('page-' + pageId);
-        
-        document.querySelectorAll('.page').forEach(p => {
-            p.classList.add('hidden');
-        });
-        
-        targetPage.classList.remove('hidden');
-        targetPage.style.animation = 'none';
-        targetPage.offsetHeight; 
-        targetPage.style.animation = null; 
-
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        if (element) {
-            element.classList.add('active');
-        }
-        
-        if(pageId === 'dashboard') {
-            updateAbsenButtonStates();
-        }
-    }
-
-    function keHalamanProfil() {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        switchPage('profil', null);
-        muatProfil();
-    }
-
-    function dapatkanLokasi(callback) {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    userLocation = `${position.coords.latitude},${position.coords.longitude}`;
-                    callback(true);
-                },
-                () => {
-                    alert("⚠️ GPS Wajib Aktif untuk verifikasi lokasi!");
-                    callback(false);
-                },
-                { enableHighAccuracy: true, timeout: 7000 }
-            );
-        } else {
-            alert("Perangkat tidak mendukung pelacakan lokasi.");
-            callback(false);
-        }
-    }
-
-    function muatProfil() {
-        const pKey = idKaryawanTerlogin + "_profile_";
-        
-        document.getElementById('profile-emp-name').innerText = namaKaryawanTerlogin;
-        document.getElementById('profile-emp-id').innerText = idKaryawanTerlogin;
-        
-        document.getElementById('profile-emp-ttl').innerText = localStorage.getItem(pKey + "ttl") || "Belum diisi";
-        document.getElementById('profile-emp-phone').innerText = localStorage.getItem(pKey + "phone") || "Belum diisi";
-        document.getElementById('profile-emp-dept').innerText = localStorage.getItem(pKey + "dept") || "Staff Operational Hub";
-        
-        sinkronisasiFotoProfilUI();
-    }
-
-    function tampilkanEditProfilPopup() {
-        const pKey = idKaryawanTerlogin + "_profile_";
-        document.getElementById('edit-profile-ttl').value = localStorage.getItem(pKey + "ttl") || "";
-        document.getElementById('edit-profile-phone').value = localStorage.getItem(pKey + "phone") || "";
-        document.getElementById('edit-profile-dept').value = localStorage.getItem(pKey + "dept") || "Staff Operational Hub";
-        
-        document.getElementById('profile-edit-popup').classList.remove('hidden');
-    }
-
-    function tutupEditProfilPopup() {
-        document.getElementById('profile-edit-popup').classList.add('hidden');
-    }
-
-    function simpanEditProfil() {
-        const pKey = idKaryawanTerlogin + "_profile_";
-        localStorage.setItem(pKey + "ttl", document.getElementById('edit-profile-ttl').value);
-        localStorage.setItem(pKey + "phone", document.getElementById('edit-profile-phone').value);
-        localStorage.setItem(pKey + "dept", document.getElementById('edit-profile-dept').value);
-        
-        tutupEditProfilPopup();
-        muatProfil();
-        showPopup("Berhasil!", "Profil Karyawan berhasil diperbarui secara lokal.", "success");
-    }
-
-    function gantiFotoProfil() {
-        document.getElementById('input-avatar').click();
-    }
-
-    document.getElementById('input-avatar').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if(!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const base64Img = event.target.result;
-            localStorage.setItem(idKaryawanTerlogin + "_profile_avatar", base64Img);
-            
-            sinkronisasiFotoProfilUI();
-            sinkronisasiFotoProfilHeader();
-            
-            showPopup("Berhasil!", "Foto profil Anda telah diperbarui.", "success");
-        };
-        reader.readAsDataURL(file);
+    
+    toast(`✅ ${deleted} data absensi dihapus!\nRentang: ${startDate || 'Awal'} - ${endDate || 'Akhir'}`, 'success');
+    
+    // Reset filter
+    document.getElementById('filterRekapStart').value = '';
+    document.getElementById('filterRekapEnd').value = '';
+    
+    await loadHRDRekap();
+}
+async function filterRekapByDate() {
+    const start = document.getElementById('filterRekapStart')?.value;
+    const end = document.getElementById('filterRekapEnd')?.value;
+    const allAtt = await db.getAll('attendance');
+    let filtered = allAtt;
+    if (start) filtered = filtered.filter(a => a.date >= start);
+    if (end) filtered = filtered.filter(a => a.date <= end);
+    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+    document.getElementById('rekapTableBody').innerHTML = filtered.map(a => `<tr><td>${formatDate(a.date)}</td><td>${a.userName}</td><td>${a.userCompany||'-'}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td>${a.photoData?`<img src="${a.photoData}" class="img-thumb" onclick="showImage('${a.photoData}')">`:'-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td></tr>`).join('') || '<tr><td colspan="7" style="text-align:center;padding:20px;">Tidak ada data</td></tr>';
+}
+function filterRekapTable() {
+    const filter = document.getElementById('filterRekap')?.value.toLowerCase() || '';
+    document.querySelectorAll('#rekapTableBody tr').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
     });
+}
+async function loadHRDEmployees() {
+    document.getElementById('pageTitle').textContent = 'Data Karyawan';
+    const emps = await db.getAll('employees');
+    const companies = [...new Set(emps.map(e => e.company).filter(Boolean))];
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card"><h3>🏢 Pilih Perusahaan</h3><div style="display:flex;gap:6px;flex-wrap:wrap;">${companies.map(c => `<button class="btn-action btn-primary" onclick="showEmpByCompany('${c}')">${c} (${emps.filter(e=>e.company===c).length})</button>`).join('')}<button class="btn-action btn-success" onclick="openAddEmp()"><i class="fas fa-plus"></i> Tambah</button></div>
+        <div id="empTableContainer" style="margin-top:14px;"><p>Pilih perusahaan</p></div></div>`;
+}
+async function showEmpByCompany(company) {
+    const emps = await db.getAllByIdx('employees', 'company', company);
+    document.getElementById('empTableContainer').innerHTML = `
+        <h4>${company} (${emps.length} karyawan)</h4>
+        <table class="data-table" id="exportTable"><thead><tr><th>PIN</th><th>Nama</th><th>Jabatan</th><th>Divisi</th><th>Area</th><th>Jam</th><th>Aksi</th></tr></thead>
+        <tbody>${emps.map(e => `<tr><td>${e.pin}</td><td>${e.name}</td><td>${e.position||'-'}</td><td>${e.division||'-'}</td><td>${e.workArea||'-'}</td><td>${e.workStart}-${e.workEnd}</td>
+        <td><button class="btn-action btn-warning" onclick="openEditEmp(${e.id})"><i class="fas fa-edit"></i></button> <button class="btn-action btn-danger" onclick="deleteEmp(${e.id})"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table>
+        <button class="btn-action btn-success" style="margin-top:8px;" onclick="exportExcel()">Export Excel</button>`;
+}
+async function openEditEmp(id) {
+    const e = await db.get('employees', id);
+    document.getElementById('editModalTitle').textContent = 'Edit: ' + e.name;
+    document.getElementById('editModalContent').innerHTML = `
+        <div class="form-group"><label class="form-label">PIN</label><input class="form-input" id="edPin" value="${e.pin}"></div>
+        <div class="form-group"><label class="form-label">Nama</label><input class="form-input" id="edName" value="${e.name}"></div>
+        <div class="form-group"><label class="form-label">PT</label><input class="form-input" id="edCompany" value="${e.company||''}"></div>
+        <div class="form-group"><label class="form-label">Jabatan</label><input class="form-input" id="edPos" value="${e.position||''}"></div>
+        <div class="form-group"><label class="form-label">Divisi</label><input class="form-input" id="edDiv" value="${e.division||''}"></div>
+        <div class="form-group"><label class="form-label">Area</label><input class="form-input" id="edArea" value="${e.workArea||''}"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="form-group"><label class="form-label">Mulai</label><input type="time" class="form-input" id="edStart" value="${e.workStart||'08:00'}"></div><div class="form-group"><label class="form-label">Selesai</label><input type="time" class="form-input" id="edEnd" value="${e.workEnd||'17:00'}"></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;"><div class="form-group"><label class="form-label">Lat</label><input type="number" class="form-input" id="edLat" value="${e.latitude||''}" step="0.000001"></div><div class="form-group"><label class="form-label">Lng</label><input type="number" class="form-input" id="edLng" value="${e.longitude||''}" step="0.000001"></div><div class="form-group"><label class="form-label">Radius</label><input type="number" class="form-input" id="edRadius" value="${e.locationRadius||100}"></div></div>
+        <button class="btn-submit" onclick="saveEmpEdit(${e.id})">Simpan</button>`;
+    document.getElementById('editModal').classList.add('active');
+}
+async function saveEmpEdit(id) {
+    const e = await db.get('employees', id);
+    ['pin','name','company','workArea','workStart','workEnd'].forEach(f => { const el = document.getElementById('ed'+f.charAt(0).toUpperCase()+f.slice(1)); if (el) e[f] = el.value; });
+    e.position = document.getElementById('edPos')?.value || '';
+    e.division = document.getElementById('edDiv')?.value || '';
+    e.latitude = parseFloat(document.getElementById('edLat')?.value) || null;
+    e.longitude = parseFloat(document.getElementById('edLng')?.value) || null;
+    e.locationRadius = parseInt(document.getElementById('edRadius')?.value) || 100;
+    await db.put('employees', e);
+    closeEditModal(); await loadHRDEmployees(); toast('✅ Tersimpan!', 'success');
+}
+function openAddEmp() {
+    document.getElementById('editModalTitle').textContent = 'Tambah Karyawan';
+    document.getElementById('editModalContent').innerHTML = `
+        <div class="form-group"><label class="form-label">PIN</label><input class="form-input" id="edPin" maxlength="4"></div>
+        <div class="form-group"><label class="form-label">Nama</label><input class="form-input" id="edName"></div>
+        <div class="form-group"><label class="form-label">PT</label><input class="form-input" id="edCompany" value="PT Teknologi Maju"></div>
+        <div class="form-group"><label class="form-label">Jabatan</label><input class="form-input" id="edPos"></div>
+        <div class="form-group"><label class="form-label">Divisi</label><input class="form-input" id="edDiv"></div>
+        <div class="form-group"><label class="form-label">Area</label><input class="form-input" id="edArea" value="Kantor Pusat"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="form-group"><label class="form-label">Mulai</label><input type="time" class="form-input" id="edStart" value="08:00"></div><div class="form-group"><label class="form-label">Selesai</label><input type="time" class="form-input" id="edEnd" value="17:00"></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;"><div class="form-group"><label class="form-label">Lat</label><input type="number" class="form-input" id="edLat" value="-6.2088" step="0.000001"></div><div class="form-group"><label class="form-label">Lng</label><input type="number" class="form-input" id="edLng" value="106.8456" step="0.000001"></div><div class="form-group"><label class="form-label">Radius</label><input type="number" class="form-input" id="edRadius" value="100"></div></div>
+        <button class="btn-submit" onclick="addNewEmp()">Tambah</button>`;
+    document.getElementById('editModal').classList.add('active');
+}
+async function addNewEmp() {
+    const pin = document.getElementById('edPin').value;
+    if (!pin || pin.length !== 4) return toast('PIN 4 digit!', 'warning');
+    if (await db.getByIdx('employees', 'pin', pin)) return toast('PIN sudah dipakai!', 'error');
+    await db.put('employees', {
+        pin, name: document.getElementById('edName').value, company: document.getElementById('edCompany').value,
+        position: document.getElementById('edPos').value, division: document.getElementById('edDiv').value,
+        workArea: document.getElementById('edArea').value, workStart: document.getElementById('edStart').value,
+        workEnd: document.getElementById('edEnd').value, latitude: parseFloat(document.getElementById('edLat')?.value)||null,
+        longitude: parseFloat(document.getElementById('edLng')?.value)||null, locationRadius: parseInt(document.getElementById('edRadius')?.value)||100,
+        leaveQuota: 12, leaveUsed: 0, photo: '', active: true, department: '', email: ''
+    });
+    closeEditModal(); await loadHRDEmployees(); toast('✅ Ditambahkan!', 'success');
+}
+async function deleteEmp(id) { if (!confirm('Hapus?')) return; await db.del('employees', id); await loadHRDEmployees(); toast('Dihapus', 'info'); }
 
-    function sinkronisasiFotoProfilUI() {
-        const imgData = localStorage.getItem(idKaryawanTerlogin + "_profile_avatar");
-        const container = document.getElementById('profile-pic-box');
-        const defaultText = document.getElementById('profile-avatar-default');
-        
-        if (imgData) {
-            container.style.backgroundImage = `url(${imgData})`;
-            if(defaultText) defaultText.style.display = 'none';
-        } else {
-            container.style.backgroundImage = 'none';
-            if(defaultText) defaultText.style.display = 'block';
-        }
+async function loadHRDApproval() {
+    await db.markRead('all', 'approval');
+    document.getElementById('pageTitle').textContent = 'Persetujuan';
+    const reqs = await db.getAll('requests');
+    reqs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card">
+            <div class="section-header">
+                <h3>✅ Persetujuan Pengajuan</h3>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:11px;">Total: ${reqs.length}</span>
+                    <button class="btn-action btn-danger" onclick="hapusSemuaPengajuan()" style="padding:8px 14px;">
+                        <i class="fas fa-trash"></i> Hapus Semua
+                    </button>
+                    <button class="btn-action btn-warning" onclick="hapusPengajuanPending()" style="padding:8px 14px;">
+                        <i class="fas fa-clock"></i> Hapus Pending
+                    </button>
+                </div>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Jenis</th>
+                        <th>Tanggal</th>
+                        <th>Jam Lembur</th>
+                        <th>Alasan</th>
+                        <th>Bukti</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${reqs.map(r => `
+                        <tr>
+                            <td><strong>${r.userName}</strong></td>
+                            <td><span class="type-badge ${r.type}">${r.type.toUpperCase()}</span></td>
+                            <td>${formatDate(r.startDate)}${r.endDate&&r.endDate!==r.startDate?' - '+formatDate(r.endDate):''}</td>
+                            <td>${r.type==='lembur'?`<div style="background:var(--warning);color:#000;padding:4px 8px;border-radius:4px;font-weight:700;text-align:center;">${r.overtimeStart||'?'} - ${r.overtimeEnd||'?'}<br><span style="font-size:14px;">${r.hours||'?'}</span></div>`:'<span style="color:var(--text2);">-</span>'}</td>
+                            <td><small>${r.reason||'-'}</small></td>
+                            <td>${r.bukti?`<img src="${r.bukti}" class="img-thumb" onclick="showImage('${r.bukti}')">`:'-'}</td>
+                            <td><span class="status-chip ${r.status}">${r.status.toUpperCase()}</span></td>
+                            <td>
+                                ${r.status==='pending' ? `
+                                    <button class="btn-action btn-success" onclick="approveReq(${r.id})" title="Setujui">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button class="btn-action btn-danger" onclick="rejectReq(${r.id})" title="Tolak">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <button class="btn-action btn-warning" onclick="hapusSatuPengajuan(${r.id})" title="Hapus">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                ` : `
+                                    <button class="btn-action btn-danger" onclick="hapusSatuPengajuan(${r.id})" title="Hapus">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                `}
+                            </td>
+                        </tr>
+                    `).join('') || '<tr><td colspan="8" style="text-align:center;padding:40px;">✅ Tidak ada pengajuan</td></tr>'}
+                </tbody>
+            </table>
+        </div>`;
+    updateAllBadges();
+}
+
+async function approveReq(id) {
+    const r = await db.get('requests', id); r.status = 'approved'; r.approvedAt = new Date().toISOString();
+    await db.put('requests', r);
+    await db.addNotif(r.userId, 'history', `Pengajuan ${r.type} disetujui`);
+    // Hanya potong cuti jika tipe cuti
+    if (r.type === 'cuti') {
+        const e = await db.get('employees', r.userId);
+        if (e) { e.leaveUsed = (e.leaveUsed || 0) + 1; await db.put('employees', e); }
     }
-
-    function sinkronisasiFotoProfilHeader() {
-        const imgData = localStorage.getItem(idKaryawanTerlogin + "_profile_avatar");
-        const headerBtn = document.getElementById('header-profile-btn');
-        if (imgData) {
-            headerBtn.style.backgroundImage = `url(${imgData})`;
-            headerBtn.innerText = "";
-        } else {
-            headerBtn.style.backgroundImage = 'none';
-            headerBtn.innerText = "👤";
-        }
+    if (r.type === 'absen_miss') {
+        await db.put('attendance', { userId: r.userId, userName: r.userName, userDept: r.userDept, userCompany: '', date: r.startDate, checkIn: r.jenis==='checkin'?r.jam:null, checkOut: r.jenis==='checkout'?r.jam:null, totalHours: 0, status: 'present', photoData: r.bukti });
     }
+    await loadHRDApproval(); toast('✅ Disetujui!', 'success'); updateAllBadges();
+}
+async function rejectReq(id) {
+    const r = await db.get('requests', id); r.status = 'rejected';
+    await db.put('requests', r);
+    await db.addNotif(r.userId, 'history', `Pengajuan ${r.type} ditolak`);
+    await loadHRDApproval(); toast('Ditolak', 'info'); updateAllBadges();
+}
 
-    function renderChartAndList() {
-        document.getElementById('grafik-user-title').innerText = `Presensi ID: ${idKaryawanTerlogin}`;
+async function loadHRDAnnounce() {
+    document.getElementById('pageTitle').textContent = 'Pengumuman';
+    const ann = await db.getAll('announcements');
+    const companies = [...new Set((await db.getAll('employees')).map(e => e.company).filter(Boolean))];
+    ann.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card">
+            <h3>📢 Buat Pengumuman Baru</h3>
+            <div class="form-group">
+                <label class="form-label">Judul</label>
+                <input class="form-input" id="annTitle" placeholder="Judul pengumuman">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Isi</label>
+                <textarea class="form-input" id="annContent" rows="4" placeholder="Tulis isi pengumuman..."></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Target PT</label>
+                <select class="form-input" id="annTarget">
+                    <option value="all">Semua PT</option>
+                    ${companies.map(c => `<option value="${c}">${c}</option>`).join('')}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Upload File (opsional)</label>
+                <input type="file" id="annFile" class="form-input" accept="*">
+            </div>
+            <button class="btn-submit" onclick="sendAnnounce()">
+                <i class="fas fa-paper-plane"></i> Kirim Pengumuman
+            </button>
+        </div>
         
-        const ctx = document.getElementById('chartPie').getContext('2d');
-        if (myChart) myChart.destroy();
-
-        const stats = dapatkanStatistikKaryawan();
-
-        myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Hadir', 'Lembur', 'Izin'],
-                datasets: [{ 
-                    data: [stats.tepatWaktu, stats.lembur, stats.izin], 
-                    backgroundColor: ['#10B981', '#0F2C59', '#EF4444'] 
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'bottom' } },
-                onClick: (evt, activeElements) => {
-                    if (activeElements.length > 0) {
-                        tampilkanDetailGrafik(myChart.data.labels[activeElements[0].index]);
-                    }
-                }
-            }
-        });
-
-        tampilkanDaftarHistoriDefault();
-    }
-
-    function tampilkanDaftarHistoriDefault() {
-        const contentContainer = document.getElementById('detail-content');
-        const history = JSON.parse(localStorage.getItem('absensi_history_v3')) || [];
-        
-        const userHistory = history.filter(item => item.idKaryawan === idKaryawanTerlogin);
-
-        if(userHistory.length === 0) {
-            contentContainer.innerHTML = `<div style="text-align:center; padding:15px; color:#94A3B8;">Belum ada riwayat presensi.</div>`;
-            return;
-        }
-
-        let htmlContent = "";
-        userHistory.forEach(item => {
-            htmlContent += `
-                <div class="history-item">
-                    <div class="history-meta">
-                        <span style="color: var(--primary);">${item.tanggal}</span>
-                        <span style="color: #64748B;">${item.waktu} (${item.kategori})</span>
+        <div class="section-card">
+            <div class="section-header">
+                <h3>📋 Daftar Pengumuman (Total: ${ann.length})</h3>
+                <button class="btn-action btn-danger" onclick="hapusSemuaPengumuman()" title="Hapus semua pengumuman">
+                    <i class="fas fa-trash"></i> Hapus Semua
+                </button>
+            </div>
+            ${ann.length > 0 ? ann.map(a => `
+                <div style="background:var(--primary-light);padding:12px;border-radius:8px;margin-bottom:8px;position:relative;">
+                    <div style="display:flex;justify-content:space-between;align-items:start;">
+                        <strong style="font-size:14px;">${a.title}</strong>
+                        <button class="btn-action btn-danger" onclick="hapusPengumuman(${a.id})" title="Hapus pengumuman ini" style="padding:4px 8px;flex-shrink:0;">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
                     </div>
-                    <div style="font-weight: 500; color: #1E293B; margin-top: 5px;">
-                        Keterangan: ${item.keterangan === 'Hadir' ? 'Hadir (Presensi Biasa)' : item.keterangan}
+                    ${a.targetCompany && a.targetCompany !== 'all' ? `<span style="font-size:10px;color:var(--primary);background:rgba(0,102,255,0.1);padding:2px 8px;border-radius:4px;">🎯 ${a.targetCompany}</span>` : '<span style="font-size:10px;color:var(--success);background:rgba(0,200,83,0.1);padding:2px 8px;border-radius:4px;">🌐 Semua PT</span>'}
+                    <p style="font-size:12px;margin-top:6px;color:var(--text);">${a.content}</p>
+                    ${a.fileData ? `
+                        <a href="${a.fileData}" download="${a.fileName || 'file'}" class="btn-action btn-primary" style="margin-top:6px;">
+                            <i class="fas fa-download"></i> Download ${a.fileName || 'File'}
+                        </a>
+                    ` : ''}
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+                        <small style="color:var(--text2);">📅 ${new Date(a.createdAt).toLocaleString('id-ID')}</small>
+                        <small style="color:var(--text2);">👤 Oleh: ${a.fromName || 'HRD'}</small>
                     </div>
                 </div>
-            `;
-        });
-        contentContainer.innerHTML = htmlContent;
+            `).join('') : '<p style="text-align:center;padding:40px;color:var(--text2);">📭 Belum ada pengumuman</p>'}
+        </div>`;
+}
+
+// ==================== FUNGSI HAPUS PENGUMUMAN ====================
+
+// Hapus semua pengumuman
+async function hapusSemuaPengumuman() {
+    const data = await db.getAll('announcements');
+    
+    if (data.length === 0) {
+        return toast('📭 Tidak ada pengumuman!', 'warning');
     }
+    
+    if (!confirm(`⚠️ HAPUS SEMUA PENGUMUMAN?\n\nJumlah: ${data.length} pengumuman\n\nSemua pengumuman akan dihapus permanen!\n\nKlik OK untuk melanjutkan.`)) return;
+    
+    if (!confirm('⚠️ KONFIRMASI FINAL\n\nKetik OK untuk menghapus semua pengumuman.')) return;
+    
+    let deleted = 0;
+    for (const a of data) {
+        await db.del('announcements', a.id);
+        deleted++;
+    }
+    
+    toast(`✅ ${deleted} pengumuman berhasil dihapus!`, 'success');
+    await loadHRDAnnounce();
+}
 
-    function tampilkanDetailGrafik(kategori) {
-        const title = document.getElementById('detail-title');
-        const contentContainer = document.getElementById('detail-content');
-        
-        title.innerText = `Histori Kategori: ${kategori}`;
-        
-        const history = JSON.parse(localStorage.getItem('absensi_history_v3')) || [];
-        const keyMap = { 'Hadir': 'Hadir', 'Lembur': 'Lembur', 'Izin': 'Izin' };
-        
-        const filteredHist = history.filter(item => item.idKaryawan === idKaryawanTerlogin && item.kategori === keyMap[kategori]);
+// Hapus satu pengumuman
+async function hapusPengumuman(id) {
+    const data = await db.get('announcements', id);
+    if (!data) return toast('Data tidak ditemukan!', 'error');
+    
+    if (!confirm(`Hapus pengumuman ini?\n\nJudul: ${data.title}\nTarget: ${data.targetCompany || 'Semua'}\n\nKlik OK untuk menghapus.`)) return;
+    
+    await db.del('announcements', id);
+    toast('✅ Pengumuman berhasil dihapus!', 'success');
+    await loadHRDAnnounce();
+}
+async function sendAnnounce() {
+    const t = document.getElementById('annTitle').value, c = document.getElementById('annContent').value;
+    if (!t||!c) return toast('Isi semua!', 'warning');
+    const data = { title: t, content: c, targetCompany: document.getElementById('annTarget').value, fromName: APP.user.name, createdAt: new Date().toISOString() };
+    const file = document.getElementById('annFile')?.files[0];
+    if (file) { data.fileData = await new Promise(r => { const rd = new FileReader(); rd.onload = () => r(rd.result); rd.readAsDataURL(file); }); data.fileName = file.name; }
+    await db.put('announcements', data);
+    const emps = await db.getAll('employees');
+    const targets = data.targetCompany === 'all' ? emps : emps.filter(e => e.company === data.targetCompany);
+    for (const emp of targets) { await db.addNotif(emp.id, 'pengumuman', `Pengumuman baru: ${t}`); }
+    toast('✅ Terkirim!', 'success'); await loadHRDAnnounce(); updateAllBadges();
+}
 
-        if(filteredHist.length === 0) {
-            contentContainer.innerHTML = `<div style="text-align:center; padding:15px; color:#94A3B8;">Belum ada data untuk kategori ${kategori}.</div>`;
-            return;
-        }
-
-        let htmlContent = "";
-        filteredHist.forEach(item => {
-            htmlContent += `
-                <div class="history-item">
-                    <div class="history-meta">
-                        <span style="color: var(--primary);">${item.tanggal}</span>
-                        <span style="color: #64748B;">${item.waktu}</span>
+async function loadHRDWarnings() {
+    document.getElementById('pageTitle').textContent = 'Peringatan';
+    const emps = await db.getAll('employees');
+    const warns = await db.getAll('warnings');
+    warns.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card">
+            <h3>⚠️ Buat Surat Peringatan Baru</h3>
+            <div class="form-group">
+                <label class="form-label">Karyawan</label>
+                <select class="form-input" id="warnEmp">
+                    <option value="">-- Pilih Karyawan --</option>
+                    ${emps.map(e => `<option value="${e.id}">${e.name} (${e.company || '-'})</option>`).join('')}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Judul Peringatan</label>
+                <input class="form-input" id="warnTitle" placeholder="Contoh: Surat Peringatan 1 (SP1)">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Isi Peringatan</label>
+                <textarea class="form-input" id="warnContent" rows="4" placeholder="Tulis isi peringatan secara detail..."></textarea>
+            </div>
+            <button class="btn-submit" onclick="sendWarning()">
+                <i class="fas fa-exclamation-triangle"></i> Kirim Peringatan
+            </button>
+        </div>
+        
+        <div class="section-card">
+            <div class="section-header">
+                <h3>📋 Daftar Peringatan (Total: ${warns.length})</h3>
+                <button class="btn-action btn-danger" onclick="hapusSemuaPeringatan()" title="Hapus semua peringatan">
+                    <i class="fas fa-trash"></i> Hapus Semua
+                </button>
+            </div>
+            ${warns.length > 0 ? warns.map(w => `
+                <div style="background:#FFF8E1;padding:12px;border-radius:8px;margin-bottom:8px;border-left:4px solid var(--warning);position:relative;">
+                    <div style="display:flex;justify-content:space-between;align-items:start;">
+                        <div>
+                            <strong style="font-size:14px;color:#E65100;">⚠️ ${w.title}</strong>
+                            <span style="font-size:11px;color:var(--text2);margin-left:8px;">- ${w.userName || 'Karyawan'}</span>
+                        </div>
+                        <button class="btn-action btn-danger" onclick="hapusPeringatan(${w.id})" title="Hapus peringatan ini" style="padding:4px 8px;flex-shrink:0;">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
                     </div>
-                    <div style="font-weight: 500; color: #1E293B; margin-top: 5px;">
-                        Keterangan: ${item.keterangan === 'Hadir' ? 'Hadir (Presensi Biasa)' : item.keterangan}
+                    <p style="font-size:12px;margin-top:8px;color:var(--text);line-height:1.5;">${w.content}</p>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+                        <small style="color:var(--text2);">📅 ${new Date(w.createdAt).toLocaleString('id-ID')}</small>
+                        <small style="color:var(--text2);">👤 Dibuat oleh HRD</small>
                     </div>
                 </div>
-            `;
-        });
-        contentContainer.innerHTML = htmlContent;
+            `).join('') : '<p style="text-align:center;padding:40px;color:var(--text2);">📭 Belum ada surat peringatan</p>'}
+        </div>`;
+}
+
+// ==================== FUNGSI HAPUS PERINGATAN ====================
+
+// Hapus semua peringatan
+async function hapusSemuaPeringatan() {
+    const data = await db.getAll('warnings');
+    
+    if (data.length === 0) {
+        return toast('📭 Tidak ada peringatan!', 'warning');
     }
-
-    function cekNotifikasiPengumuman() {
-        fetch(API_URL + "?action=getInfo")
-        .then(res => res.json())
-        .then(data => {
-            if(data && data.length > 0 && !data.error) {
-                daftarPengumuman = data;
-                
-                const readList = JSON.parse(localStorage.getItem(idKaryawanTerlogin + "_read_announcements")) || [];
-                let adaYangBaru = false;
-                
-                data.forEach((ann, index) => {
-                    if(!readList.includes(index)) {
-                        adaYangBaru = true;
-                    }
-                });
-
-                if(adaYangBaru) {
-                    document.getElementById('notif-red-dot').style.display = 'block';
-                } else {
-                    document.getElementById('notif-red-dot').style.display = 'none';
-                }
-            }
-        }).catch(() => {});
+    
+    if (!confirm(`⚠️ HAPUS SEMUA PERINGATAN?\n\nJumlah: ${data.length} surat peringatan\n\nSemua peringatan akan dihapus permanen!\n\nKlik OK untuk melanjutkan.`)) return;
+    
+    if (!confirm('⚠️ KONFIRMASI FINAL\n\nKetik OK untuk menghapus semua surat peringatan.')) return;
+    
+    let deleted = 0;
+    for (const w of data) {
+        await db.del('warnings', w.id);
+        deleted++;
     }
+    
+    toast(`✅ ${deleted} surat peringatan berhasil dihapus!`, 'success');
+    await loadHRDWarnings();
+}
 
-    function bukaMenuInfo(element) {
-        switchPage('info', element);
-        muatInfo();
-    }
+// Hapus satu peringatan
+async function hapusPeringatan(id) {
+    const data = await db.get('warnings', id);
+    if (!data) return toast('Data tidak ditemukan!', 'error');
+    
+    if (!confirm(`Hapus peringatan ini?\n\nJudul: ${data.title}\nKaryawan: ${data.userName}\n\nKlik OK untuk menghapus.`)) return;
+    
+    await db.del('warnings', id);
+    toast('✅ Surat peringatan berhasil dihapus!', 'success');
+    await loadHRDWarnings();
+}
+async function sendWarning() {
+    const uid = parseInt(document.getElementById('warnEmp').value);
+    const emp = await db.get('employees', uid);
+    const title = document.getElementById('warnTitle').value, content = document.getElementById('warnContent').value;
+    if (!title || !content) return toast('Isi semua!', 'warning');
+    await db.put('warnings', { userId: uid, userName: emp.name, title, content, createdAt: new Date().toISOString() });
+    await db.addNotif(uid, 'warning', `Peringatan: ${title}`);
+    toast('✅ Terkirim!', 'success'); await loadHRDWarnings(); updateAllBadges();
+}
 
-    function muatInfo() {
-        const container = document.getElementById('info-container');
-        container.innerHTML = "<div class='card'>Memuat pengumuman terbaru...</div>";
-        
-        fetch(API_URL + "?action=getInfo")
-        .then(res => res.json())
-        .then(data => {
-            container.innerHTML = "";
-            if(data.length === 0 || data.error) {
-                container.innerHTML = "<div class='card'>Tidak ada pengumuman hari ini.</div>";
-                return;
-            }
-            
-            daftarPengumuman = data;
-            
-            data.forEach((item, index) => {
-                container.innerHTML += `
-                    <div class="card info-card" onclick="bukaPopupPengumuman(${index})">
-                        <strong style="color:var(--primary); font-size:16px; display:flex; justify-content:space-between; align-items:center;">
-                            <span>📢 ${item.judul}</span>
-                            <span style="font-size:11px; font-weight:normal; color:#94A3B8;">Ketuk Detail ➔</span>
-                        </strong>
-                        <p style="margin:8px 0 0 0; font-size:13px; color:#64748B; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                            ${item.konten}
-                        </p>
-                    </div>`;
-            });
-        }).catch(() => {
-            container.innerHTML = "<div class='card'>Gagal memuat info.</div>";
-        });
-    }
+async function loadHRDSlip() {
+    const emps = await db.getAll('employees');
+    const slips = await db.getAll('slip_gaji');
+    document.getElementById('pageTitle').textContent = 'Slip Gaji';
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card"><h3>💰 Buat Slip</h3>
+        <div class="form-group"><label class="form-label">Karyawan</label><select class="form-input" id="slipEmp">${emps.map(e => `<option value="${e.id}">${e.name}</option>`).join('')}</select></div>
+        <div class="form-group"><label class="form-label">Periode Mulai</label><input type="date" class="form-input" id="slipStart"></div>
+        <div class="form-group"><label class="form-label">Periode Selesai</label><input type="date" class="form-input" id="slipEnd"></div>
+        <div class="form-group"><label class="form-label">Gaji Pokok</label><input type="number" class="form-input" id="slipGaji"></div>
+        <div class="form-group"><label class="form-label">Bonus</label><input type="number" class="form-input" id="slipBonus" value="0"></div>
+        <div class="form-group"><label class="form-label">PPh</label><input type="number" class="form-input" id="slipPph" value="0"></div>
+        <div class="form-group"><label class="form-label">BPJS Kes</label><input type="number" class="form-input" id="slipBpjsKes" value="0"></div>
+        <div class="form-group"><label class="form-label">BPJS TK</label><input type="number" class="form-input" id="slipBpjsTk" value="0"></div>
+        <button class="btn-submit" onclick="createSlip()">Simpan</button></div>
+        <div class="section-card">${slips.map(s => `<div style="padding:8px;border:1px solid var(--border);border-radius:8px;margin-bottom:4px;"><strong>${s.userName} - ${s.periode}</strong> | Rp ${s.total?.toLocaleString()} <button class="btn-action btn-warning" onclick="editSlip(${s.id})"><i class="fas fa-edit"></i></button> <button class="btn-action btn-danger" onclick="deleteSlip(${s.id})"><i class="fas fa-trash"></i></button></div>`).join('')}</div>`;
+}
+async function createSlip() {
+    const uid = parseInt(document.getElementById('slipEmp').value);
+    const emp = await db.get('employees', uid);
+    const g = parseInt(document.getElementById('slipGaji').value)||0, b = parseInt(document.getElementById('slipBonus').value)||0;
+    const p = parseInt(document.getElementById('slipPph').value)||0, bk = parseInt(document.getElementById('slipBpjsKes').value)||0, bt = parseInt(document.getElementById('slipBpjsTk').value)||0;
+    await db.put('slip_gaji', { userId: uid, userName: emp.name, periode: `${document.getElementById('slipStart').value} s/d ${document.getElementById('slipEnd').value}`, gajiPokok: g, bonus: b, pph: p, bpjsKes: bk, bpjsTk: bt, total: g+b-p-bk-bt, createdAt: new Date().toISOString() });
+    await db.addNotif(uid, 'slip', 'Slip gaji baru tersedia');
+    toast('✅ Tersimpan!', 'success'); await loadHRDSlip(); updateAllBadges();
+}
+async function editSlip(id) {
+    const s = await db.get('slip_gaji', id);
+    document.getElementById('editModalTitle').textContent = 'Edit Slip';
+    document.getElementById('editModalContent').innerHTML = `
+        <div class="form-group"><label class="form-label">Gaji</label><input type="number" class="form-input" id="edGaji" value="${s.gajiPokok}"></div>
+        <div class="form-group"><label class="form-label">Bonus</label><input type="number" class="form-input" id="edBonus" value="${s.bonus||0}"></div>
+        <div class="form-group"><label class="form-label">PPh</label><input type="number" class="form-input" id="edPph" value="${s.pph||0}"></div>
+        <div class="form-group"><label class="form-label">BPJS Kes</label><input type="number" class="form-input" id="edBpjsKes" value="${s.bpjsKes||0}"></div>
+        <div class="form-group"><label class="form-label">BPJS TK</label><input type="number" class="form-input" id="edBpjsTk" value="${s.bpjsTk||0}"></div>
+        <button class="btn-submit" onclick="saveSlipEdit(${s.id})">Simpan</button>`;
+    document.getElementById('editModal').classList.add('active');
+}
+async function saveSlipEdit(id) {
+    const s = await db.get('slip_gaji', id);
+    s.gajiPokok = parseInt(document.getElementById('edGaji').value)||0;
+    s.bonus = parseInt(document.getElementById('edBonus').value)||0;
+    s.pph = parseInt(document.getElementById('edPph').value)||0;
+    s.bpjsKes = parseInt(document.getElementById('edBpjsKes').value)||0;
+    s.bpjsTk = parseInt(document.getElementById('edBpjsTk').value)||0;
+    s.total = s.gajiPokok + s.bonus - s.pph - s.bpjsKes - s.bpjsTk;
+    await db.put('slip_gaji', s);
+    closeEditModal(); await loadHRDSlip(); toast('✅ Diperbarui!', 'success');
+}
+async function deleteSlip(id) { await db.del('slip_gaji', id); await loadHRDSlip(); }
 
-    function bukaPopupPengumuman(index) {
-        const item = daftarPengumuman[index];
-        if(!item) return;
+async function loadHRDSettings() {
+    const hrds = await db.getAll('hrd');
+    document.getElementById('pageTitle').textContent = 'Pengaturan HRD';
+    document.getElementById('mainContent').innerHTML = `
+        <div class="section-card"><h3>👔 Akun HRD</h3><button class="btn-action btn-primary" onclick="openAddHRD()"><i class="fas fa-plus"></i> Tambah</button>
+        <table class="data-table"><thead><tr><th>Foto</th><th>Nama</th><th>Email</th><th>Aksi</th></tr></thead>
+        <tbody>${hrds.map(h => `<tr><td>${h.photo?`<img src="${h.photo}" style="width:30px;height:30px;border-radius:50%;">`:h.name.charAt(0)}</td><td>${h.name}</td><td>${h.email}</td><td><button class="btn-action btn-warning" onclick="openEditHRD(${h.id})"><i class="fas fa-edit"></i></button> ${!h.isPermanent?`<button class="btn-action btn-danger" onclick="deleteHRD(${h.id})"><i class="fas fa-trash"></i></button>`:'<small style="color:var(--primary);">Permanen</small>'}</td></tr>`).join('')}</tbody></table></div>`;
+}
+async function openEditHRD(id) {
+    const h = await db.get('hrd', id);
+    document.getElementById('editModalTitle').textContent = 'Edit HRD';
+    document.getElementById('editModalContent').innerHTML = `
+        <div style="text-align:center;">${h.photo?`<img src="${h.photo}" style="width:70px;height:70px;border-radius:50%;">`:'<div class="user-av" style="width:70px;height:70px;font-size:28px;margin:0 auto;">'+h.name.charAt(0)+'</div>'}
+        <button class="btn-action btn-primary" onclick="changeHRDPhoto(${h.id})"><i class="fas fa-camera"></i> Ganti Foto</button></div>
+        <div class="form-group"><label class="form-label">Nama</label><input class="form-input" id="hName" value="${h.name}"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="hEmail" value="${h.email}"></div>
+        <div class="form-group"><label class="form-label">Password Baru</label><div class="input-with-icon"><input type="password" class="form-input" id="hPass"><button class="toggle-vis" onclick="togglePass('hPass', this)"><i class="fas fa-eye-slash"></i></button></div></div>
+        <button class="btn-submit" onclick="saveHRD(${h.id})">Simpan</button>`;
+    document.getElementById('editModal').classList.add('active');
+}
+async function changeHRDPhoto(id) {
+    document.getElementById('attModal').classList.add('active');
+    document.getElementById('attModalTitle').textContent = 'Ganti Foto HRD';
+    await startCam();
+    document.querySelector('#attModal .btn-submit').onclick = async () => {
+        if (!APP.photo) return toast('Ambil foto!', 'warning');
+        const h = await db.get('hrd', id); h.photo = APP.photo; await db.put('hrd', h);
+        closeAttModal(); if (APP.user.id === id) { APP.user.photo = APP.photo; updateSidebar(); }
+        toast('✅ Tersimpan!', 'success');
+    };
+}
+async function saveHRD(id) {
+    const h = await db.get('hrd', id);
+    h.name = document.getElementById('hName').value || h.name;
+    h.email = document.getElementById('hEmail').value || h.email;
+    if (document.getElementById('hPass').value) h.password = document.getElementById('hPass').value;
+    await db.put('hrd', h);
+    if (APP.user.id === id) { APP.user.name = h.name; APP.user.email = h.email; updateSidebar(); }
+    closeEditModal(); await loadHRDSettings(); toast('✅ Diperbarui!', 'success');
+}
+function openAddHRD() {
+    document.getElementById('editModalTitle').textContent = 'Tambah HRD';
+    document.getElementById('editModalContent').innerHTML = `
+        <div class="form-group"><label class="form-label">Nama</label><input class="form-input" id="hName"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="hEmail"></div>
+        <div class="form-group"><label class="form-label">Password</label><div class="input-with-icon"><input type="password" class="form-input" id="hPass"><button class="toggle-vis" onclick="togglePass('hPass', this)"><i class="fas fa-eye-slash"></i></button></div></div>
+        <button class="btn-submit" onclick="addNewHRD()">Tambah</button>`;
+    document.getElementById('editModal').classList.add('active');
+}
+async function addNewHRD() {
+    await db.put('hrd', { name: document.getElementById('hName').value, email: document.getElementById('hEmail').value, password: document.getElementById('hPass').value, department: 'HR', isPermanent: false, photo: '' });
+    closeEditModal(); await loadHRDSettings(); toast('✅ Ditambahkan!', 'success');
+}
+async function deleteHRD(id) {
+    const h = await db.get('hrd', id);
+    if (h.isPermanent) return toast('Akun permanen!', 'warning');
+    await db.del('hrd', id); await loadHRDSettings();
+}
 
-        let readList = JSON.parse(localStorage.getItem(idKaryawanTerlogin + "_read_announcements")) || [];
-        if(!readList.includes(index)) {
-            readList.push(index);
-            localStorage.setItem(idKaryawanTerlogin + "_read_announcements", JSON.stringify(readList));
-        }
+function exportExcel() {
+    const table = document.getElementById('exportTable');
+    if (!table) return toast('Tidak ada data!', 'warning');
+    const wb = XLSX.utils.table_to_book(table, { sheet: "Data" });
+    XLSX.writeFile(wb, `Absensi_${new Date().toISOString().split('T')[0]}.xlsx`);
+    toast('✅ Export berhasil!', 'success');
+}
 
-        cekNotifikasiPengumuman();
-        showPopup(item.judul, item.konten, "success");
-    }
+function logout() {
+    APP.user = null; APP.role = null;
+    document.getElementById('dashboardPage').classList.remove('show');
+    document.getElementById('loginPage').style.display = 'flex';
+    clearPin();
+}
+function refreshData() { if (APP.role === 'employee') loadEmpDashboard(); else loadHRDDashboard(); }
 
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').then(() => console.log("PWA Active"));
-    }
+document.addEventListener('keydown', e => {
+    if (e.key >= '0' && e.key <= '9' && document.getElementById('loginPage').style.display !== 'none') inputPin(e.key);
+    if (e.key === 'Backspace') { APP.pin = APP.pin.slice(0, -1); updatePD(); }
+    if (e.key === 'Escape') { closeAttModal(); closeEditModal(); }
+});
 </script>
 </body>
 </html>
