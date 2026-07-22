@@ -513,29 +513,43 @@ async function loadEmpDashboard() {
 }
 async function loadEmpAttendance() { await loadEmpDashboard(); }
 
-async function loadReqForm(type) {
-    document.getElementById('pageTitle').textContent = { izin:'Izin', cuti:'Cuti', lembur:'Lembur', absen_miss:'Lupa Absen' }[type];
-    const sisa = (APP.user.leaveQuota||12) - (APP.user.leaveUsed||0);
-    let extraHTML = '';
-    if (type === 'lembur') {
-        extraHTML = `
-        <div class="form-group"><label class="form-label">Jam Mulai Lembur</label><input type="time" class="form-input" id="reqOvertimeStart"></div>
-        <div class="form-group"><label class="form-label">Jam Selesai Lembur</label><input type="time" class="form-input" id="reqOvertimeEnd" onchange="calcOvertime()"></div>
-        <div class="form-group"><label class="form-label">Total Jam Lembur</label><input class="form-input" id="reqOvertimeTotal" readonly placeholder="Otomatis terisi"></div>`;
-    }
-    if (type === 'absen_miss') {
-        extraHTML = `
-        <div class="form-group"><label class="form-label">Jenis</label><select class="form-input" id="reqJenis"><option value="checkin">Lupa Check In</option><option value="checkout">Lupa Check Out</option></select></div>
-        <div class="form-group"><label class="form-label">Jam (24 jam, contoh: 08:00 atau 17:30)</label><input type="time" class="form-input" id="reqJam"></div>`;
-    }
+async function loadEmpDashboard() {
+    document.getElementById('pageTitle').textContent = 'Dashboard';
+    const today = new Date().toISOString().split('T')[0];
+    const todayAtt = await db.getByIdx('attendance', 'uid_date', [APP.user.id, today]);
+    const userAtt = (await db.getAll('attendance')).filter(a => a.userId === APP.user.id);
+    const thisMonth = userAtt.filter(a => { const d = new Date(a.date); const n = new Date(); return d.getMonth() === n.getMonth(); });
+    const isSun = new Date().getDay() === 0;
+    const isIn = todayAtt?.checkIn && !todayAtt?.checkOut;
+    const isOut = todayAtt?.checkOut;
+    const workStart = APP.user.workStart || '08:00';
+    const workEnd = APP.user.workEnd || '17:00';
+    
     document.getElementById('mainContent').innerHTML = `
-        <div class="section-card"><h3>${type==='absen_miss'?'Lupa Absen':type.toUpperCase()}</h3>${type==='cuti'?`<p>Sisa: ${sisa}${sisa<=0?' (HABIS)':''}</p>`:''}
-        <div class="form-group"><label class="form-label">Tanggal</label><input type="date" id="reqDate" class="form-input"></div>
-        ${type!=='absen_miss'&&type!=='lembur'?'<div class="form-group"><label class="form-label">Tanggal Selesai</label><input type="date" id="reqEnd" class="form-input"></div>':''}
-        ${extraHTML}
-        <div class="form-group"><label class="form-label">Alasan</label><textarea id="reqReason" class="form-input" rows="3"></textarea></div>
-        <div class="form-group"><label class="form-label">Upload Bukti</label><input type="file" id="reqBukti" class="form-input" accept="image/*"></div>
-        <button class="btn-submit" onclick="submitReq('${type}')" ${type==='cuti'&&sisa<=0?'disabled':''}>Kirim</button></div>`;
+        <div class="welcome-banner">
+            <h2>${isSun ? '😴 NIKMATILAH WAKTU LIBURMU!' : 'Selamat Datang, ' + APP.user.name + '!'}</h2>
+            <p>${APP.user.company} • ${APP.user.workArea}</p>
+            <p style="font-size:12px;opacity:0.9;">🕐 Jam Kerja: ${workStart} - ${workEnd} WIB</p>
+            <div class="big-clock" id="heroClock">00:00:00</div>
+            ${isSun ? '<p style="font-size:16px;">☀️ Hari Minggu - Tidak perlu absen!</p>' : ''}
+            <div class="att-actions">
+                <button class="btn-att" style="background:rgba(0,200,83,0.3);" ${isSun||isIn||isOut?'disabled':''} onclick="openAttModal('checkin')"><i class="fas fa-sign-in-alt"></i> CHECK IN</button>
+                <button class="btn-att" style="background:rgba(255,61,0,0.3);" ${isSun||!isIn||isOut?'disabled':''} onclick="openAttModal('checkout')"><i class="fas fa-sign-out-alt"></i> CHECK OUT</button>
+            </div>
+            <div style="display:flex;gap:20px;margin-top:12px;font-size:12px;flex-wrap:wrap;">
+                <div>✅ In: <strong>${todayAtt?.checkIn || '--:--'}</strong></div>
+                <div>🔴 Out: <strong>${todayAtt?.checkOut || '--:--'}</strong></div>
+                <div>⏱️ Total: <strong>${todayAtt?.totalHours || '0'} jam</strong></div>
+            </div>
+        </div>
+        <div class="map-container"><iframe src="https://maps.google.com/maps?q=${APP.user.latitude||-6.2088},${APP.user.longitude||106.8456}&z=16&output=embed" width="100%" height="180"></iframe></div>
+        <div class="summary-box">
+            <div class="summary-item"><strong>${thisMonth.filter(a=>a.checkIn).length}</strong><small>Hadir</small></div>
+            <div class="summary-item"><strong>${thisMonth.filter(a=>a.status==='late').length}</strong><small>Terlambat</small></div>
+            <div class="summary-item"><strong>${(APP.user.leaveQuota||12)-(APP.user.leaveUsed||0)}</strong><small>Sisa Cuti</small></div>
+            <div class="summary-item"><strong>${workStart}</strong><small>Jam Masuk</small></div>
+        </div>`;
+    setInterval(() => { const el = document.getElementById('heroClock'); if (el) el.textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }, 1000);
 }
 function calcOvertime() {
     const start = document.getElementById('reqOvertimeStart')?.value;
@@ -634,8 +648,67 @@ async function loadEmpProfile() {
     const u = APP.user;
     document.getElementById('pageTitle').textContent = 'Profil';
     document.getElementById('mainContent').innerHTML = `
-        <div class="section-card"><div style="text-align:center;">${u.photo?`<img src="${u.photo}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--primary);">`:'<div class="user-av" style="width:80px;height:80px;font-size:32px;margin:0 auto;">'+u.name.charAt(0)+'</div>'}<h2>${u.name}</h2><p>${u.position||'-'} • ${u.division||'-'}</p><p>${u.company}</p><button class="btn-action btn-primary" onclick="changeProfilePhoto()"><i class="fas fa-camera"></i> Ganti Foto</button></div>
-        <div style="display:grid;gap:6px;margin-top:14px;font-size:12px;"><div><strong>PIN:</strong> ${u.pin}</div><div><strong>Area:</strong> ${u.workArea||'-'}</div><div><strong>Jam:</strong> ${u.workStart}-${u.workEnd}</div></div></div>`;
+        <div class="section-card">
+            <div style="text-align:center;">
+                ${u.photo ? `<img src="${u.photo}" id="profilePhotoPreview" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--primary);">` : '<div class="user-av" id="profilePhotoPreview" style="width:80px;height:80px;font-size:32px;margin:0 auto;">'+u.name.charAt(0)+'</div>'}
+                <h2>${u.name}</h2>
+                <p>${u.position||'-'} • ${u.division||'-'}</p>
+                <p>${u.company}</p>
+                
+                <!-- UPLOAD DARI GALERI -->
+                <input type="file" id="galleryPhotoInput" accept="image/*" style="display:none;" onchange="uploadFromGallery()">
+                <button class="btn-action btn-primary" onclick="document.getElementById('galleryPhotoInput').click()">
+                    <i class="fas fa-image"></i> Upload dari Galeri
+                </button>
+                
+                <!-- AMBIL FOTO KAMERA -->
+                <button class="btn-action btn-primary" onclick="changeProfilePhoto()" style="margin-left:5px;">
+                    <i class="fas fa-camera"></i> Ambil Foto
+                </button>
+            </div>
+            <div style="display:grid;gap:6px;margin-top:14px;font-size:12px;">
+                <div><strong>PIN:</strong> ${u.pin}</div>
+                <div><strong>Email:</strong> ${u.email||'-'}</div>
+                <div><strong>PT:</strong> ${u.company||'-'}</div>
+                <div><strong>Area Kerja:</strong> ${u.workArea||'-'}</div>
+                <div style="background:var(--primary-light);padding:8px;border-radius:8px;">
+                    <strong>🕐 Jam Kerja:</strong> ${u.workStart || '08:00'} - ${u.workEnd || '17:00'} WIB
+                </div>
+                <div><strong>Lokasi Absensi:</strong> ${u.latitude?.toFixed(4) || '-'}, ${u.longitude?.toFixed(4) || '-'}</div>
+                <div><strong>Radius:</strong> ${u.locationRadius || 100} meter</div>
+                <div><strong>Sisa Cuti:</strong> ${(u.leaveQuota||12) - (u.leaveUsed||0)} hari</div>
+            </div>
+        </div>`;
+}
+
+// Upload foto dari galeri
+async function uploadFromGallery() {
+    const fileInput = document.getElementById('galleryPhotoInput');
+    const file = fileInput.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return toast('❌ File harus gambar!', 'error');
+    if (file.size > 5 * 1024 * 1024) return toast('❌ Maksimal 5MB!', 'error');
+    
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        APP.user.photo = e.target.result;
+        await db.put('employees', APP.user);
+        updateSidebar();
+        const preview = document.getElementById('profilePhotoPreview');
+        if (preview) {
+            if (preview.tagName === 'IMG') preview.src = e.target.result;
+            else {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.id = 'profilePhotoPreview';
+                img.style.cssText = 'width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--primary);';
+                preview.parentNode.replaceChild(img, preview);
+            }
+        }
+        toast('✅ Foto profil berhasil diupdate!', 'success');
+        fileInput.value = '';
+    };
+    reader.readAsDataURL(file);
 }
 async function changeProfilePhoto() {
     document.getElementById('attModal').classList.add('active');
