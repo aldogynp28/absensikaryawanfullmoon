@@ -4,29 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AbsensiPro | Sistem Absensi Profesional</title>
-    
-    <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#0066FF">
     <meta name="apple-mobile-web-app-title" content="AbsensiPro">
     <meta name="theme-color" content="#0066FF">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="AbsensiPro">
-    
-    <!-- Manifest PWA -->
-    <link rel="manifest" href="data:application/json;base64,ewogICAgIm5hbWUiOiAiQWJzZW5zaVBybyIsCiAgICAic2hvcnRfbmFtZSI6ICJBYnNlbnNpUHJvIiwKICAgICJkZXNjcmlwdGlvbiI6ICJTaXN0ZW0gQWJzZW5zaSBLYXJ5YXdhbiBQcm9mZXNpb25hbCIsCiAgICAic3RhcnRfdXJsIjogIi8iLAogICAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDA2NkZGIiwKICAgICJ0aGVtZV9jb2xvciI6ICIjMDA2NkZGIiwKICAgICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdC1wcmltYXJ5IiwKICAgICJpY29ucyI6IFsKICAgICAgICB7CiAgICAgICAgICAgICJzcmMiOiAic2lkawsxLnBuZyIsCiAgICAgICAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAic3JjIjogInNpZGlrMS5wbmciLAogICAgICAgICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICAgICAgICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIKICAgICAgICB9CiAgICBdCn0=">
-    
-    <!-- Apple Touch Icon -->
+    <link rel="manifest" href="data:application/json;base64,ewogICAgIm5hbWUiOiAiQWJzZW5zaVBybyIsCiAgICAic2hvcnRfbmFtZSI6ICJBYnNlbnNpUHJvIiwKICAgICJzdGFydF91cmwiOiAiLyIsCiAgICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAgICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDY2RkYiLAogICAgInRoZW1lX2NvbG9yIjogIiMwMDY2RkYiCn0=">
     <link rel="apple-touch-icon" href="sidik1.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="sidik1.png">
-    <link rel="apple-touch-icon" sizes="512x512" href="sidik1.png">
-    
-    <!-- Favicon -->
     <link rel="icon" href="sidik1.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="sidik1.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="sidik1.png">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -34,8 +20,7 @@
         :root {
             --bg: #F8FAFC; --card: #FFFFFF; --text: #1E293B; --text2: #64748B;
             --border: #E2E8F0; --input-bg: #F1F5F9; --hover: #F1F5F9;
-            --primary: #0066FF; --primary-dark: #0052CC; --primary-light: #E6F0FF;
-            --success: #00C853; --warning: #FFB300; --danger: #FF3D00; --purple: #7C4DFF;
+            --primary: #0066FF; --success: #00C853; --warning: #FFB300; --danger: #FF3D00;
             --shadow: 0 1px 3px rgba(0,0,0,0.1); --radius: 12px; --radius-lg: 16px;
             --sidebar-w: 260px; --sidebar-c: 65px; --transition: all 0.3s ease;
         }
@@ -53,8 +38,8 @@
         .role-tab { flex: 1; padding: 10px; border: none; background: transparent; color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 10px; font-family: inherit; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 6px; }
         .role-tab.active { background: var(--card); color: var(--primary); box-shadow: var(--shadow); }
         .pin-display { display: flex; gap: 10px; justify-content: center; margin: 16px 0; }
-        .pin-dot { width: 42px; height: 42px; border: 3px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; background: var(--input-bg); transition: var(--transition); }
-        .pin-dot.filled { border-color: var(--primary); background: var(--primary-light); }
+        .pin-dot { width: 42px; height: 42px; border: 3px solid #d0d0d0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; background: #f5f5f5; color: #333; transition: var(--transition); }
+        .pin-dot.filled { border-color: var(--primary); background: #d0e0ff; color: var(--primary); }
         .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
         .num-btn { padding: 13px; border: 2px solid var(--border); background: var(--card); border-radius: var(--radius); font-size: 17px; font-weight: 700; cursor: pointer; font-family: inherit; color: var(--text); transition: var(--transition); }
         .num-btn:hover { background: var(--primary-light); border-color: var(--primary); }
@@ -87,7 +72,7 @@
         .main-area { flex: 1; margin-left: var(--sidebar-w); transition: var(--transition); } .main-area.expanded { margin-left: var(--sidebar-c); }
         .topbar { background: var(--card); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
         .topbar-left { display: flex; align-items: center; gap: 10px; }
-        .sidebar-toggle { width: 34px; height: 34px; border-radius: 8px; border: none; background: var(--input-bg); color: var(--text2); font-size: 16px; cursor: pointer; }
+        .sidebar-toggle { width: 34px; height: 34px; border-radius: 8px; border: none; background: var(--input-bg); color: var(--text2); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .topbar-left h2 { font-size: 16px; font-weight: 800; } .datetime-inline { font-size: 11px; color: var(--text2); display: flex; gap: 8px; }
         .theme-btn { width: 34px; height: 34px; border-radius: 8px; border: none; background: var(--input-bg); color: var(--text2); font-size: 16px; cursor: pointer; }
         .content-area { padding: 20px; }
@@ -95,7 +80,7 @@
         .big-clock { font-size: 38px; font-weight: 800; font-family: 'Courier New', monospace; margin: 10px 0; }
         .att-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
         .btn-att { flex: 1; min-width: 110px; padding: 12px 16px; border: 2px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; border-radius: var(--radius); font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .btn-att:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn-att:disabled { opacity: 0.3; cursor: not-allowed; background: rgba(128,128,128,0.2); }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
         .stat-card { background: var(--card); padding: 14px; border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border); }
         .stat-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-bottom: 6px; }
@@ -137,11 +122,9 @@
         .img-preview { max-width: 100%; max-height: 400px; border-radius: 8px; display: block; margin: 10px auto; }
         .chart-sm { max-height: 200px; } .chart-sm canvas { max-height: 200px !important; }
         
-        /* Confirm Dialog */
         .confirm-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(3px); }
         .confirm-overlay.active { display: flex; }
-        .confirm-dialog { background: var(--card); border-radius: var(--radius-lg); padding: 24px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: popIn 0.3s ease; }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        .confirm-dialog { background: var(--card); border-radius: var(--radius-lg); padding: 24px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
         .confirm-icon { font-size: 48px; margin-bottom: 12px; }
         .confirm-dialog h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
         .confirm-dialog p { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
@@ -150,7 +133,10 @@
         .confirm-buttons button { flex: 1; padding: 12px; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
         .confirm-btn-cancel { background: var(--input-bg); color: var(--text); }
         .confirm-btn-danger { background: var(--danger); color: white; }
-        .confirm-btn-warning { background: var(--warning); color: #000; }
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 3000; align-items: center; justify-content: center; }
+        .loading-overlay.active { display: flex; }
+        .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         @media (max-width: 768px) {
             .sidebar { position: fixed; left: -280px; top: 0; width: 280px !important; height: 100vh; z-index: 1000; transition: left 0.3s ease; box-shadow: 5px 0 25px rgba(0,0,0,0.3); }
@@ -190,8 +176,8 @@
             </div>
         </div>
         <div id="hrdLoginSection" style="display:none;">
-            <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="hrdEmail" value="" placeholder="Masukkan email HRD"></div>
-            <div class="form-group"><label class="form-label">Password</label><div class="input-with-icon"><input type="password" class="form-input" id="hrdPassword" value="" placeholder="Masukkan password"><button class="toggle-vis" onclick="togglePass('hrdPassword', this)"><i class="fas fa-eye-slash"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="hrdEmail" placeholder="Masukkan email HRD"></div>
+            <div class="form-group"><label class="form-label">Password</label><div class="input-with-icon"><input type="password" class="form-input" id="hrdPassword" placeholder="Masukkan password"><button class="toggle-vis" onclick="togglePass('hrdPassword', this)"><i class="fas fa-eye-slash"></i></button></div></div>
             <button class="btn-submit" onclick="loginHRD()"><i class="fas fa-sign-in-alt"></i> Masuk</button>
         </div>
     </div>
@@ -200,10 +186,7 @@
 <div id="dashboardPage" class="app-layout">
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebarMobile()"></div>
     <aside class="sidebar" id="sidebar">
-        <div class="sidebar-brand">
-            <img src="sidik1.png" width="40" height="40" style="border-radius:10px;" alt="Logo">
-            <h2>AbsensiPro</h2>
-        </div>
+        <div class="sidebar-brand"><img src="sidik1.png" width="40" height="40" style="border-radius:10px;" alt="Logo"><h2>AbsensiPro</h2></div>
         <nav class="sidebar-nav" id="sidebarNav"></nav>
         <div class="sidebar-footer">
             <div class="user-card"><img id="sidebarPhoto" src="" style="display:none;"><div id="sidebarAvatar" class="user-av" style="display:flex;">B</div><div><strong id="sidebarName" style="font-size:11px;">User</strong><small id="sidebarRole" style="font-size:9px;color:var(--text2);">Role</small></div></div>
@@ -226,111 +209,40 @@
     </main>
 </div>
 
-<div id="attModal" class="modal-overlay">
-    <div class="modal-dialog"><div class="modal-header"><h3 id="attModalTitle">Check In</h3><button class="modal-close" onclick="closeAttModal()">✕</button></div>
-    <div class="modal-body">
-        <div class="camera-container"><video id="camVideo" autoplay playsinline></video><canvas id="camCanvas" style="display:none;"></canvas></div>
-        <div style="text-align:center;margin-bottom:8px;"><img id="photoPreview" style="display:none;" class="img-preview"></div>
-        <button class="btn-action btn-primary" id="btnCapture" onclick="capturePhoto()" style="margin-bottom:6px;"><i class="fas fa-camera"></i> Ambil Foto</button>
-        <button class="btn-action btn-warning" id="btnRetake" onclick="retakePhoto()" style="display:none;margin-bottom:6px;"><i class="fas fa-redo"></i> Ulangi</button>
-        <div style="background:var(--input-bg);padding:10px;border-radius:8px;margin-bottom:8px;"><i class="fas fa-map-marker-alt"></i> <span id="locText">Mendeteksi lokasi...</span></div>
-        <div class="map-container" id="miniMap"></div>
-        <button class="btn-submit" onclick="submitAtt()"><i class="fas fa-check-circle"></i> Konfirmasi</button>
-    </div></div>
-</div>
+<div id="attModal" class="modal-overlay"><div class="modal-dialog"><div class="modal-header"><h3 id="attModalTitle">Check In</h3><button class="modal-close" onclick="closeAttModal()">✕</button></div><div class="modal-body"><div class="camera-container"><video id="camVideo" autoplay playsinline></video><canvas id="camCanvas" style="display:none;"></canvas></div><div style="text-align:center;margin-bottom:8px;"><img id="photoPreview" style="display:none;" class="img-preview"></div><button class="btn-action btn-primary" id="btnCapture" onclick="capturePhoto()" style="margin-bottom:6px;"><i class="fas fa-camera"></i> Ambil Foto</button><button class="btn-action btn-warning" id="btnRetake" onclick="retakePhoto()" style="display:none;margin-bottom:6px;"><i class="fas fa-redo"></i> Ulangi</button><div style="background:var(--input-bg);padding:10px;border-radius:8px;margin-bottom:8px;"><i class="fas fa-map-marker-alt"></i> <span id="locText">Mendeteksi lokasi...</span></div><div class="map-container" id="miniMap"></div><button class="btn-submit" onclick="submitAtt()"><i class="fas fa-check-circle"></i> Konfirmasi</button></div></div></div>
 
-<div id="editModal" class="modal-overlay">
-    <div class="modal-dialog"><div class="modal-header"><h3 id="editModalTitle">Edit</h3><button class="modal-close" onclick="closeEditModal()">✕</button></div>
-    <div class="modal-body" id="editModalContent"></div></div>
-</div>
+<div id="editModal" class="modal-overlay"><div class="modal-dialog"><div class="modal-header"><h3 id="editModalTitle">Edit</h3><button class="modal-close" onclick="closeEditModal()">✕</button></div><div class="modal-body" id="editModalContent"></div></div></div>
 
-<!-- POP UP KONFIRMASI HAPUS -->
-<div class="confirm-overlay" id="confirmOverlay">
-    <div class="confirm-dialog">
-        <div class="confirm-icon" id="confirmIcon">⚠️</div>
-        <h3 id="confirmTitle">Konfirmasi Hapus</h3>
-        <p id="confirmMessage">Apakah Anda yakin ingin menghapus data ini?</p>
-        <div class="confirm-info" id="confirmInfo" style="display:none;"></div>
-        <div class="confirm-buttons">
-            <button class="confirm-btn-cancel" onclick="closeConfirm()">❌ Batal</button>
-            <button class="confirm-btn-danger" id="confirmBtnDelete" onclick="executeConfirm()">🗑️ Hapus</button>
-        </div>
-    </div>
-</div>
+<div class="confirm-overlay" id="confirmOverlay"><div class="confirm-dialog"><div class="confirm-icon" id="confirmIcon">⚠️</div><h3 id="confirmTitle">Konfirmasi</h3><p id="confirmMessage">Yakin?</p><div class="confirm-info" id="confirmInfo" style="display:none;"></div><div class="confirm-buttons"><button class="confirm-btn-cancel" onclick="closeConfirm()">❌ Batal</button><button class="confirm-btn-danger" id="confirmBtnDelete" onclick="executeConfirm()">🗑️ Hapus</button></div></div></div>
+
+<div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div></div>
 
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-// ==================== DATABASE ====================
-class DB {
-    constructor() { this.name = 'AbsProFinal'; this.ver = 10; }
-    async open() {
-        return new Promise((r, j) => {
-            const req = indexedDB.open(this.name, this.ver);
-            req.onerror = () => j(req.error);
-            req.onsuccess = () => { this.db = req.result; r(this.db); };
-            req.onupgradeneeded = (e) => {
-                const d = e.target.result;
-                if (!d.objectStoreNames.contains('employees')) { const s = d.createObjectStore('employees', { keyPath: 'id' }); s.createIndex('pin', 'pin', { unique: true }); s.createIndex('company', 'company', { unique: false }); }
-                if (!d.objectStoreNames.contains('hrd')) { const s = d.createObjectStore('hrd', { keyPath: 'id', autoIncrement: true }); s.createIndex('email', 'email', { unique: true }); }
-                if (!d.objectStoreNames.contains('attendance')) { const s = d.createObjectStore('attendance', { keyPath: 'id', autoIncrement: true }); s.createIndex('uid_date', ['userId', 'date'], { unique: true }); }
-                if (!d.objectStoreNames.contains('requests')) { d.createObjectStore('requests', { keyPath: 'id', autoIncrement: true }); }
-                if (!d.objectStoreNames.contains('announcements')) { d.createObjectStore('announcements', { keyPath: 'id', autoIncrement: true }); }
-                if (!d.objectStoreNames.contains('slip_gaji')) { d.createObjectStore('slip_gaji', { keyPath: 'id', autoIncrement: true }); }
-                if (!d.objectStoreNames.contains('warnings')) { d.createObjectStore('warnings', { keyPath: 'id', autoIncrement: true }); }
-                if (!d.objectStoreNames.contains('notifications')) { const s = d.createObjectStore('notifications', { keyPath: 'id', autoIncrement: true }); s.createIndex('userId', 'userId', { unique: false }); }
-            };
-        });
-    }
-    async getAll(s) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readonly'); const req = t.objectStore(s).getAll(); req.onsuccess = () => r(req.result); req.onerror = () => j(req.error); }); }
-    async get(s, id) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readonly'); const req = t.objectStore(s).get(id); req.onsuccess = () => r(req.result); req.onerror = () => j(req.error); }); }
-    async getByIdx(s, idx, val) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readonly'); const req = t.objectStore(s).index(idx).get(val); req.onsuccess = () => r(req.result); req.onerror = () => j(req.error); }); }
-    async getAllByIdx(s, idx, val) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readonly'); const req = t.objectStore(s).index(idx).getAll(val); req.onsuccess = () => r(req.result); req.onerror = () => j(req.error); }); }
-    async put(s, data) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readwrite'); const st = t.objectStore(s); if (data.id) st.put(data); else { data.id = Date.now(); st.add(data); } t.oncomplete = () => r(data); t.onerror = () => j(t.error); }); }
-    async del(s, id) { await this.open(); return new Promise((r, j) => { const t = this.db.transaction([s], 'readwrite'); t.objectStore(s).delete(id); t.oncomplete = () => r(); t.onerror = () => j(t.error); }); }
-    async addNotif(userId, menuType, msg) { await this.put('notifications', { userId, menuType, msg, read: false, createdAt: new Date().toISOString() }); }
-    async getUnreadCount(userId, menuType) { const all = await this.getAll('notifications'); return all.filter(n => n.userId === userId && n.menuType === menuType && !n.read).length; }
-    async markRead(userId, menuType) { const all = await this.getAll('notifications'); for (const n of all) { if (n.userId === userId && n.menuType === menuType && !n.read) { n.read = true; await this.put('notifications', n); } } }
-    async init() {
-        const emps = await this.getAll('employees');
-        if (emps.length === 0) {
-            const def = [
-                { id: 1001, pin: '1001', name: 'Budi Santoso', email: 'budi@demo.com', position: 'Staff IT', department: 'Technology', division: 'Development', company: 'PT Teknologi Maju', workArea: 'Kantor Pusat Jakarta', workStart: '08:00', workEnd: '17:00', latitude: -6.2088, longitude: 106.8456, locationRadius: 100, leaveQuota: 12, leaveUsed: 0, photo: '', active: true },
-                { id: 1002, pin: '1002', name: 'Siti Rahayu', email: 'siti@demo.com', position: 'Marketing Lead', department: 'Marketing', division: 'Digital', company: 'PT Kreatif Nusantara', workArea: 'Kantor Cabang Bandung', workStart: '09:00', workEnd: '18:00', latitude: -6.2000, longitude: 106.8400, locationRadius: 150, leaveQuota: 12, leaveUsed: 0, photo: '', active: true },
-                { id: 1003, pin: '1003', name: 'Ahmad Fauzi', email: 'ahmad@demo.com', position: 'Finance Analyst', department: 'Finance', division: 'Accounting', company: 'PT Teknologi Maju', workArea: 'Kantor Pusat Jakarta', workStart: '08:00', workEnd: '17:00', latitude: -6.2100, longitude: 106.8500, locationRadius: 100, leaveQuota: 0, leaveUsed: 0, photo: '', active: true },
-            ];
-            for (const e of def) await this.put('employees', e);
-        }
-        const hrds = await this.getAll('hrd');
-        if (hrds.length === 0) {
-            await this.put('hrd', { id: 999, name: 'Aldo Giyantoro Putra', email: 'hrd@demo.com', password: 'demo123', department: 'Human Resources', isPermanent: true, photo: '' });
-        }
-    }
-}
+const API_URL = 'https://script.google.com/macros/s/AKfycbw8AgglT2UVjFiHakFR2lZkOqCmzvrnXMheMMLOMqFpxmZuQXTYGbTYwVj5SJkHW_Pb/exec';
 
-const db = new DB();
-const APP = { user: null, role: null, pin: '', attType: null, photo: null, loc: null, stream: null, collapsed: false, theme: 'light', chartInstance: null };
+const db = {
+    async getAll(t) { try { const r = await fetch(`${API_URL}?action=getAll&table=${t}&t=${Date.now()}`); return await r.json(); } catch(e) { return []; } },
+    async get(t, id) { try { const r = await fetch(`${API_URL}?action=getById&table=${t}&id=${id}&t=${Date.now()}`); const txt = await r.text(); if (txt === 'null' || txt === '') return null; return JSON.parse(txt); } catch(e) { return null; } },
+    async getByIdx(t, k, v) { try { const r = await fetch(`${API_URL}?action=getByIdx&table=${t}&key=${k}&value=${encodeURIComponent(v)}&t=${Date.now()}`); const txt = await r.text(); if (txt === 'null' || txt === '') return null; return JSON.parse(txt); } catch(e) { return null; } },
+    async getAllByIdx(t, k, v) { const a = await this.getAll(t); return a.filter(i => String(i[k]) === String(v)); },
+    async put(t, d) { const r = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'put', table: t, record: d }) }); return await r.json(); },
+    async del(t, id) { const r = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'del', table: t, record: { id } }) }); return await r.json(); },
+    async init() { console.log('✅ Connected!'); }
+};
 
-function toast(msg, type = 'info') {
-    const c = document.getElementById('toastContainer');
-    const t = document.createElement('div'); t.className = `toast ${type}`;
-    t.innerHTML = `<span>${type==='success'?'✅':type==='error'?'❌':type==='warning'?'⚠️':'ℹ️'}</span> ${msg}`;
-    c.appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 4000);
-}
-function togglePass(inputId, btn) {
-    const input = document.getElementById(inputId);
-    const icon = btn.querySelector('i');
-    if (input.type === 'password') { input.type = 'text'; icon.className = 'fas fa-eye'; }
-    else { input.type = 'password'; icon.className = 'fas fa-eye-slash'; }
-}
-function formatDate(d) { if (!d) return '-'; const parts = d.split('-'); return `${parts[2]}/${parts[1]}/${parts[0]}`; }
-async function initApp() { await db.open(); await db.init(); updateDT(); setInterval(updateDT, 1000); if (localStorage.getItem('theme') === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); APP.theme = 'dark'; } }
+function cleanTimeFormat(t) { if (!t) return '08:00'; const s = String(t).trim(); const m = s.match(/(\d{2}):(\d{2})/); if (m) return `${m[1]}:${m[2]}`; return '08:00'; }
+function formatDate(d) { if (!d) return '-'; const clean = String(d).split('T')[0]; const p = clean.split('-'); if (p.length !== 3) return String(d).substring(0, 10); return `${p[2]}/${p[1]}/${p[0]}`; }
+function toast(msg, type = 'info') { const c = document.getElementById('toastContainer'); const t = document.createElement('div'); t.className = `toast ${type}`; t.innerHTML = `<span>${type==='success'?'✅':type==='error'?'❌':type==='warning'?'⚠️':'ℹ️'}</span> ${msg}`; c.appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3500); }
+function togglePass(i, b) { const inp = document.getElementById(i); const ic = b.querySelector('i'); if (inp.type === 'password') { inp.type = 'text'; ic.className = 'fas fa-eye'; } else { inp.type = 'password'; ic.className = 'fas fa-eye-slash'; } }
+function showLoading() { document.getElementById('loadingOverlay').classList.add('active'); }
+function hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); }
+
+const APP = { user: null, role: null, pin: '', attType: null, photo: null, loc: null, stream: null, collapsed: false, theme: 'light', chartInstance: null, clockInterval: null };
+async function initApp() { await db.init(); updateDT(); setInterval(updateDT, 1000); if (localStorage.getItem('theme') === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); APP.theme = 'dark'; } }
 initApp();
-function updateDT() {
-    const n = new Date();
-    document.getElementById('currentDateInline').textContent = '📅 ' + n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-    document.getElementById('currentTimeInline').textContent = '🕐 ' + n.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-}
+function updateDT() { const n = new Date(); document.getElementById('currentDateInline').textContent = '📅 ' + n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); document.getElementById('currentTimeInline').textContent = '🕐 ' + n.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
 function toggleTheme() { APP.theme = APP.theme === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', APP.theme); localStorage.setItem('theme', APP.theme); document.querySelector('.theme-btn i').className = APP.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'; }
 
 let selRole = 'employee';
@@ -338,52 +250,13 @@ function switchRole(r, el) { selRole = r; document.querySelectorAll('.role-tab')
 function inputPin(d) { if (APP.pin.length >= 4) return; APP.pin += d; updatePD(); if (APP.pin.length === 4) loginWithPin(); }
 function clearPin() { APP.pin = ''; updatePD(); }
 function updatePD() { for (let i = 1; i <= 4; i++) { const dot = document.getElementById('d' + i); dot.classList.toggle('filled', i <= APP.pin.length); dot.textContent = i <= APP.pin.length ? '●' : ''; } }
-async function loginWithPin() {
-    if (APP.pin.length !== 4) return toast('Masukkan 4 digit PIN', 'warning');
-    const e = await db.getByIdx('employees', 'pin', APP.pin);
-    if (!e?.active) { toast('PIN tidak valid!', 'error'); clearPin(); return; }
-    APP.user = e; APP.role = 'employee'; showDashboard();
-}
-async function loginHRD() {
-    const h = await db.getByIdx('hrd', 'email', document.getElementById('hrdEmail').value.trim());
-    if (h && h.password === document.getElementById('hrdPassword').value) {
-        APP.user = { ...h, role: 'hrd' }; APP.role = 'hrd'; showDashboard();
-    } else toast('Email/password salah!', 'error');
-}
+async function loginWithPin() { if (APP.pin.length !== 4) return toast('Masukkan 4 digit PIN', 'warning'); showLoading(); const e = await db.getByIdx('employees', 'pin', APP.pin); hideLoading(); if (!e || String(e.active) === 'false') { toast('PIN tidak valid!', 'error'); clearPin(); return; } APP.user = e; APP.role = 'employee'; showDashboard(); }
+async function loginHRD() { const email = document.getElementById('hrdEmail').value.trim(); const password = document.getElementById('hrdPassword').value.trim(); if (!email || !password) return toast('Isi email dan password!', 'warning'); showLoading(); const all = await db.getAll('hrd'); const h = all.find(h => String(h.email).trim() === email && String(h.password).trim() === password); hideLoading(); if (h) { APP.user = { ...h, role: 'hrd' }; APP.role = 'hrd'; showDashboard(); } else toast('Email/password salah!', 'error'); }
 
-async function showDashboard() {
-    document.getElementById('loginPage').style.display = 'none';
-    document.getElementById('dashboardPage').classList.add('show');
-    updateSidebar();
-    if (APP.role === 'employee') { setupEmpSidebar(); await loadEmpDashboard(); }
-    else { setupHRDSidebar(); await loadHRDDashboard(); }
-    updateAllBadges();
-}
-function updateSidebar() {
-    document.getElementById('sidebarName').textContent = APP.user.name;
-    document.getElementById('sidebarRole').textContent = APP.user.position || APP.user.department || '';
-    const av = document.getElementById('sidebarAvatar'), ph = document.getElementById('sidebarPhoto');
-    if (APP.user.photo) { ph.src = APP.user.photo; ph.style.display = 'block'; av.style.display = 'none'; }
-    else { ph.style.display = 'none'; av.style.display = 'flex'; av.textContent = APP.user.name.charAt(0); }
-}
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    if (window.innerWidth <= 768) {
-        sidebar.classList.toggle('mobile-open');
-        if (overlay) overlay.classList.toggle('active');
-    } else {
-        APP.collapsed = !APP.collapsed;
-        sidebar.classList.toggle('collapsed', APP.collapsed);
-        document.getElementById('mainArea').classList.toggle('expanded', APP.collapsed);
-    }
-}
-function closeSidebarMobile() {
-    document.getElementById('sidebar').classList.remove('mobile-open');
-    const overlay = document.getElementById('sidebarOverlay');
-    if (overlay) overlay.classList.remove('active');
-}
-
+async function showDashboard() { document.getElementById('loginPage').style.display = 'none'; document.getElementById('dashboardPage').classList.add('show'); updateSidebar(); if (APP.role === 'employee') { setupEmpSidebar(); await loadEmpDashboard(); } else { setupHRDSidebar(); await loadHRDDashboard(); } updateAllBadges(); }
+function updateSidebar() { document.getElementById('sidebarName').textContent = APP.user.name; document.getElementById('sidebarRole').textContent = APP.user.position || APP.user.department || ''; const av = document.getElementById('sidebarAvatar'), ph = document.getElementById('sidebarPhoto'); if (APP.user.photo) { ph.src = APP.user.photo; ph.style.display = 'block'; av.style.display = 'none'; } else { ph.style.display = 'none'; av.style.display = 'flex'; av.textContent = APP.user.name.charAt(0); } }
+function toggleSidebar() { const sb = document.getElementById('sidebar'); const ov = document.getElementById('sidebarOverlay'); if (window.innerWidth <= 768) { sb.classList.toggle('mobile-open'); if (ov) ov.classList.toggle('active'); } }
+function closeSidebarMobile() { document.getElementById('sidebar').classList.remove('mobile-open'); const ov = document.getElementById('sidebarOverlay'); if (ov) ov.classList.remove('active'); }
 async function updateAllBadges() {
     if (APP.role === 'employee') {
         document.querySelectorAll('.badge-history').forEach(b => { db.getUnreadCount(APP.user.id, 'history').then(c => { b.textContent = c; b.style.display = c > 0 ? 'inline' : 'none'; }); });
@@ -394,217 +267,133 @@ async function updateAllBadges() {
         document.querySelectorAll('.badge-approval').forEach(b => { db.getUnreadCount('all', 'approval').then(c => { b.textContent = c; b.style.display = c > 0 ? 'inline' : 'none'; }); });
     }
 }
+async function navToMobile(p, el) { closeSidebarMobile(); await navTo(p, el); }
 
-async function navToMobile(page, el) { closeSidebarMobile(); await navTo(page, el); }
-
-function setupEmpSidebar() {
-    document.getElementById('sidebarNav').innerHTML = `
-        <div class="nav-section-title">Menu</div>
-        <div class="nav-item active" onclick="navToMobile('dashboard', this)"><i class="fas fa-th-large"></i> <span>Dashboard</span></div>
-        <div class="nav-item" onclick="navToMobile('attendance', this)"><i class="fas fa-camera"></i> <span>Absensi</span></div>
-        <div class="nav-section-title">Pengajuan</div>
-        <div class="nav-item" onclick="navToMobile('izin', this)"><i class="fas fa-clipboard"></i> <span>Izin</span></div>
-        <div class="nav-item" onclick="navToMobile('cuti', this)"><i class="fas fa-umbrella-beach"></i> <span>Cuti</span></div>
-        <div class="nav-item" onclick="navToMobile('lembur', this)"><i class="fas fa-business-time"></i> <span>Lembur</span></div>
-        <div class="nav-item" onclick="navToMobile('absen_miss', this)"><i class="fas fa-clock"></i> <span>Lupa Absen</span></div>
-        <div class="nav-section-title">Riwayat</div>
-        <div class="nav-item" onclick="navToMobile('history', this)"><i class="fas fa-history"></i> <span>Riwayat</span> <span class="badge badge-history">0</span></div>
-        <div class="nav-section-title">Lainnya</div>
-        <div class="nav-item" onclick="navToMobile('pengumuman', this)"><i class="fas fa-bullhorn"></i> <span>Pengumuman</span> <span class="badge badge-announce">0</span></div>
-        <div class="nav-item" onclick="navToMobile('slip_gaji', this)"><i class="fas fa-money-bill-wave"></i> <span>Slip Gaji</span> <span class="badge badge-slip">0</span></div>
-        <div class="nav-item" onclick="navToMobile('warnings', this)"><i class="fas fa-exclamation-triangle"></i> <span>Peringatan</span> <span class="badge badge-warning">0</span></div>
-        <div class="nav-item" onclick="navToMobile('profile', this)"><i class="fas fa-user-circle"></i> <span>Profil</span></div>
-        <div class="nav-item" onclick="navToMobile('about', this)"><i class="fas fa-info-circle"></i> <span>Tentang</span></div>`;
-}
-function setupHRDSidebar() {
-    document.getElementById('sidebarNav').innerHTML = `
-        <div class="nav-section-title">Management</div>
-        <div class="nav-item active" onclick="navToMobile('dashboard', this)"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></div>
-        <div class="nav-item" onclick="navToMobile('rekap', this)"><i class="fas fa-clipboard-list"></i> <span>Rekap Absensi</span></div>
-        <div class="nav-item" onclick="navToMobile('employees', this)"><i class="fas fa-users"></i> <span>Data Karyawan</span></div>
-        <div class="nav-section-title">Approval</div>
-        <div class="nav-item" onclick="navToMobile('approval', this)"><i class="fas fa-check-double"></i> <span>Persetujuan</span> <span class="badge badge-approval">0</span></div>
-        <div class="nav-section-title">Komunikasi</div>
-        <div class="nav-item" onclick="navToMobile('pengumuman_hrd', this)"><i class="fas fa-bullhorn"></i> <span>Pengumuman</span></div>
-        <div class="nav-item" onclick="navToMobile('warnings_hrd', this)"><i class="fas fa-exclamation-triangle"></i> <span>Peringatan</span></div>
-        <div class="nav-item" onclick="navToMobile('slip_gaji_hrd', this)"><i class="fas fa-money-bill-wave"></i> <span>Slip Gaji</span></div>
-        <div class="nav-section-title">Pengaturan</div>
-        <div class="nav-item" onclick="navToMobile('hrd_settings', this)"><i class="fas fa-cog"></i> <span>Pengaturan</span></div>
-        <div class="nav-item" onclick="navToMobile('about', this)"><i class="fas fa-info-circle"></i> <span>Tentang</span></div>
-        <div class="nav-item" onclick="exportExcel()"><i class="fas fa-file-excel"></i> <span>Export Excel</span></div>`;
-}
+function setupEmpSidebar() { document.getElementById('sidebarNav').innerHTML = `<div class="nav-section-title">📌 Menu Utama</div><div class="nav-item active" onclick="navToMobile('dashboard', this)"><i class="fas fa-th-large"></i> <span>Dashboard</span></div><div class="nav-item" onclick="navToMobile('attendance', this)"><i class="fas fa-camera"></i> <span>Absensi</span></div><div class="nav-section-title">📝 Pengajuan</div><div class="nav-item" onclick="navToMobile('izin', this)"><i class="fas fa-clipboard"></i> <span>Izin</span></div><div class="nav-item" onclick="navToMobile('cuti', this)"><i class="fas fa-umbrella-beach"></i> <span>Cuti</span></div><div class="nav-item" onclick="navToMobile('lembur', this)"><i class="fas fa-business-time"></i> <span>Lembur</span></div><div class="nav-item" onclick="navToMobile('absen_miss', this)"><i class="fas fa-clock"></i> <span>Lupa Absen</span></div><div class="nav-section-title">📋 Riwayat</div><div class="nav-item" onclick="navToMobile('history', this)"><i class="fas fa-history"></i> <span>Riwayat</span> <span class="badge badge-history">0</span></div><div class="nav-section-title">📢 Informasi</div><div class="nav-item" onclick="navToMobile('pengumuman', this)"><i class="fas fa-bullhorn"></i> <span>Pengumuman</span> <span class="badge badge-announce">0</span></div><div class="nav-item" onclick="navToMobile('slip_gaji', this)"><i class="fas fa-money-bill-wave"></i> <span>Slip Gaji</span> <span class="badge badge-slip">0</span></div><div class="nav-item" onclick="navToMobile('warnings', this)"><i class="fas fa-exclamation-triangle"></i> <span>Peringatan</span> <span class="badge badge-warning">0</span></div><div class="nav-section-title">👤 Akun</div><div class="nav-item" onclick="navToMobile('profile', this)"><i class="fas fa-user-circle"></i> <span>Profil</span></div><div class="nav-item" onclick="navToMobile('about', this)"><i class="fas fa-info-circle"></i> <span>Tentang</span></div>`; }
+function setupHRDSidebar() { document.getElementById('sidebarNav').innerHTML = `<div class="nav-section-title">📊 Management</div><div class="nav-item active" onclick="navToMobile('dashboard', this)"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></div><div class="nav-item" onclick="navToMobile('rekap', this)"><i class="fas fa-clipboard-list"></i> <span>Rekap Absensi</span></div><div class="nav-item" onclick="navToMobile('employees', this)"><i class="fas fa-users"></i> <span>Data Karyawan</span></div><div class="nav-section-title">✅ Approval</div><div class="nav-item" onclick="navToMobile('approval', this)"><i class="fas fa-check-double"></i> <span>Persetujuan</span> <span class="badge badge-approval">0</span></div><div class="nav-section-title">📢 Komunikasi</div><div class="nav-item" onclick="navToMobile('pengumuman_hrd', this)"><i class="fas fa-bullhorn"></i> <span>Pengumuman</span></div><div class="nav-item" onclick="navToMobile('warnings_hrd', this)"><i class="fas fa-exclamation-triangle"></i> <span>Peringatan</span></div><div class="nav-item" onclick="navToMobile('slip_gaji_hrd', this)"><i class="fas fa-money-bill-wave"></i> <span>Slip Gaji</span></div><div class="nav-section-title">⚙️ Pengaturan</div><div class="nav-item" onclick="navToMobile('hrd_settings', this)"><i class="fas fa-cog"></i> <span>Pengaturan</span></div><div class="nav-item" onclick="navToMobile('about', this)"><i class="fas fa-info-circle"></i> <span>Tentang</span></div><div class="nav-section-title">📥 Export</div><div class="nav-item" onclick="exportExcel()"><i class="fas fa-file-excel"></i> <span>Export Excel</span></div>`; }
 
 async function navTo(page, el) {
     document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
     if (el) el.classList.add('active');
-    if (APP.role === 'employee') {
-        if (page === 'history') await db.markRead(APP.user.id, 'history');
-        if (page === 'pengumuman') await db.markRead(APP.user.id, 'pengumuman');
-        if (page === 'slip_gaji') await db.markRead(APP.user.id, 'slip');
-        if (page === 'warnings') await db.markRead(APP.user.id, 'warning');
-    } else {
-        if (page === 'approval') await db.markRead('all', 'approval');
-    }
-    const empPages = {
-        dashboard: loadEmpDashboard, attendance: loadEmpAttendance,
-        izin: () => loadReqForm('izin'), cuti: () => loadReqForm('cuti'), lembur: () => loadReqForm('lembur'),
-        absen_miss: () => loadReqForm('absen_miss'), history: loadEmpHistory, pengumuman: loadEmpAnnounce,
-        slip_gaji: loadEmpSlip, warnings: loadEmpWarnings, profile: loadEmpProfile, about: loadAbout
-    };
-    const hrdPages = {
-        dashboard: loadHRDDashboard, rekap: loadHRDRekap, employees: loadHRDEmployees,
-        approval: loadHRDApproval, pengumuman_hrd: loadHRDAnnounce, warnings_hrd: loadHRDWarnings,
-        slip_gaji_hrd: loadHRDSlip, hrd_settings: loadHRDSettings, about: loadAbout
-    };
-    const pages = APP.role === 'employee' ? empPages : hrdPages;
+    showLoading();
+    if (APP.role === 'employee') { if (page === 'history') await db.markRead(APP.user.id, 'history'); if (page === 'pengumuman') await db.markRead(APP.user.id, 'pengumuman'); if (page === 'slip_gaji') await db.markRead(APP.user.id, 'slip'); if (page === 'warnings') await db.markRead(APP.user.id, 'warning'); }
+    else { if (page === 'approval') await db.markRead('all', 'approval'); }
+    const empP = { dashboard: loadEmpDashboard, attendance: loadEmpAttendance, izin: () => loadReqForm('izin'), cuti: () => loadReqForm('cuti'), lembur: () => loadReqForm('lembur'), absen_miss: () => loadReqForm('absen_miss'), history: loadEmpHistory, pengumuman: loadEmpAnnounce, slip_gaji: loadEmpSlip, warnings: loadEmpWarnings, profile: loadEmpProfile, about: loadAbout };
+    const hrdP = { dashboard: loadHRDDashboard, rekap: loadHRDRekap, employees: loadHRDEmployees, approval: loadHRDApproval, pengumuman_hrd: loadHRDAnnounce, warnings_hrd: loadHRDWarnings, slip_gaji_hrd: loadHRDSlip, hrd_settings: loadHRDSettings, about: loadAbout };
+    const pages = APP.role === 'employee' ? empP : hrdP;
     if (pages[page]) await pages[page]();
+    hideLoading();
     updateAllBadges();
 }
 
-// ==================== POP UP KONFIRMASI ====================
-let confirmCallback = null;
-
-function showConfirm(options) {
-    const { title = 'Konfirmasi', message = 'Apakah Anda yakin?', info = '', icon = '⚠️', btnText = 'Hapus', btnClass = 'confirm-btn-danger', onConfirm = null } = options;
-    document.getElementById('confirmTitle').textContent = title;
-    document.getElementById('confirmMessage').textContent = message;
-    document.getElementById('confirmIcon').textContent = icon;
-    document.getElementById('confirmBtnDelete').textContent = btnText;
-    document.getElementById('confirmBtnDelete').className = btnClass;
-    const infoDiv = document.getElementById('confirmInfo');
-    if (info) { infoDiv.innerHTML = info; infoDiv.style.display = 'block'; } else { infoDiv.style.display = 'none'; }
-    confirmCallback = onConfirm;
-    document.getElementById('confirmOverlay').classList.add('active');
-}
-function closeConfirm() { document.getElementById('confirmOverlay').classList.remove('active'); confirmCallback = null; }
-function executeConfirm() { if (confirmCallback) confirmCallback(); closeConfirm(); }
+let confirmCb = null;
+function showConfirm(o) { const { title = 'Konfirmasi', message = 'Yakin?', info = '', icon = '⚠️', btnText = 'Hapus', onConfirm = null } = o; document.getElementById('confirmTitle').textContent = title; document.getElementById('confirmMessage').textContent = message; document.getElementById('confirmIcon').textContent = icon; document.getElementById('confirmBtnDelete').textContent = btnText; const inf = document.getElementById('confirmInfo'); if (info) { inf.innerHTML = info; inf.style.display = 'block'; } else { inf.style.display = 'none'; } confirmCb = onConfirm; document.getElementById('confirmOverlay').classList.add('active'); }
+function closeConfirm() { document.getElementById('confirmOverlay').classList.remove('active'); confirmCb = null; }
+function executeConfirm() { if (confirmCb) confirmCb(); closeConfirm(); }
 
 // ==================== EMPLOYEE PAGES ====================
 async function loadEmpDashboard() {
     document.getElementById('pageTitle').textContent = 'Dashboard';
     const today = new Date().toISOString().split('T')[0];
-    const todayAtt = await db.getByIdx('attendance', 'uid_date', [APP.user.id, today]);
-    const userAtt = (await db.getAll('attendance')).filter(a => a.userId === APP.user.id);
-    const thisMonth = userAtt.filter(a => { const d = new Date(a.date); const n = new Date(); return d.getMonth() === n.getMonth(); });
+    const allAtt = await db.getAll('attendance');
+    const todayAtt = allAtt.find(a => String(a.userId) === String(APP.user.id) && String(a.date).split('T')[0] === today);
+    const userAtt = allAtt.filter(a => String(a.userId) === String(APP.user.id));
+    const thisMonth = userAtt.filter(a => { const d = new Date(String(a.date).split('T')[0]); const n = new Date(); return d.getMonth() === n.getMonth(); });
     const isSun = new Date().getDay() === 0;
-    const isIn = todayAtt?.checkIn && !todayAtt?.checkOut;
-    const isOut = todayAtt?.checkOut;
-    const workStart = APP.user.workStart || '08:00';
-    const workEnd = APP.user.workEnd || '17:00';
+    const hasCheckIn = todayAtt && todayAtt.checkIn && String(todayAtt.checkIn).trim() !== '';
+    const hasCheckOut = todayAtt && todayAtt.checkOut && String(todayAtt.checkOut).trim() !== '';
+    // Di loadEmpDashboard
+const ws = APP.user.workStart ? String(APP.user.workStart).match(/(\d{2}):(\d{2})/)?.[0] || '09:00' : '09:00';
+const we = APP.user.workEnd ? String(APP.user.workEnd).match(/(\d{2}):(\d{2})/)?.[0] || '18:00' : '18:00';
+    
+    // Data grafik
+    const days = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+    const weekData = [0, 0, 0, 0, 0, 0, 0];
+    userAtt.forEach(a => { const d = new Date(String(a.date).split('T')[0]); if (a.checkIn) weekData[d.getDay() === 0 ? 6 : d.getDay() - 1]++; });
+    
     document.getElementById('mainContent').innerHTML = `
         <div class="welcome-banner">
             <h2>${isSun ? '😴 LIBUR!' : 'Selamat Datang, ' + APP.user.name + '!'}</h2>
-            <p>${APP.user.company} • ${APP.user.workArea}</p>
-            <p style="font-size:12px;opacity:0.9;">🕐 Jam Kerja: ${workStart} - ${workEnd} WIB</p>
-            <div class="big-clock" id="heroClock">00:00:00</div>
+            <p>${APP.user.company||''} • ${APP.user.workArea||''}</p>
+            <p style="font-size:11px;opacity:0.9;">🕐 ${ws} - ${we} WIB</p>
+            <div class="big-clock" id="heroClock">${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</div>
             <div class="att-actions">
-                <button class="btn-att" style="background:rgba(0,200,83,0.3);" ${isSun||isIn||isOut?'disabled':''} onclick="openAttModal('checkin')"><i class="fas fa-sign-in-alt"></i> CHECK IN</button>
-                <button class="btn-att" style="background:rgba(255,61,0,0.3);" ${isSun||!isIn||isOut?'disabled':''} onclick="openAttModal('checkout')"><i class="fas fa-sign-out-alt"></i> CHECK OUT</button>
+                <button class="btn-att" style="background:rgba(0,200,83,0.3);" ${isSun||hasCheckIn?'disabled':''} onclick="openAttModal('checkin')"><i class="fas fa-sign-in-alt"></i> CHECK IN</button>
+                <button class="btn-att" style="background:rgba(255,61,0,0.3);" ${isSun||!hasCheckIn||hasCheckOut?'disabled':''} onclick="openAttModal('checkout')"><i class="fas fa-sign-out-alt"></i> CHECK OUT</button>
             </div>
+            <div style="display:flex;gap:15px;margin-top:8px;font-size:10px;"><div>✅ In: <strong>${todayAtt?.checkIn ? String(todayAtt.checkIn).substring(0,5) : '--:--'}</strong></div><div>🔴 Out: <strong>${todayAtt?.checkOut ? String(todayAtt.checkOut).substring(0,5) : '--:--'}</strong></div></div>
         </div>
-        <div class="map-container"><iframe src="https://maps.google.com/maps?q=${APP.user.latitude||-6.2088},${APP.user.longitude||106.8456}&z=16&output=embed" width="100%" height="180"></iframe></div>
         <div class="summary-box">
             <div class="summary-item"><strong>${thisMonth.filter(a=>a.checkIn).length}</strong><small>Hadir</small></div>
             <div class="summary-item"><strong>${thisMonth.filter(a=>a.status==='late').length}</strong><small>Terlambat</small></div>
-            <div class="summary-item"><strong>${(APP.user.leaveQuota||12)-(APP.user.leaveUsed||0)}</strong><small>Sisa Cuti</small></div>
-        </div>`;
-    setInterval(() => { const el = document.getElementById('heroClock'); if (el) el.textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }, 1000);
+            <div class="summary-item"><strong>${(parseInt(APP.user.leaveQuota)||12)-(parseInt(APP.user.leaveUsed)||0)}</strong><small>Sisa Cuti</small></div>
+        </div>
+        <div class="section-card"><h3>📊 Grafik Kehadiran</h3><div class="chart-sm"><canvas id="empChart"></canvas></div></div>`;
+    
+    if (APP.clockInterval) clearInterval(APP.clockInterval);
+    APP.clockInterval = setInterval(() => { const el = document.getElementById('heroClock'); if (el) el.textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }, 1000);
+    
+    setTimeout(() => {
+        const ctx = document.getElementById('empChart')?.getContext('2d');
+        if (ctx) new Chart(ctx, { type: 'bar', data: { labels: days, datasets: [{ label: 'Hadir', data: weekData, backgroundColor: '#0066FF', borderRadius: 4 }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
+    }, 300);
 }
 async function loadEmpAttendance() { await loadEmpDashboard(); }
-async function loadReqForm(type) {
-    document.getElementById('pageTitle').textContent = { izin:'Izin', cuti:'Cuti', lembur:'Lembur', absen_miss:'Lupa Absen' }[type];
-    const sisa = (APP.user.leaveQuota||12) - (APP.user.leaveUsed||0);
-    document.getElementById('mainContent').innerHTML = `
-        <div class="section-card"><h3>${type==='absen_miss'?'Lupa Absen':type.toUpperCase()}</h3>${type==='cuti'?`<p>Sisa: ${sisa}${sisa<=0?' (HABIS)':''}</p>`:''}
-        <div class="form-group"><label class="form-label">Tanggal</label><input type="date" id="reqDate" class="form-input"></div>
-        ${type!=='absen_miss'&&type!=='lembur'?'<div class="form-group"><label class="form-label">Tanggal Selesai</label><input type="date" id="reqEnd" class="form-input"></div>':''}
-        ${type==='lembur'?`<div class="form-group"><label class="form-label">Jam Mulai</label><input type="time" class="form-input" id="reqOvertimeStart"></div><div class="form-group"><label class="form-label">Jam Selesai</label><input type="time" class="form-input" id="reqOvertimeEnd" onchange="calcOvertime()"></div><div class="form-group"><label class="form-label">Total Jam</label><input class="form-input" id="reqOvertimeTotal" readonly></div>`:''}
-        ${type==='absen_miss'?`<div class="form-group"><label class="form-label">Jenis</label><select class="form-input" id="reqJenis"><option value="checkin">Lupa Check In</option><option value="checkout">Lupa Check Out</option></select></div><div class="form-group"><label class="form-label">Jam</label><input type="time" class="form-input" id="reqJam"></div>`:''}
-        <div class="form-group"><label class="form-label">Alasan</label><textarea id="reqReason" class="form-input" rows="3"></textarea></div>
-        <div class="form-group"><label class="form-label">Upload Bukti</label><input type="file" id="reqBukti" class="form-input" accept="image/*"></div>
-        <button class="btn-submit" onclick="submitReq('${type}')" ${type==='cuti'&&sisa<=0?'disabled':''}>Kirim</button></div>`;
-}
-function calcOvertime() {
-    const start = document.getElementById('reqOvertimeStart')?.value;
-    const end = document.getElementById('reqOvertimeEnd')?.value;
-    if (start && end) {
-        const [sh, sm] = start.split(':').map(Number);
-        const [eh, em] = end.split(':').map(Number);
-        const totalMinutes = (eh * 60 + em) - (sh * 60 + sm);
-        const hours = Math.floor(totalMinutes / 60);
-        const mins = totalMinutes % 60;
-        document.getElementById('reqOvertimeTotal').value = `${hours} jam ${mins} menit`;
-    }
-}
-async function submitReq(type) {
-    const date = document.getElementById('reqDate')?.value;
-    if (!date) return toast('Pilih tanggal!', 'warning');
-    let bukti = null;
-    const f = document.getElementById('reqBukti')?.files[0];
-    if (f) bukti = await new Promise(r => { const rd = new FileReader(); rd.onload = () => r(rd.result); rd.readAsDataURL(f); });
-    const data = { userId: APP.user.id, userName: APP.user.name, userDept: APP.user.department, type, startDate: date, endDate: document.getElementById('reqEnd')?.value || date, reason: document.getElementById('reqReason')?.value, bukti, status: 'pending', createdAt: new Date().toISOString() };
-    if (type === 'lembur') { data.overtimeStart = document.getElementById('reqOvertimeStart')?.value; data.overtimeEnd = document.getElementById('reqOvertimeEnd')?.value; data.hours = document.getElementById('reqOvertimeTotal')?.value; }
-    if (type === 'absen_miss') { data.jenis = document.getElementById('reqJenis')?.value; data.jam = document.getElementById('reqJam')?.value; }
-    await db.put('requests', data);
-    await db.addNotif('all', 'approval', `Pengajuan ${type} dari ${APP.user.name}`);
-    toast('✅ Terkirim!', 'success'); updateAllBadges();
-}
-async function loadEmpHistory() {
-    await db.markRead(APP.user.id, 'history');
-    document.getElementById('pageTitle').textContent = 'Riwayat';
-    const att = (await db.getAll('attendance')).filter(a => a.userId === APP.user.id);
-    const reqs = (await db.getAll('requests')).filter(r => r.userId === APP.user.id);
-    reqs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    document.getElementById('mainContent').innerHTML = `
-        <div class="section-card"><h3>Pengajuan</h3><table class="data-table"><thead><tr><th>Jenis</th><th>Tgl</th><th>Status</th></tr></thead><tbody>${reqs.map(r => `<tr><td>${r.type.toUpperCase()}</td><td>${formatDate(r.startDate)}</td><td><span class="status-chip ${r.status}">${r.status.toUpperCase()}</span></td></tr>`).join('')}</tbody></table></div>
-        <div class="section-card"><h3>Absensi</h3><table class="data-table"><thead><tr><th>Tgl</th><th>In</th><th>Out</th><th>Foto</th><th>Status</th></tr></thead><tbody>${att.slice(0,20).map(a => `<tr><td>${formatDate(a.date)}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td>${a.photoData?`<img src="${a.photoData}" class="img-thumb" onclick="showImage('${a.photoData}')">`:'-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td></tr>`).join('')}</tbody></table></div>`;
-    updateAllBadges();
-}
+async function loadReqForm(type) { document.getElementById('pageTitle').textContent = { izin:'Izin', cuti:'Cuti', lembur:'Lembur', absen_miss:'Lupa Absen' }[type]; const sisa = (parseInt(APP.user.leaveQuota)||12)-(parseInt(APP.user.leaveUsed)||0); document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>${type==='absen_miss'?'Lupa Absen':type.toUpperCase()}</h3>${type==='cuti'?`<p>Sisa: ${sisa}${sisa<=0?' (HABIS)':''}</p>`:''}<div class="form-group"><label class="form-label">Tanggal</label><input type="date" id="reqDate" class="form-input"></div>${type!=='absen_miss'&&type!=='lembur'?'<div class="form-group"><label class="form-label">Tgl Selesai</label><input type="date" id="reqEnd" class="form-input"></div>':''}${type==='lembur'?`<div class="form-group"><label class="form-label">Jam Mulai</label><input type="time" class="form-input" id="reqOvertimeStart"></div><div class="form-group"><label class="form-label">Jam Selesai</label><input type="time" class="form-input" id="reqOvertimeEnd" onchange="calcOvertime()"></div><div class="form-group"><label class="form-label">Total Jam</label><input class="form-input" id="reqOvertimeTotal" readonly></div>`:''}${type==='absen_miss'?`<div class="form-group"><label class="form-label">Jenis</label><select class="form-input" id="reqJenis"><option value="checkin">Lupa Check In</option><option value="checkout">Lupa Check Out</option></select></div><div class="form-group"><label class="form-label">Jam</label><input type="time" class="form-input" id="reqJam"></div>`:''}<div class="form-group"><label class="form-label">Alasan</label><textarea id="reqReason" class="form-input" rows="3"></textarea></div><div class="form-group"><label class="form-label">Upload Bukti</label><input type="file" id="reqBukti" class="form-input" accept="image/*"></div><button class="btn-submit" onclick="submitReq('${type}')" ${type==='cuti'&&sisa<=0?'disabled':''}>Kirim</button></div>`; }
+function calcOvertime() { const s = document.getElementById('reqOvertimeStart')?.value; const e = document.getElementById('reqOvertimeEnd')?.value; if (s && e) { const [sh, sm] = s.split(':').map(Number); const [eh, em] = e.split(':').map(Number); const tm = (eh*60+em)-(sh*60+sm); document.getElementById('reqOvertimeTotal').value = `${Math.floor(tm/60)} jam ${tm%60} menit`; } }
+async function submitReq(type) { const d = document.getElementById('reqDate')?.value; if (!d) return toast('Pilih tanggal!', 'warning'); showLoading(); let bukti = null; const f = document.getElementById('reqBukti')?.files[0]; if (f) bukti = await new Promise(r => { const rd = new FileReader(); rd.onload = () => r(rd.result); rd.readAsDataURL(f); }); const data = { userId: APP.user.id, userName: APP.user.name, userDept: APP.user.department, type, startDate: d, endDate: document.getElementById('reqEnd')?.value || d, reason: document.getElementById('reqReason')?.value, bukti, status: 'pending', createdAt: new Date().toISOString() }; if (type === 'lembur') { data.overtimeStart = document.getElementById('reqOvertimeStart')?.value; data.overtimeEnd = document.getElementById('reqOvertimeEnd')?.value; data.hours = document.getElementById('reqOvertimeTotal')?.value; } if (type === 'absen_miss') { data.jenis = document.getElementById('reqJenis')?.value; data.jam = document.getElementById('reqJam')?.value; } await db.put('requests', data); hideLoading(); toast('✅ Terkirim!', 'success'); updateAllBadges(); }
+async function loadEmpHistory() { document.getElementById('pageTitle').textContent = 'Riwayat'; showLoading(); const att = (await db.getAll('attendance')).filter(a => String(a.userId) === String(APP.user.id)); const reqs = (await db.getAll('requests')).filter(r => String(r.userId) === String(APP.user.id)); reqs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); hideLoading(); document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>Pengajuan</h3><table class="data-table"><thead><tr><th>Jenis</th><th>Tgl</th><th>Status</th></tr></thead><tbody>${reqs.map(r => `<tr><td>${r.type.toUpperCase()}${r.hours?' ('+r.hours+')':''}</td><td>${formatDate(r.startDate)}</td><td><span class="status-chip ${r.status}">${r.status.toUpperCase()}</span></td></tr>`).join('')}</tbody></table></div><div class="section-card"><h3>Absensi</h3><table class="data-table"><thead><tr><th>Tgl</th><th>In</th><th>Out</th><th>Status</th></tr></thead><tbody>${att.slice(0,20).map(a => `<tr><td>${formatDate(a.date)}</td><td>${a.checkIn ? String(a.checkIn).substring(0,5) : '-'}</td><td>${a.checkOut ? String(a.checkOut).substring(0,5) : '-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td></tr>`).join('')}</tbody></table></div>`; updateAllBadges(); }
 function showImage(src) { document.getElementById('editModalTitle').textContent = 'Lihat Gambar'; document.getElementById('editModalContent').innerHTML = `<img src="${src}" class="img-preview">`; document.getElementById('editModal').classList.add('active'); }
-async function loadEmpAnnounce() { await db.markRead(APP.user.id, 'pengumuman'); document.getElementById('pageTitle').textContent = 'Pengumuman'; const ann = await db.getAll('announcements'); const filtered = ann.filter(a => !a.targetCompany || a.targetCompany === 'all' || a.targetCompany === APP.user.company); filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>📢 Pengumuman</h3>${filtered.map(a => `<div style="background:var(--primary-light);padding:12px;border-radius:8px;margin-bottom:8px;"><strong>${a.title}</strong><p style="font-size:12px;">${a.content}</p>${a.fileData?`<a href="${a.fileData}" download="${a.fileName||'file'}" class="btn-action btn-primary"><i class="fas fa-download"></i> ${a.fileName||'Download'}</a>`:''}</div>`).join('')||'<p>Tidak ada</p>'}</div>`; updateAllBadges(); }
-async function loadEmpSlip() { document.getElementById('pageTitle').textContent = 'Slip Gaji'; document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>🔒 Verifikasi PIN</h3><div class="form-group"><label class="form-label">PIN</label><div class="input-with-icon"><input type="password" class="form-input" id="slipPin" maxlength="4" placeholder="PIN 4 digit"><button class="toggle-vis" onclick="togglePass('slipPin', this)"><i class="fas fa-eye-slash"></i></button></div></div><button class="btn-submit" onclick="verifySlipPin()">Lihat Slip</button><div id="slipResult" style="margin-top:14px;"></div></div>`; }
-async function verifySlipPin() { if (document.getElementById('slipPin').value !== APP.user.pin) return toast('PIN salah!', 'error'); const slips = (await db.getAll('slip_gaji')).filter(s => s.userId === APP.user.id); document.getElementById('slipResult').innerHTML = slips.map(s => `<div style="background:var(--card);padding:12px;border-radius:8px;margin-bottom:8px;border:1px solid var(--border);"><strong>${s.periode}</strong><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:11px;margin-top:6px;"><div>Gaji Pokok: Rp ${s.gajiPokok?.toLocaleString()}</div><div>Bonus: Rp ${(s.bonus||0).toLocaleString()}</div><div>PPh: -Rp ${(s.pph||0).toLocaleString()}</div><div>BPJS Kes: -Rp ${(s.bpjsKes||0).toLocaleString()}</div><div>BPJS TK: -Rp ${(s.bpjsTk||0).toLocaleString()}</div><div><strong>TOTAL: Rp ${s.total?.toLocaleString()}</strong></div></div></div>`).join('')||'<p>Belum ada slip</p>'; }
-async function loadEmpWarnings() { await db.markRead(APP.user.id, 'warning'); document.getElementById('pageTitle').textContent = 'Peringatan'; const warns = (await db.getAll('warnings')).filter(w => w.userId === APP.user.id); warns.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>⚠️ Peringatan</h3>${warns.length>0?warns.map(w => `<div style="background:#FFF8E1;padding:12px;border-radius:8px;margin-bottom:8px;border-left:4px solid var(--warning);"><strong>${w.title}</strong><p style="font-size:12px;margin-top:4px;">${w.content}</p><small>${new Date(w.createdAt).toLocaleDateString('id-ID')}</small></div>`).join(''):'<p>Tidak ada</p>'}</div>`; updateAllBadges(); }
-async function loadEmpProfile() {
-    const u = APP.user;
-    document.getElementById('pageTitle').textContent = 'Profil';
-    document.getElementById('mainContent').innerHTML = `
-        <div class="section-card"><div style="text-align:center;">
-            ${u.photo?`<img src="${u.photo}" id="profilePhotoPreview" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--primary);">`:'<div class="user-av" id="profilePhotoPreview" style="width:80px;height:80px;font-size:32px;margin:0 auto;">'+u.name.charAt(0)+'</div>'}
-            <h2>${u.name}</h2><p>${u.position||'-'} • ${u.division||'-'}</p><p>${u.company}</p>
-            <input type="file" id="galleryPhotoInput" accept="image/*" style="display:none;" onchange="uploadFromGallery()">
-            <button class="btn-action btn-primary" onclick="document.getElementById('galleryPhotoInput').click()"><i class="fas fa-image"></i> Upload dari Galeri</button>
-            <button class="btn-action btn-primary" onclick="changeProfilePhoto()" style="margin-left:5px;"><i class="fas fa-camera"></i> Ambil Foto</button>
-        </div>
-        <div style="display:grid;gap:6px;margin-top:14px;font-size:12px;"><div><strong>PIN:</strong> ${u.pin}</div><div><strong>Area:</strong> ${u.workArea||'-'}</div><div><strong>Jam:</strong> ${u.workStart}-${u.workEnd}</div></div></div>`;
-}
-async function uploadFromGallery() {
-    const file = document.getElementById('galleryPhotoInput').files[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) return toast('❌ File harus gambar!', 'error');
-    if (file.size > 5*1024*1024) return toast('❌ Maksimal 5MB!', 'error');
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-        APP.user.photo = e.target.result;
-        await db.put('employees', APP.user);
-        updateSidebar();
-        const preview = document.getElementById('profilePhotoPreview');
-        if (preview && preview.tagName === 'IMG') preview.src = e.target.result;
-        toast('✅ Foto berhasil diupdate!', 'success');
-    };
-    reader.readAsDataURL(file);
-}
-async function changeProfilePhoto() { document.getElementById('attModal').classList.add('active'); document.getElementById('attModalTitle').textContent = 'Ganti Foto Profil'; document.getElementById('btnCapture').style.display = 'inline-block'; await startCam(); document.querySelector('#attModal .btn-submit').onclick = async () => { if (!APP.photo) return toast('Ambil foto!', 'warning'); APP.user.photo = APP.photo; await db.put('employees', APP.user); closeAttModal(); updateSidebar(); loadEmpProfile(); toast('✅ Tersimpan!', 'success'); }; }
-async function loadAbout() { document.getElementById('pageTitle').textContent = 'Tentang'; document.getElementById('mainContent').innerHTML = `<div class="section-card" style="text-align:center;"><img src="sidik1.png" width="64" height="64" style="border-radius:16px;"><h2>AbsensiPro Ultimate</h2><p>Sistem Absensi Profesional</p><p style="font-size:13px;"><strong>Developer:</strong> Aldo Giyantoro Putra<br><strong>Versi:</strong> Final</p></div>`; }
+async function loadEmpAnnounce() { document.getElementById('pageTitle').textContent = 'Pengumuman'; const ann = await db.getAll('announcements'); const flt = ann.filter(a => !a.targetCompany || a.targetCompany === 'all' || a.targetCompany === APP.user.company); flt.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>📢 Pengumuman</h3>${flt.map(a => `<div style="background:#E6F0FF;padding:10px;border-radius:8px;margin-bottom:6px;"><strong>${a.title}</strong><p style="font-size:11px;">${a.content}</p></div>`).join('')||'<p>Tidak ada</p>'}</div>`; updateAllBadges(); }
+async function loadEmpSlip() { document.getElementById('pageTitle').textContent = 'Slip Gaji'; document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>🔒 Verifikasi PIN</h3><div class="form-group"><label class="form-label">PIN</label><div class="input-with-icon"><input type="password" class="form-input" id="slipPin" maxlength="4" placeholder="PIN 4 digit"><button class="toggle-vis" onclick="togglePass('slipPin', this)"><i class="fas fa-eye-slash"></i></button></div></div><button class="btn-submit" onclick="verifySlipPin()">Lihat Slip</button><div id="slipResult" style="margin-top:12px;"></div></div>`; }
+async function verifySlipPin() { if (document.getElementById('slipPin').value !== String(APP.user.pin)) return toast('PIN salah!', 'error'); showLoading(); const slips = (await db.getAll('slip_gaji')).filter(s => String(s.userId) === String(APP.user.id)); hideLoading(); document.getElementById('slipResult').innerHTML = slips.map(s => `<div style="background:var(--card);padding:10px;border-radius:8px;margin-bottom:6px;border:1px solid var(--border);"><strong>${s.periode}</strong><div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;font-size:10px;margin-top:4px;"><div>Gaji: Rp ${(s.gajiPokok||0).toLocaleString()}</div><div>Bonus: Rp ${(s.bonus||0).toLocaleString()}</div><div>PPh: -Rp ${(s.pph||0).toLocaleString()}</div><div>BPJS Kes: -Rp ${(s.bpjsKes||0).toLocaleString()}</div><div>BPJS TK: -Rp ${(s.bpjsTk||0).toLocaleString()}</div><div><strong>TOTAL: Rp ${(s.total||0).toLocaleString()}</strong></div></div></div>`).join('')||'<p>Belum ada slip</p>'; }
+async function loadEmpWarnings() { document.getElementById('pageTitle').textContent = 'Peringatan'; const warns = (await db.getAll('warnings')).filter(w => String(w.userId) === String(APP.user.id)); warns.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>⚠️ Peringatan</h3>${warns.length>0?warns.map(w => `<div style="background:#FFF8E1;padding:10px;border-radius:8px;margin-bottom:6px;border-left:4px solid var(--warning);"><strong>${w.title}</strong><p style="font-size:11px;">${w.content}</p></div>`).join(''):'<p>Tidak ada</p>'}</div>`; updateAllBadges(); }
+async function loadEmpProfile() { const u = APP.user; document.getElementById('pageTitle').textContent = 'Profil'; document.getElementById('mainContent').innerHTML = `<div class="section-card"><div style="text-align:center;">${u.photo?`<img src="${u.photo}" id="pp" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid var(--primary);">`:'<div class="user-av" id="pp" style="width:70px;height:70px;font-size:28px;margin:0 auto;">'+u.name.charAt(0)+'</div>'}<h2>${u.name}</h2><p>${u.position||'-'} • ${u.division||'-'}</p><p>${u.company||''}</p><input type="file" id="gpi" accept="image/*" style="display:none;" onchange="uploadFromGallery()"><button class="btn-action btn-primary" onclick="document.getElementById('gpi').click()"><i class="fas fa-image"></i> Galeri</button> <button class="btn-action btn-primary" onclick="changeProfilePhoto()"><i class="fas fa-camera"></i> Kamera</button></div><div style="display:grid;gap:5px;margin-top:12px;font-size:11px;"><div><strong>PIN:</strong> ${u.pin}</div><div><strong>Email:</strong> ${u.email||'-'}</div><div><strong>PT:</strong> ${u.company||'-'}</div><div><strong>Area:</strong> ${u.workArea||'-'}</div><div style="background:var(--primary-light);padding:6px;border-radius:6px;"><strong>🕐 Jam Kerja:</strong> ${cleanTimeFormat(u.workStart)} - ${cleanTimeFormat(u.workEnd)}</div><div><strong>Lokasi:</strong> ${u.latitude?.toFixed(4)||'-'}, ${u.longitude?.toFixed(4)||'-'}</div><div><strong>Sisa Cuti:</strong> ${(parseInt(u.leaveQuota)||12)-(parseInt(u.leaveUsed)||0)} hari</div></div></div>`; }
+async function uploadFromGallery() { const f = document.getElementById('gpi').files[0]; if (!f) return; if (!f.type.startsWith('image/')) return toast('File harus gambar!', 'error'); const rd = new FileReader(); rd.onload = async function(e) { APP.user.photo = e.target.result; await db.put('employees', APP.user); updateSidebar(); const p = document.getElementById('pp'); if (p && p.tagName === 'IMG') p.src = e.target.result; toast('✅ Foto diupdate!', 'success'); }; rd.readAsDataURL(f); }
+async function changeProfilePhoto() { document.getElementById('attModal').classList.add('active'); document.getElementById('attModalTitle').textContent = 'Ganti Foto'; document.getElementById('btnCapture').style.display = 'inline-block'; await startCam(); document.querySelector('#attModal .btn-submit').onclick = async () => { if (!APP.photo) return toast('Ambil foto!', 'warning'); APP.user.photo = APP.photo; await db.put('employees', APP.user); closeAttModal(); updateSidebar(); loadEmpProfile(); toast('✅ Tersimpan!', 'success'); }; }
+async function loadAbout() { document.getElementById('pageTitle').textContent = 'Tentang'; document.getElementById('mainContent').innerHTML = `<div class="section-card" style="text-align:center;"><img src="sidik1.png" width="56" height="56" style="border-radius:14px;"><h2>AbsensiPro</h2><p>Sistem Absensi Profesional</p><p style="font-size:11px;"><strong>Dev:</strong> Aldo Giyantoro Putra</p></div>`; }
 
-// ==================== ATTENDANCE ====================
+// ==================== ATTENDANCE (FIXED) ====================
 async function openAttModal(type) { if (new Date().getDay() === 0) return toast('Minggu libur!', 'warning'); APP.attType = type; APP.photo = null; document.getElementById('attModalTitle').textContent = type === 'checkin' ? '📸 Check In' : '📸 Check Out'; document.querySelector('#attModal .btn-submit').onclick = submitAtt; document.getElementById('attModal').classList.add('active'); document.getElementById('photoPreview').style.display = 'none'; document.getElementById('btnCapture').style.display = 'inline-block'; document.getElementById('btnRetake').style.display = 'none'; document.querySelector('.camera-container').style.display = 'block'; await startCam(); getLoc(); }
-async function startCam() { try { const v = document.getElementById('camVideo'); APP.stream = await navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1280 }, height: { ideal: 720 } } }); v.srcObject = APP.stream; } catch (e) { document.querySelector('.camera-container').innerHTML = '<p style="color:white;text-align:center;padding:30px;">⚠️ Kamera tidak tersedia</p>'; } }
-function capturePhoto() { const v = document.getElementById('camVideo'), c = document.getElementById('camCanvas'); c.width = v.videoWidth; c.height = v.videoHeight; const ctx = c.getContext('2d'); ctx.translate(c.width, 0); ctx.scale(-1, 1); ctx.drawImage(v, 0, 0); APP.photo = c.toDataURL('image/jpeg', 0.9); document.getElementById('photoPreview').src = APP.photo; document.getElementById('photoPreview').style.display = 'block'; document.querySelector('.camera-container').style.display = 'none'; document.getElementById('btnCapture').style.display = 'none'; document.getElementById('btnRetake').style.display = 'inline-block'; }
+async function startCam() { try { const v = document.getElementById('camVideo'); APP.stream = await navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1280 }, height: { ideal: 720 } } }); v.srcObject = APP.stream; } catch (e) { document.querySelector('.camera-container').innerHTML = '<p style="color:white;text-align:center;padding:30px;">Kamera tidak tersedia</p>'; } }
+function capturePhoto() { const v = document.getElementById('camVideo'), c = document.getElementById('camCanvas'); c.width = v.videoWidth; c.height = v.videoHeight; const ctx = c.getContext('2d'); ctx.translate(c.width, 0); ctx.scale(-1, 1); ctx.drawImage(v, 0, 0); APP.photo = c.toDataURL('image/jpeg', 0.7); document.getElementById('photoPreview').src = APP.photo; document.getElementById('photoPreview').style.display = 'block'; document.querySelector('.camera-container').style.display = 'none'; document.getElementById('btnCapture').style.display = 'none'; document.getElementById('btnRetake').style.display = 'inline-block'; }
 function retakePhoto() { document.querySelector('.camera-container').style.display = 'block'; document.getElementById('photoPreview').style.display = 'none'; document.getElementById('btnCapture').style.display = 'inline-block'; document.getElementById('btnRetake').style.display = 'none'; APP.photo = null; }
-function getLoc() { const locText = document.getElementById('locText'); if (!('geolocation' in navigator)) { locText.textContent = '⚠️ Geolocation tidak didukung!'; return; } navigator.geolocation.getCurrentPosition(p => { APP.loc = { lat: p.coords.latitude, lng: p.coords.longitude }; locText.innerHTML = `📍 ${p.coords.latitude.toFixed(6)}, ${p.coords.longitude.toFixed(6)}`; document.getElementById('miniMap').innerHTML = `<iframe src="https://maps.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}&z=18&output=embed" width="100%" height="160"></iframe>`; if (APP.user?.latitude && APP.user?.locationRadius) { const dist = getDistance(p.coords.latitude, p.coords.longitude, APP.user.latitude, APP.user.longitude); if (dist > APP.user.locationRadius) toast(`⚠️ Anda di luar area! (${dist.toFixed(0)}m)`, 'warning'); } }, () => { locText.textContent = '⚠️ Gagal deteksi! Aktifkan GPS.'; toast('Aktifkan GPS!', 'error'); }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }); }
-function getDistance(lat1, lng1, lat2, lng2) { const R = 6371000, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180; const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2; return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); }
-async function submitAtt() { if (!APP.photo) return toast('Ambil foto!', 'warning'); if (!APP.loc) return toast('GPS belum terdeteksi!', 'error'); const n = new Date(), ts = n.toTimeString().split(' ')[0].substring(0, 5), ds = n.toISOString().split('T')[0]; if (APP.attType === 'checkin') { const st = ts > (APP.user.workStart||'08:00') ? 'late' : 'present'; await db.put('attendance', { userId: APP.user.id, userName: APP.user.name, userDept: APP.user.department, userCompany: APP.user.company, date: ds, checkIn: ts, checkOut: null, totalHours: 0, status: st, latitude: APP.loc.lat, longitude: APP.loc.lng, photoData: APP.photo }); toast(`✅ CHECK IN ${ts}`, 'success'); } else { const tr = await db.getByIdx('attendance', 'uid_date', [APP.user.id, ds]); if (!tr) return toast('Belum check-in!', 'error'); const [ih, im] = tr.checkIn.split(':'), [oh, om] = ts.split(':'); tr.checkOut = ts; tr.totalHours = Math.round(((parseInt(oh)*60+parseInt(om))-(parseInt(ih)*60+parseInt(im)))/60*100)/100; await db.put('attendance', tr); toast(`✅ CHECK OUT ${ts}`, 'success'); } closeAttModal(); await loadEmpDashboard(); }
+function getLoc() { const lt = document.getElementById('locText'); if (!('geolocation' in navigator)) { lt.textContent = 'Tidak didukung!'; return; } navigator.geolocation.getCurrentPosition(p => { APP.loc = { lat: p.coords.latitude, lng: p.coords.longitude }; lt.innerHTML = `📍 ${p.coords.latitude.toFixed(6)}, ${p.coords.longitude.toFixed(6)}`; document.getElementById('miniMap').innerHTML = `<iframe src="https://maps.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}&z=18&output=embed" width="100%" height="140"></iframe>`; }, () => { lt.textContent = 'Gagal! Aktifkan GPS.'; toast('Aktifkan GPS!', 'error'); }, { enableHighAccuracy: true }); }
+
+async function submitAtt() {
+    if (!APP.photo) return toast('Ambil foto!', 'warning');
+    if (!APP.loc) return toast('GPS belum terdeteksi!', 'error');
+    showLoading();
+    const n = new Date();
+    const jam = n.getHours().toString().padStart(2, '0');
+    const menit = n.getMinutes().toString().padStart(2, '0');
+    const detik = n.getSeconds().toString().padStart(2, '0');
+    const ts = `${jam}:${menit}:${detik}`;
+    const tsShort = `${jam}:${menit}`;
+    const ds = n.toISOString().split('T')[0];
+    const allAtt = await db.getAll('attendance');
+    
+    if (APP.attType === 'checkin') {
+        const already = allAtt.find(a => String(a.userId) === String(APP.user.id) && String(a.date).split('T')[0] === ds && a.checkIn && String(a.checkIn).trim() !== '');
+        if (already) { hideLoading(); return toast('❌ Anda sudah Check In hari ini!', 'warning'); }
+        const ws = cleanTimeFormat(APP.user.workStart) || '08:00';
+        const st = tsShort > ws ? 'late' : 'present';
+        await db.put('attendance', { userId: APP.user.id, userName: APP.user.name, userDept: APP.user.department, userCompany: APP.user.company||'', date: ds, checkIn: ts, checkOut: '', totalHours: 0, status: st, latitude: APP.loc.lat, longitude: APP.loc.lng, photoData: APP.photo });
+        hideLoading(); toast(`✅ CHECK IN ${tsShort}`, 'success');
+    } else {
+        const todayAtt = allAtt.find(a => String(a.userId) === String(APP.user.id) && String(a.date).split('T')[0] === ds && a.checkIn && String(a.checkIn).trim() !== '');
+        if (!todayAtt) { hideLoading(); return toast('❌ Belum Check In!', 'error'); }
+        if (todayAtt.checkOut && String(todayAtt.checkOut).trim() !== '') { hideLoading(); return toast('❌ Sudah Check Out!', 'warning'); }
+        const [ih, im] = String(todayAtt.checkIn).substring(0,5).split(':').map(Number);
+        const totalMenit = (n.getHours()*60 + n.getMinutes()) - (ih*60 + im);
+        const totalJam = Math.round((totalMenit / 60) * 100) / 100;
+        todayAtt.checkOut = ts;
+        todayAtt.totalHours = totalJam;
+        await db.put('attendance', todayAtt);
+        hideLoading(); toast(`✅ CHECK OUT ${tsShort} (${totalJam} jam)`, 'success');
+    }
+    closeAttModal(); await loadEmpDashboard();
+}
 function closeAttModal() { document.getElementById('attModal').classList.remove('active'); if (APP.stream) { APP.stream.getTracks().forEach(t => t.stop()); APP.stream = null; } APP.photo = null; }
 function closeEditModal() { document.getElementById('editModal').classList.remove('active'); }
 
@@ -613,192 +402,69 @@ async function loadHRDDashboard() {
     document.getElementById('pageTitle').textContent = 'Dashboard HRD';
     const allAtt = await db.getAll('attendance');
     const today = new Date().toISOString().split('T')[0];
-    const todayData = allAtt.filter(a => a.date === today);
+    const todayData = allAtt.filter(a => String(a.date).split('T')[0] === today && a.checkIn);
     const emps = await db.getAll('employees');
-    const companies = [...new Set(emps.map(e => e.company).filter(Boolean))];
     const reqs = await db.getAll('requests');
     const pending = reqs.filter(r => r.status === 'pending');
+    const last7 = []; for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); last7.push(d.toISOString().split('T')[0]); }
+    const weeklyData = last7.map(d => allAtt.filter(a => String(a.date).split('T')[0] === d && a.checkIn).length);
+    
     document.getElementById('mainContent').innerHTML = `
         <div class="stats-grid">
             <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div class="stat-label">Karyawan</div><div class="stat-value">${emps.length}</div></div>
-            <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-building"></i></div><div class="stat-label">Perusahaan</div><div class="stat-value">${companies.length}</div></div>
             <div class="stat-card"><div class="stat-icon green"><i class="fas fa-user-check"></i></div><div class="stat-label">Hadir Hari Ini</div><div class="stat-value">${todayData.length}</div></div>
             <div class="stat-card"><div class="stat-icon" style="background:#FFF8E1;color:#FFB300;"><i class="fas fa-clock"></i></div><div class="stat-label">Pending</div><div class="stat-value">${pending.length}</div></div>
         </div>
-        <div class="section-card"><div class="tab-buttons"><button class="tab-btn active" onclick="switchHRDChart('daily', this)">Harian</button><button class="tab-btn" onclick="switchHRDChart('weekly', this)">Mingguan</button><button class="tab-btn" onclick="switchHRDChart('monthly', this)">Bulanan</button></div><div class="chart-sm"><canvas id="hrdChart"></canvas></div></div>
-        <div class="section-card"><h3>Absensi Hari Ini</h3><table class="data-table" id="exportTable"><thead><tr><th>Nama</th><th>In</th><th>Out</th><th>Status</th></tr></thead><tbody>${todayData.map(a => `<tr><td>${a.userName}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td></tr>`).join('')}</tbody></table></div>`;
-    setTimeout(() => { const ctx = document.getElementById('hrdChart')?.getContext('2d'); if (ctx) { if (APP.chartInstance) APP.chartInstance.destroy(); APP.chartInstance = new Chart(ctx, { type: 'bar', data: { labels: ['Sen','Sel','Rab','Kam','Jum'], datasets: [{ label: 'Hadir', data: [20,22,18,25,21], backgroundColor: '#0066FF' }] }, options: { responsive: true, plugins: { legend: { display: false } } } }); } }, 300);
+        <div class="section-card"><h3>📊 Grafik Kehadiran Mingguan</h3><div class="chart-sm"><canvas id="hrdChart"></canvas></div></div>
+        <div class="section-card"><h3>Absensi Hari Ini</h3><table class="data-table" id="exportTable"><thead><tr><th>Nama</th><th>In</th><th>Out</th><th>Status</th></tr></thead><tbody>${todayData.map(a => `<tr><td>${a.userName}</td><td>${a.checkIn?String(a.checkIn).substring(0,5):'-'}</td><td>${a.checkOut?String(a.checkOut).substring(0,5):'-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td></tr>`).join('')}</tbody></table></div>`;
+    
+    setTimeout(() => {
+        const ctx = document.getElementById('hrdChart')?.getContext('2d');
+        if (ctx) {
+            if (APP.chartInstance) APP.chartInstance.destroy();
+            APP.chartInstance = new Chart(ctx, { type: 'bar', data: { labels: last7.map(d => d.substring(5)), datasets: [{ label: 'Hadir', data: weeklyData, backgroundColor: '#0066FF', borderRadius: 4 }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { font: { size: 10 } } }, x: { ticks: { font: { size: 10 } } } } } });
+        }
+    }, 300);
 }
-function switchHRDChart(type, btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
-async function loadHRDRekap() {
-    document.getElementById('pageTitle').textContent = 'Rekap Absensi';
-    const data = await db.getAll('attendance');
-    data.sort((a, b) => new Date(b.date) - new Date(a.date));
-    document.getElementById('mainContent').innerHTML = `
-        <div class="section-card"><div class="section-header"><h3>📋 Semua Absensi (${data.length})</h3><div style="display:flex;gap:6px;flex-wrap:wrap;"><input type="date" class="form-input" id="filterRekapStart" style="width:130px;" onchange="filterRekapByDate()"><span style="font-size:11px;">s/d</span><input type="date" class="form-input" id="filterRekapEnd" style="width:130px;" onchange="filterRekapByDate()"><input type="text" class="form-input" id="filterRekap" placeholder="🔍 Nama..." style="width:150px;" onkeyup="filterRekapTable()"><button class="btn-action btn-success" onclick="exportExcel()"><i class="fas fa-file-excel"></i> Export</button><button class="btn-action btn-danger" onclick="hapusSemuaAbsensi()"><i class="fas fa-trash"></i> Hapus Semua</button></div></div>
-        <table class="data-table" id="exportTable"><thead><tr><th>No</th><th>Tgl</th><th>Nama</th><th>In</th><th>Out</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="rekapTableBody">${data.map((a,i) => `<tr><td>${i+1}</td><td>${formatDate(a.date)}</td><td>${a.userName}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td><td><button class="btn-action btn-danger" onclick="hapusSatuAbsensi(${a.id})"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
-}
-async function hapusSemuaAbsensi() {
-    const data = await db.getAll('attendance');
-    if (data.length === 0) return toast('Tidak ada data!', 'warning');
-    showConfirm({
-        title: 'Hapus Semua Absensi',
-        message: `Anda akan menghapus ${data.length} data absensi!`,
-        info: `<div>⚠️ Semua data absensi akan dihapus permanen!</div><div>Total: <strong>${data.length} record</strong></div>`,
-        icon: '🗑️', btnText: 'Ya, Hapus Semua', btnClass: 'confirm-btn-danger',
-        onConfirm: async () => { for (const a of data) { await db.del('attendance', a.id); } toast(`✅ ${data.length} data dihapus!`, 'success'); await loadHRDRekap(); }
-    });
-}
-async function hapusSatuAbsensi(id) {
-    const data = await db.get('attendance', id);
-    if (!data) return toast('Data tidak ditemukan!', 'error');
-    showConfirm({
-        title: 'Hapus Data Absensi',
-        message: 'Anda akan menghapus data:',
-        info: `<div><strong>${data.userName}</strong></div><div>📅 ${formatDate(data.date)}</div><div>✅ ${data.checkIn||'-'} - 🔴 ${data.checkOut||'-'}</div>`,
-        icon: '🗑️', btnText: 'Hapus', btnClass: 'confirm-btn-danger',
-        onConfirm: async () => { await db.del('attendance', id); toast('✅ Data dihapus!', 'success'); await loadHRDRekap(); }
-    });
-}
-async function filterRekapByDate() {
-    const start = document.getElementById('filterRekapStart')?.value;
-    const end = document.getElementById('filterRekapEnd')?.value;
-    const allAtt = await db.getAll('attendance');
-    let filtered = allAtt;
-    if (start) filtered = filtered.filter(a => a.date >= start);
-    if (end) filtered = filtered.filter(a => a.date <= end);
-    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-    document.getElementById('rekapTableBody').innerHTML = filtered.map((a,i) => `<tr><td>${i+1}</td><td>${formatDate(a.date)}</td><td>${a.userName}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td><td><button class="btn-action btn-danger" onclick="hapusSatuAbsensi(${a.id})"><i class="fas fa-trash"></i></button></td></tr>`).join('') || '<tr><td colspan="7" style="text-align:center;">Tidak ada data</td></tr>';
-}
-function filterRekapTable() { const f = document.getElementById('filterRekap')?.value.toLowerCase() || ''; document.querySelectorAll('#rekapTableBody tr').forEach(row => { row.style.display = row.textContent.toLowerCase().includes(f) ? '' : 'none'; }); }
-async function loadHRDEmployees() {
-    document.getElementById('pageTitle').textContent = 'Data Karyawan';
-    const emps = await db.getAll('employees');
-    const companies = [...new Set(emps.map(e => e.company).filter(Boolean))];
-    document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>🏢 Pilih Perusahaan</h3><div style="display:flex;gap:6px;flex-wrap:wrap;">${companies.map(c => `<button class="btn-action btn-primary" onclick="showEmpByCompany('${c}')">${c} (${emps.filter(e=>e.company===c).length})</button>`).join('')}<button class="btn-action btn-success" onclick="openAddEmp()"><i class="fas fa-plus"></i> Tambah</button></div><div id="empTableContainer" style="margin-top:14px;"><p>Pilih perusahaan</p></div></div>`;
-}
-async function showEmpByCompany(company) {
-    const emps = await db.getAllByIdx('employees', 'company', company);
-    document.getElementById('empTableContainer').innerHTML = `<h4>${company} (${emps.length})</h4><table class="data-table" id="exportTable"><thead><tr><th>PIN</th><th>Nama</th><th>Jabatan</th><th>Area</th><th>Jam</th><th>Aksi</th></tr></thead><tbody>${emps.map(e => `<tr><td>${e.pin}</td><td>${e.name}</td><td>${e.position||'-'}</td><td>${e.workArea||'-'}</td><td>${e.workStart}-${e.workEnd}</td><td><button class="btn-action btn-warning" onclick="openEditEmp(${e.id})"><i class="fas fa-edit"></i></button> <button class="btn-action btn-danger" onclick="deleteEmp(${e.id})"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table><button class="btn-action btn-success" style="margin-top:8px;" onclick="exportExcel()">Export Excel</button>`;
-}
-async function openEditEmp(id) {
-    const e = await db.get('employees', id);
-    document.getElementById('editModalTitle').textContent = 'Edit: ' + e.name;
-    document.getElementById('editModalContent').innerHTML = `<div class="form-group"><label class="form-label">PIN</label><input class="form-input" id="edPin" value="${e.pin}"></div><div class="form-group"><label class="form-label">Nama</label><input class="form-input" id="edName" value="${e.name}"></div><div class="form-group"><label class="form-label">PT</label><input class="form-input" id="edCompany" value="${e.company||''}"></div><div class="form-group"><label class="form-label">Jabatan</label><input class="form-input" id="edPos" value="${e.position||''}"></div><div class="form-group"><label class="form-label">Divisi</label><input class="form-input" id="edDiv" value="${e.division||''}"></div><div class="form-group"><label class="form-label">Area</label><input class="form-input" id="edArea" value="${e.workArea||''}"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="form-group"><label class="form-label">Mulai</label><input type="time" class="form-input" id="edStart" value="${e.workStart||'08:00'}"></div><div class="form-group"><label class="form-label">Selesai</label><input type="time" class="form-input" id="edEnd" value="${e.workEnd||'17:00'}"></div></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;"><div class="form-group"><label class="form-label">Lat</label><input type="number" class="form-input" id="edLat" value="${e.latitude||''}" step="0.000001"></div><div class="form-group"><label class="form-label">Lng</label><input type="number" class="form-input" id="edLng" value="${e.longitude||''}" step="0.000001"></div><div class="form-group"><label class="form-label">Radius</label><input type="number" class="form-input" id="edRadius" value="${e.locationRadius||100}"></div></div><button class="btn-submit" onclick="saveEmpEdit(${e.id})">Simpan</button>`;
-    document.getElementById('editModal').classList.add('active');
-}
+async function loadHRDRekap() { document.getElementById('pageTitle').textContent = 'Rekap Absensi'; showLoading(); const data = await db.getAll('attendance'); data.sort((a, b) => new Date(String(b.date).split('T')[0]) - new Date(String(a.date).split('T')[0])); hideLoading(); document.getElementById('mainContent').innerHTML = `<div class="section-card"><div class="section-header"><h3>📋 Semua (${data.length})</h3><div style="display:flex;gap:4px;"><button class="btn-action btn-success" onclick="exportExcel()"><i class="fas fa-file-excel"></i> Export</button><button class="btn-action btn-danger" onclick="hapusSemuaAbsensi()"><i class="fas fa-trash"></i> Hapus Semua</button></div></div><table class="data-table" id="exportTable"><thead><tr><th>Tgl</th><th>Nama</th><th>In</th><th>Out</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${data.map(a => `<tr><td>${formatDate(a.date)}</td><td>${a.userName}</td><td>${a.checkIn?String(a.checkIn).substring(0,5):'-'}</td><td>${a.checkOut?String(a.checkOut).substring(0,5):'-'}</td><td><span class="status-chip ${a.status||'absent'}">${(a.status||'absent').toUpperCase()}</span></td><td><button class="btn-action btn-danger" onclick="hapusSatuAbsensi(${a.id})"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`; }
+async function hapusSemuaAbsensi() { const data = await db.getAll('attendance'); if (data.length === 0) return toast('Tidak ada!', 'warning'); showConfirm({ title: 'Hapus Semua', message: `Hapus ${data.length} data?`, icon: '🗑️', onConfirm: async () => { showLoading(); for (const a of data) { await db.del('attendance', a.id); } hideLoading(); toast('✅ Dihapus!', 'success'); await loadHRDRekap(); } }); }
+async function hapusSatuAbsensi(id) { showConfirm({ title: 'Hapus', message: 'Hapus data ini?', icon: '🗑️', onConfirm: async () => { await db.del('attendance', id); toast('✅ Dihapus!', 'success'); await loadHRDRekap(); } }); }
+async function loadHRDEmployees() { document.getElementById('pageTitle').textContent = 'Data Karyawan'; const emps = await db.getAll('employees'); const comps = [...new Set(emps.map(e => e.company).filter(Boolean))]; document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>🏢 Perusahaan</h3><div style="display:flex;gap:5px;flex-wrap:wrap;">${comps.map(c => `<button class="btn-action btn-primary" onclick="showEmpByCompany('${c}')">${c} (${emps.filter(e=>e.company===c).length})</button>`).join('')}<button class="btn-action btn-success" onclick="openAddEmp()"><i class="fas fa-plus"></i> Tambah</button></div><div id="empTC" style="margin-top:12px;"><p>Pilih perusahaan</p></div></div>`; }
+async function showEmpByCompany(c) { const emps = await db.getAllByIdx('employees', 'company', c); document.getElementById('empTC').innerHTML = `<h4>${c} (${emps.length})</h4><table class="data-table" id="exportTable"><thead><tr><th>PIN</th><th>Nama</th><th>Jabatan</th><th>Area</th><th>Jam</th><th>Aksi</th></tr></thead><tbody>${emps.map(e => `<tr><td>${e.pin}</td><td>${e.name}</td><td>${e.position||'-'}</td><td>${e.workArea||'-'}</td><td>${cleanTimeFormat(e.workStart)}-${cleanTimeFormat(e.workEnd)}</td><td><button class="btn-action btn-warning" onclick="openEditEmp(${e.id})"><i class="fas fa-edit"></i></button> <button class="btn-action btn-danger" onclick="deleteEmp(${e.id})"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table><button class="btn-action btn-success" style="margin-top:6px;" onclick="exportExcel()">Export</button>`; }
+async function openEditEmp(id) { const e = await db.get('employees', id); document.getElementById('editModalTitle').textContent = 'Edit: ' + e.name; document.getElementById('editModalContent').innerHTML = `<div class="form-group"><label class="form-label">PIN</label><input class="form-input" id="edPin" value="${e.pin}"></div><div class="form-group"><label class="form-label">Nama</label><input class="form-input" id="edName" value="${e.name}"></div><div class="form-group"><label class="form-label">PT</label><input class="form-input" id="edCompany" value="${e.company||''}"></div><div class="form-group"><label class="form-label">Jabatan</label><input class="form-input" id="edPos" value="${e.position||''}"></div><div class="form-group"><label class="form-label">Divisi</label><input class="form-input" id="edDiv" value="${e.division||''}"></div><div class="form-group"><label class="form-label">Area</label><input class="form-input" id="edArea" value="${e.workArea||''}"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"><div class="form-group"><label class="form-label">Mulai</label><input type="time" class="form-input" id="edStart" value="${cleanTimeFormat(e.workStart)}"></div><div class="form-group"><label class="form-label">Selesai</label><input type="time" class="form-input" id="edEnd" value="${cleanTimeFormat(e.workEnd)}"></div></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;"><div class="form-group"><label class="form-label">Lat</label><input type="number" class="form-input" id="edLat" value="${e.latitude||''}" step="0.000001"></div><div class="form-group"><label class="form-label">Lng</label><input type="number" class="form-input" id="edLng" value="${e.longitude||''}" step="0.000001"></div><div class="form-group"><label class="form-label">Radius</label><input type="number" class="form-input" id="edRadius" value="${e.locationRadius||100}"></div></div><button class="btn-submit" onclick="saveEmpEdit(${e.id})">Simpan</button>`; document.getElementById('editModal').classList.add('active'); }
 async function saveEmpEdit(id) { const e = await db.get('employees', id); ['pin','name','company','workArea','workStart','workEnd'].forEach(f => { const el = document.getElementById('ed'+f.charAt(0).toUpperCase()+f.slice(1)); if (el) e[f] = el.value; }); e.position = document.getElementById('edPos')?.value||''; e.division = document.getElementById('edDiv')?.value||''; e.latitude = parseFloat(document.getElementById('edLat')?.value)||null; e.longitude = parseFloat(document.getElementById('edLng')?.value)||null; e.locationRadius = parseInt(document.getElementById('edRadius')?.value)||100; await db.put('employees', e); closeEditModal(); await loadHRDEmployees(); toast('✅ Tersimpan!', 'success'); }
-function openAddEmp() { document.getElementById('editModalTitle').textContent = 'Tambah Karyawan'; document.getElementById('editModalContent').innerHTML = `<div class="form-group"><label class="form-label">PIN</label><input class="form-input" id="edPin" maxlength="4"></div><div class="form-group"><label class="form-label">Nama</label><input class="form-input" id="edName"></div><div class="form-group"><label class="form-label">PT</label><input class="form-input" id="edCompany" value="PT Teknologi Maju"></div><div class="form-group"><label class="form-label">Jabatan</label><input class="form-input" id="edPos"></div><div class="form-group"><label class="form-label">Divisi</label><input class="form-input" id="edDiv"></div><div class="form-group"><label class="form-label">Area</label><input class="form-input" id="edArea" value="Kantor Pusat"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="form-group"><label class="form-label">Mulai</label><input type="time" class="form-input" id="edStart" value="08:00"></div><div class="form-group"><label class="form-label">Selesai</label><input type="time" class="form-input" id="edEnd" value="17:00"></div></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;"><div class="form-group"><label class="form-label">Lat</label><input type="number" class="form-input" id="edLat" value="-6.2088" step="0.000001"></div><div class="form-group"><label class="form-label">Lng</label><input type="number" class="form-input" id="edLng" value="106.8456" step="0.000001"></div><div class="form-group"><label class="form-label">Radius</label><input type="number" class="form-input" id="edRadius" value="100"></div></div><button class="btn-submit" onclick="addNewEmp()">Tambah</button>`; document.getElementById('editModal').classList.add('active'); }
+function openAddEmp() { document.getElementById('editModalTitle').textContent = 'Tambah Karyawan'; document.getElementById('editModalContent').innerHTML = `<div class="form-group"><label class="form-label">PIN</label><input class="form-input" id="edPin" maxlength="4"></div><div class="form-group"><label class="form-label">Nama</label><input class="form-input" id="edName"></div><div class="form-group"><label class="form-label">PT</label><input class="form-input" id="edCompany" value="PT Teknologi Maju"></div><div class="form-group"><label class="form-label">Jabatan</label><input class="form-input" id="edPos"></div><div class="form-group"><label class="form-label">Divisi</label><input class="form-input" id="edDiv"></div><div class="form-group"><label class="form-label">Area</label><input class="form-input" id="edArea" value="Kantor Pusat"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"><div class="form-group"><label class="form-label">Mulai</label><input type="time" class="form-input" id="edStart" value="08:00"></div><div class="form-group"><label class="form-label">Selesai</label><input type="time" class="form-input" id="edEnd" value="17:00"></div></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;"><div class="form-group"><label class="form-label">Lat</label><input type="number" class="form-input" id="edLat" value="-6.2088" step="0.000001"></div><div class="form-group"><label class="form-label">Lng</label><input type="number" class="form-input" id="edLng" value="106.8456" step="0.000001"></div><div class="form-group"><label class="form-label">Radius</label><input type="number" class="form-input" id="edRadius" value="100"></div></div><button class="btn-submit" onclick="addNewEmp()">Tambah</button>`; document.getElementById('editModal').classList.add('active'); }
 async function addNewEmp() { const pin = document.getElementById('edPin').value; if (!pin||pin.length!==4) return toast('PIN 4 digit!', 'warning'); if (await db.getByIdx('employees','pin',pin)) return toast('PIN sudah dipakai!', 'error'); await db.put('employees',{pin,name:document.getElementById('edName').value,company:document.getElementById('edCompany').value,position:document.getElementById('edPos').value,division:document.getElementById('edDiv').value,workArea:document.getElementById('edArea').value,workStart:document.getElementById('edStart').value,workEnd:document.getElementById('edEnd').value,latitude:parseFloat(document.getElementById('edLat')?.value)||null,longitude:parseFloat(document.getElementById('edLng')?.value)||null,locationRadius:parseInt(document.getElementById('edRadius')?.value)||100,leaveQuota:12,leaveUsed:0,photo:'',active:true,department:'',email:''}); closeEditModal(); await loadHRDEmployees(); toast('✅ Ditambahkan!', 'success'); }
-async function deleteEmp(id) {
-    const emp = await db.get('employees', id);
-    showConfirm({
-        title: 'Hapus Karyawan',
-        message: 'Anda akan menghapus karyawan:',
-        info: `<div><strong>${emp.name}</strong></div><div>PIN: ${emp.pin}</div><div>PT: ${emp.company||'-'}</div>`,
-        icon: '🗑️', btnText: 'Hapus Karyawan', btnClass: 'confirm-btn-danger',
-        onConfirm: async () => { await db.del('employees', id); toast('✅ Dihapus!', 'success'); await loadHRDEmployees(); }
-    });
-}
-async function loadHRDApproval() {
-    await db.markRead('all', 'approval');
-    document.getElementById('pageTitle').textContent = 'Persetujuan';
-    const reqs = await db.getAll('requests');
-    reqs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    document.getElementById('mainContent').innerHTML = `
-        <div class="section-card"><div class="section-header"><h3>✅ Persetujuan (${reqs.length})</h3><div style="display:flex;gap:6px;"><button class="btn-action btn-danger" onclick="hapusSemuaPengajuan()"><i class="fas fa-trash"></i> Hapus Semua</button></div></div>
-        <table class="data-table"><thead><tr><th>Nama</th><th>Jenis</th><th>Tgl</th><th>Alasan</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${reqs.map(r => `<tr><td>${r.userName}</td><td>${r.type.toUpperCase()}</td><td>${formatDate(r.startDate)}</td><td><small>${r.reason||'-'}</small></td><td><span class="status-chip ${r.status}">${r.status.toUpperCase()}</span></td><td>${r.status==='pending'?`<button class="btn-action btn-success" onclick="approveReq(${r.id})">✓</button><button class="btn-action btn-danger" onclick="rejectReq(${r.id})">✕</button>`:'-'} <button class="btn-action btn-warning" onclick="hapusSatuPengajuan(${r.id})">🗑️</button></td></tr>`).join('')}</tbody></table></div>`;
-    updateAllBadges();
-}
-async function hapusSemuaPengajuan() {
-    const reqs = await db.getAll('requests');
-    if (reqs.length === 0) return toast('Tidak ada!', 'warning');
-    showConfirm({
-        title: 'Hapus Semua Pengajuan',
-        message: `Anda akan menghapus ${reqs.length} pengajuan!`,
-        info: `<div>⚠️ Semua pengajuan akan dihapus permanen!</div>`,
-        icon: '⚠️', btnText: 'Hapus Semua', btnClass: 'confirm-btn-warning',
-        onConfirm: async () => { for (const r of reqs) { await db.del('requests', r.id); } toast(`✅ ${reqs.length} dihapus!`, 'success'); await loadHRDApproval(); updateAllBadges(); }
-    });
-}
-async function hapusSatuPengajuan(id) {
-    showConfirm({
-        title: 'Hapus Pengajuan', message: 'Hapus pengajuan ini?', icon: '🗑️', btnText: 'Hapus', btnClass: 'confirm-btn-danger',
-        onConfirm: async () => { await db.del('requests', id); toast('✅ Dihapus!', 'success'); await loadHRDApproval(); updateAllBadges(); }
-    });
-}
-async function approveReq(id) { const r = await db.get('requests', id); r.status = 'approved'; r.approvedAt = new Date().toISOString(); await db.put('requests', r); await db.addNotif(r.userId, 'history', `Pengajuan ${r.type} disetujui`); if (r.type === 'cuti') { const e = await db.get('employees', r.userId); if (e) { e.leaveUsed = (e.leaveUsed||0)+1; await db.put('employees', e); } } if (r.type === 'absen_miss') { await db.put('attendance', { userId: r.userId, userName: r.userName, date: r.startDate, checkIn: r.jenis==='checkin'?r.jam:null, checkOut: r.jenis==='checkout'?r.jam:null, status: 'present', photoData: r.bukti }); } await loadHRDApproval(); toast('✅ Disetujui!', 'success'); updateAllBadges(); }
-async function rejectReq(id) { const r = await db.get('requests', id); r.status = 'rejected'; await db.put('requests', r); await db.addNotif(r.userId, 'history', `Pengajuan ${r.type} ditolak`); await loadHRDApproval(); toast('Ditolak', 'info'); updateAllBadges(); }
-async function loadHRDAnnounce() {
-    document.getElementById('pageTitle').textContent = 'Pengumuman';
-    const ann = await db.getAll('announcements');
-    const companies = [...new Set((await db.getAll('employees')).map(e => e.company).filter(Boolean))];
-    document.getElementById('mainContent').innerHTML = `
-        <div class="section-card"><h3>📢 Buat Pengumuman</h3><div class="form-group"><label class="form-label">Judul</label><input class="form-input" id="annTitle"></div><div class="form-group"><label class="form-label">Isi</label><textarea class="form-input" id="annContent" rows="4"></textarea></div><div class="form-group"><label class="form-label">Target PT</label><select class="form-input" id="annTarget"><option value="all">Semua PT</option>${companies.map(c => `<option value="${c}">${c}</option>`).join('')}</select></div><div class="form-group"><label class="form-label">Upload File</label><input type="file" id="annFile" class="form-input"></div><button class="btn-submit" onclick="sendAnnounce()"><i class="fas fa-paper-plane"></i> Kirim</button></div>
-        <div class="section-card"><div class="section-header"><h3>Daftar Pengumuman (${ann.length})</h3><button class="btn-action btn-danger" onclick="hapusSemuaPengumuman()"><i class="fas fa-trash"></i> Hapus Semua</button></div>${ann.map(a => `<div style="background:var(--primary-light);padding:10px;border-radius:8px;margin-bottom:6px;"><div style="display:flex;justify-content:space-between;"><strong>${a.title}</strong><button class="btn-action btn-danger" onclick="hapusPengumuman(${a.id})">🗑️</button></div><p style="font-size:11px;">${a.content}</p>${a.fileData?`<a href="${a.fileData}" download="${a.fileName||'file'}" class="btn-action btn-primary"><i class="fas fa-download"></i> Download</a>`:''}</div>`).join('')}</div>`;
-}
-async function hapusSemuaPengumuman() {
-    const data = await db.getAll('announcements');
-    if (data.length === 0) return toast('Tidak ada!', 'warning');
-    showConfirm({ title: 'Hapus Semua Pengumuman', message: `Hapus ${data.length} pengumuman?`, icon: '🗑️', btnText: 'Hapus Semua', btnClass: 'confirm-btn-danger', onConfirm: async () => { for (const a of data) { await db.del('announcements', a.id); } toast('✅ Dihapus!', 'success'); await loadHRDAnnounce(); } });
-}
-async function hapusPengumuman(id) {
-    showConfirm({ title: 'Hapus Pengumuman', message: 'Hapus pengumuman ini?', icon: '🗑️', btnText: 'Hapus', btnClass: 'confirm-btn-danger', onConfirm: async () => { await db.del('announcements', id); toast('✅ Dihapus!', 'success'); await loadHRDAnnounce(); } });
-}
-async function sendAnnounce() { const t = document.getElementById('annTitle').value, c = document.getElementById('annContent').value; if (!t||!c) return toast('Isi semua!', 'warning'); const data = { title: t, content: c, targetCompany: document.getElementById('annTarget').value, fromName: APP.user.name, createdAt: new Date().toISOString() }; const file = document.getElementById('annFile')?.files[0]; if (file) { data.fileData = await new Promise(r => { const rd = new FileReader(); rd.onload = () => r(rd.result); rd.readAsDataURL(file); }); data.fileName = file.name; } await db.put('announcements', data); const emps = await db.getAll('employees'); const targets = data.targetCompany === 'all' ? emps : emps.filter(e => e.company === data.targetCompany); for (const emp of targets) { await db.addNotif(emp.id, 'pengumuman', `Pengumuman baru: ${t}`); } toast('✅ Terkirim!', 'success'); await loadHRDAnnounce(); updateAllBadges(); }
-async function loadHRDWarnings() {
-    document.getElementById('pageTitle').textContent = 'Peringatan';
-    const emps = await db.getAll('employees');
-    const warns = await db.getAll('warnings');
-    document.getElementById('mainContent').innerHTML = `
-        <div class="section-card"><h3>⚠️ Buat Peringatan</h3><div class="form-group"><label class="form-label">Karyawan</label><select class="form-input" id="warnEmp">${emps.map(e => `<option value="${e.id}">${e.name} (${e.company})</option>`).join('')}</select></div><div class="form-group"><label class="form-label">Judul</label><input class="form-input" id="warnTitle"></div><div class="form-group"><label class="form-label">Isi</label><textarea class="form-input" id="warnContent" rows="4"></textarea></div><button class="btn-submit" onclick="sendWarning()">Kirim</button></div>
-        <div class="section-card"><div class="section-header"><h3>Daftar Peringatan (${warns.length})</h3><button class="btn-action btn-danger" onclick="hapusSemuaPeringatan()"><i class="fas fa-trash"></i> Hapus Semua</button></div>${warns.map(w => `<div style="background:#FFF8E1;padding:10px;border-radius:8px;margin-bottom:6px;border-left:4px solid var(--warning);"><div style="display:flex;justify-content:space-between;"><strong>${w.title}</strong><button class="btn-action btn-danger" onclick="hapusPeringatan(${w.id})">🗑️</button></div><span style="font-size:10px;">- ${w.userName}</span><p style="font-size:11px;">${w.content}</p></div>`).join('')}</div>`;
-}
-async function hapusSemuaPeringatan() {
-    const data = await db.getAll('warnings');
-    if (data.length === 0) return toast('Tidak ada!', 'warning');
-    showConfirm({ title: 'Hapus Semua Peringatan', message: `Hapus ${data.length} peringatan?`, icon: '🗑️', btnText: 'Hapus Semua', btnClass: 'confirm-btn-danger', onConfirm: async () => { for (const w of data) { await db.del('warnings', w.id); } toast('✅ Dihapus!', 'success'); await loadHRDWarnings(); } });
-}
-async function hapusPeringatan(id) {
-    showConfirm({ title: 'Hapus Peringatan', message: 'Hapus peringatan ini?', icon: '🗑️', btnText: 'Hapus', btnClass: 'confirm-btn-danger', onConfirm: async () => { await db.del('warnings', id); toast('✅ Dihapus!', 'success'); await loadHRDWarnings(); } });
-}
-async function sendWarning() { const uid = parseInt(document.getElementById('warnEmp').value); const emp = await db.get('employees', uid); const title = document.getElementById('warnTitle').value, content = document.getElementById('warnContent').value; if (!title||!content) return toast('Isi semua!', 'warning'); await db.put('warnings', { userId: uid, userName: emp.name, title, content, createdAt: new Date().toISOString() }); await db.addNotif(uid, 'warning', `Peringatan: ${title}`); toast('✅ Terkirim!', 'success'); await loadHRDWarnings(); updateAllBadges(); }
-async function loadHRDSlip() {
-    const emps = await db.getAll('employees');
-    const slips = await db.getAll('slip_gaji');
-    document.getElementById('pageTitle').textContent = 'Slip Gaji';
-    document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>💰 Buat Slip</h3><div class="form-group"><label class="form-label">Karyawan</label><select class="form-input" id="slipEmp">${emps.map(e => `<option value="${e.id}">${e.name}</option>`).join('')}</select></div><div class="form-group"><label class="form-label">Periode Mulai</label><input type="date" class="form-input" id="slipStart"></div><div class="form-group"><label class="form-label">Periode Selesai</label><input type="date" class="form-input" id="slipEnd"></div><div class="form-group"><label class="form-label">Gaji Pokok</label><input type="number" class="form-input" id="slipGaji"></div><div class="form-group"><label class="form-label">Bonus</label><input type="number" class="form-input" id="slipBonus" value="0"></div><div class="form-group"><label class="form-label">PPh</label><input type="number" class="form-input" id="slipPph" value="0"></div><div class="form-group"><label class="form-label">BPJS Kes</label><input type="number" class="form-input" id="slipBpjsKes" value="0"></div><div class="form-group"><label class="form-label">BPJS TK</label><input type="number" class="form-input" id="slipBpjsTk" value="0"></div><button class="btn-submit" onclick="createSlip()">Simpan</button></div><div class="section-card">${slips.map(s => `<div style="padding:8px;border:1px solid var(--border);border-radius:8px;margin-bottom:4px;"><strong>${s.userName} - ${s.periode}</strong> | Rp ${s.total?.toLocaleString()} <button class="btn-action btn-warning" onclick="editSlip(${s.id})"><i class="fas fa-edit"></i></button> <button class="btn-action btn-danger" onclick="deleteSlip(${s.id})"><i class="fas fa-trash"></i></button></div>`).join('')}</div>`;
-}
-async function createSlip() { const uid = parseInt(document.getElementById('slipEmp').value); const emp = await db.get('employees', uid); const g = parseInt(document.getElementById('slipGaji').value)||0, b = parseInt(document.getElementById('slipBonus').value)||0; const p = parseInt(document.getElementById('slipPph').value)||0, bk = parseInt(document.getElementById('slipBpjsKes').value)||0, bt = parseInt(document.getElementById('slipBpjsTk').value)||0; await db.put('slip_gaji', { userId: uid, userName: emp.name, periode: `${document.getElementById('slipStart').value} s/d ${document.getElementById('slipEnd').value}`, gajiPokok: g, bonus: b, pph: p, bpjsKes: bk, bpjsTk: bt, total: g+b-p-bk-bt, createdAt: new Date().toISOString() }); await db.addNotif(uid, 'slip', 'Slip gaji baru tersedia'); toast('✅ Tersimpan!', 'success'); await loadHRDSlip(); updateAllBadges(); }
+async function deleteEmp(id) { const emp = await db.get('employees', id); showConfirm({ title: 'Hapus', message: `Hapus ${emp.name}?`, icon: '🗑️', onConfirm: async () => { await db.del('employees', id); toast('✅ Dihapus!', 'success'); await loadHRDEmployees(); } }); }
+async function loadHRDApproval() { document.getElementById('pageTitle').textContent = 'Persetujuan'; const reqs = await db.getAll('requests'); reqs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); document.getElementById('mainContent').innerHTML = `<div class="section-card"><div class="section-header"><h3>✅ Persetujuan (${reqs.length})</h3><button class="btn-action btn-danger" onclick="hapusSemuaPengajuan()"><i class="fas fa-trash"></i> Hapus Semua</button></div><table class="data-table"><thead><tr><th>Nama</th><th>Jenis</th><th>Tgl</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${reqs.map(r => `<tr><td>${r.userName}</td><td>${r.type.toUpperCase()}${r.hours?' ('+r.hours+')':''}</td><td>${formatDate(r.startDate)}</td><td><span class="status-chip ${r.status}">${r.status.toUpperCase()}</span></td><td>${r.status==='pending'?`<button class="btn-action btn-success" onclick="approveReq(${r.id})">✓</button><button class="btn-action btn-danger" onclick="rejectReq(${r.id})">✕</button>`:'-'} <button class="btn-action btn-warning" onclick="hapusSatuPengajuan(${r.id})">🗑️</button></td></tr>`).join('')}</tbody></table></div>`; updateAllBadges(); }
+async function hapusSemuaPengajuan() { const reqs = await db.getAll('requests'); if (reqs.length === 0) return toast('Tidak ada!', 'warning'); showConfirm({ title: 'Hapus Semua', message: `Hapus ${reqs.length}?`, icon: '⚠️', onConfirm: async () => { showLoading(); for (const r of reqs) { await db.del('requests', r.id); } hideLoading(); toast('✅ Dihapus!', 'success'); await loadHRDApproval(); } }); }
+async function hapusSatuPengajuan(id) { showConfirm({ title: 'Hapus', message: 'Hapus?', icon: '🗑️', onConfirm: async () => { await db.del('requests', id); toast('✅ Dihapus!', 'success'); await loadHRDApproval(); } }); }
+async function approveReq(id) { const r = await db.get('requests', id); r.status = 'approved'; await db.put('requests', r); if (r.type === 'cuti') { const e = await db.get('employees', r.userId); if (e) { e.leaveUsed = (parseInt(e.leaveUsed)||0)+1; await db.put('employees', e); } } if (r.type === 'absen_miss') { await db.put('attendance', { userId: r.userId, userName: r.userName, date: r.startDate, checkIn: r.jenis==='checkin'?r.jam:'', checkOut: r.jenis==='checkout'?r.jam:'', status: 'present' }); } await loadHRDApproval(); toast('✅ Disetujui!', 'success'); updateAllBadges(); }
+async function rejectReq(id) { const r = await db.get('requests', id); r.status = 'rejected'; await db.put('requests', r); await loadHRDApproval(); toast('Ditolak', 'info'); updateAllBadges(); }
+async function loadHRDAnnounce() { document.getElementById('pageTitle').textContent = 'Pengumuman'; const ann = await db.getAll('announcements'); const comps = [...new Set((await db.getAll('employees')).map(e => e.company).filter(Boolean))]; document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>📢 Buat</h3><div class="form-group"><label class="form-label">Judul</label><input class="form-input" id="annTitle"></div><div class="form-group"><label class="form-label">Isi</label><textarea class="form-input" id="annContent" rows="3"></textarea></div><div class="form-group"><label class="form-label">Target PT</label><select class="form-input" id="annTarget"><option value="all">Semua</option>${comps.map(c => `<option value="${c}">${c}</option>`).join('')}</select></div><div class="form-group"><label class="form-label">File</label><input type="file" id="annFile" class="form-input"></div><button class="btn-submit" onclick="sendAnnounce()"><i class="fas fa-paper-plane"></i> Kirim</button></div><div class="section-card"><div class="section-header"><h3>Daftar (${ann.length})</h3><button class="btn-action btn-danger" onclick="hapusSemuaPengumuman()"><i class="fas fa-trash"></i> Hapus Semua</button></div>${ann.map(a => `<div style="background:#E6F0FF;padding:8px;border-radius:8px;margin-bottom:4px;"><div style="display:flex;justify-content:space-between;"><strong>${a.title}</strong><button class="btn-action btn-danger" onclick="hapusPengumuman(${a.id})">🗑️</button></div><p style="font-size:10px;">${a.content}</p></div>`).join('')}</div>`; }
+async function hapusSemuaPengumuman() { const d = await db.getAll('announcements'); if (d.length===0) return toast('Tidak ada!', 'warning'); showConfirm({ title: 'Hapus Semua', message: `Hapus ${d.length}?`, icon: '🗑️', onConfirm: async () => { for (const a of d) { await db.del('announcements', a.id); } toast('✅ Dihapus!', 'success'); await loadHRDAnnounce(); } }); }
+async function hapusPengumuman(id) { showConfirm({ title: 'Hapus', message: 'Hapus?', icon: '🗑️', onConfirm: async () => { await db.del('announcements', id); toast('✅ Dihapus!', 'success'); await loadHRDAnnounce(); } }); }
+async function sendAnnounce() { const t = document.getElementById('annTitle').value, c = document.getElementById('annContent').value; if (!t||!c) return toast('Isi semua!', 'warning'); const data = { title: t, content: c, targetCompany: document.getElementById('annTarget').value, fromName: APP.user.name, createdAt: new Date().toISOString() }; const f = document.getElementById('annFile')?.files[0]; if (f) { data.fileData = await new Promise(r => { const rd = new FileReader(); rd.onload = () => r(rd.result); rd.readAsDataURL(f); }); data.fileName = f.name; } await db.put('announcements', data); toast('✅ Terkirim!', 'success'); await loadHRDAnnounce(); updateAllBadges(); }
+async function loadHRDWarnings() { document.getElementById('pageTitle').textContent = 'Peringatan'; const emps = await db.getAll('employees'); const warns = await db.getAll('warnings'); document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>⚠️ Buat</h3><div class="form-group"><label class="form-label">Karyawan</label><select class="form-input" id="warnEmp">${emps.map(e => `<option value="${e.id}">${e.name}</option>`).join('')}</select></div><div class="form-group"><label class="form-label">Judul</label><input class="form-input" id="warnTitle"></div><div class="form-group"><label class="form-label">Isi</label><textarea class="form-input" id="warnContent" rows="3"></textarea></div><button class="btn-submit" onclick="sendWarning()">Kirim</button></div><div class="section-card"><div class="section-header"><h3>Daftar (${warns.length})</h3><button class="btn-action btn-danger" onclick="hapusSemuaPeringatan()"><i class="fas fa-trash"></i> Hapus Semua</button></div>${warns.map(w => `<div style="background:#FFF8E1;padding:8px;border-radius:8px;margin-bottom:4px;border-left:4px solid var(--warning);"><div style="display:flex;justify-content:space-between;"><strong>${w.title}</strong><button class="btn-action btn-danger" onclick="hapusPeringatan(${w.id})">🗑️</button></div><span style="font-size:9px;">- ${w.userName}</span></div>`).join('')}</div>`; }
+async function hapusSemuaPeringatan() { const d = await db.getAll('warnings'); if (d.length===0) return toast('Tidak ada!', 'warning'); showConfirm({ title: 'Hapus Semua', message: `Hapus ${d.length}?`, icon: '🗑️', onConfirm: async () => { for (const w of d) { await db.del('warnings', w.id); } toast('✅ Dihapus!', 'success'); await loadHRDWarnings(); } }); }
+async function hapusPeringatan(id) { showConfirm({ title: 'Hapus', message: 'Hapus?', icon: '🗑️', onConfirm: async () => { await db.del('warnings', id); toast('✅ Dihapus!', 'success'); await loadHRDWarnings(); } }); }
+async function sendWarning() { const uid = parseInt(document.getElementById('warnEmp').value); const emp = await db.get('employees', uid); const t = document.getElementById('warnTitle').value, c = document.getElementById('warnContent').value; if (!t||!c) return toast('Isi semua!', 'warning'); await db.put('warnings', { userId: uid, userName: emp.name, title: t, content: c, createdAt: new Date().toISOString() }); toast('✅ Terkirim!', 'success'); await loadHRDWarnings(); updateAllBadges(); }
+async function loadHRDSlip() { const emps = await db.getAll('employees'); const slips = await db.getAll('slip_gaji'); document.getElementById('pageTitle').textContent = 'Slip Gaji'; document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>💰 Buat</h3><div class="form-group"><label class="form-label">Karyawan</label><select class="form-input" id="slipEmp">${emps.map(e => `<option value="${e.id}">${e.name}</option>`).join('')}</select></div><div class="form-group"><label class="form-label">Periode Mulai</label><input type="date" class="form-input" id="slipStart"></div><div class="form-group"><label class="form-label">Periode Selesai</label><input type="date" class="form-input" id="slipEnd"></div><div class="form-group"><label class="form-label">Gaji Pokok</label><input type="number" class="form-input" id="slipGaji"></div><div class="form-group"><label class="form-label">Bonus</label><input type="number" class="form-input" id="slipBonus" value="0"></div><div class="form-group"><label class="form-label">PPh</label><input type="number" class="form-input" id="slipPph" value="0"></div><div class="form-group"><label class="form-label">BPJS Kes</label><input type="number" class="form-input" id="slipBpjsKes" value="0"></div><div class="form-group"><label class="form-label">BPJS TK</label><input type="number" class="form-input" id="slipBpjsTk" value="0"></div><button class="btn-submit" onclick="createSlip()">Simpan</button></div><div class="section-card">${slips.map(s => `<div style="padding:6px;border:1px solid var(--border);border-radius:6px;margin-bottom:3px;"><strong>${s.userName} - ${s.periode}</strong> | Rp ${(s.total||0).toLocaleString()} <button class="btn-action btn-warning" onclick="editSlip(${s.id})"><i class="fas fa-edit"></i></button> <button class="btn-action btn-danger" onclick="deleteSlip(${s.id})"><i class="fas fa-trash"></i></button></div>`).join('')}</div>`; }
+async function createSlip() { const uid = parseInt(document.getElementById('slipEmp').value); const emp = await db.get('employees', uid); const g = parseInt(document.getElementById('slipGaji').value)||0, b = parseInt(document.getElementById('slipBonus').value)||0; const p = parseInt(document.getElementById('slipPph').value)||0, bk = parseInt(document.getElementById('slipBpjsKes').value)||0, bt = parseInt(document.getElementById('slipBpjsTk').value)||0; await db.put('slip_gaji', { userId: uid, userName: emp.name, periode: `${document.getElementById('slipStart').value} s/d ${document.getElementById('slipEnd').value}`, gajiPokok: g, bonus: b, pph: p, bpjsKes: bk, bpjsTk: bt, total: g+b-p-bk-bt, createdAt: new Date().toISOString() }); toast('✅ Tersimpan!', 'success'); await loadHRDSlip(); updateAllBadges(); }
 async function editSlip(id) { const s = await db.get('slip_gaji', id); document.getElementById('editModalTitle').textContent = 'Edit Slip'; document.getElementById('editModalContent').innerHTML = `<div class="form-group"><label class="form-label">Gaji</label><input type="number" class="form-input" id="edGaji" value="${s.gajiPokok}"></div><div class="form-group"><label class="form-label">Bonus</label><input type="number" class="form-input" id="edBonus" value="${s.bonus||0}"></div><div class="form-group"><label class="form-label">PPh</label><input type="number" class="form-input" id="edPph" value="${s.pph||0}"></div><div class="form-group"><label class="form-label">BPJS Kes</label><input type="number" class="form-input" id="edBpjsKes" value="${s.bpjsKes||0}"></div><div class="form-group"><label class="form-label">BPJS TK</label><input type="number" class="form-input" id="edBpjsTk" value="${s.bpjsTk||0}"></div><button class="btn-submit" onclick="saveSlipEdit(${s.id})">Simpan</button>`; document.getElementById('editModal').classList.add('active'); }
 async function saveSlipEdit(id) { const s = await db.get('slip_gaji', id); s.gajiPokok = parseInt(document.getElementById('edGaji').value)||0; s.bonus = parseInt(document.getElementById('edBonus').value)||0; s.pph = parseInt(document.getElementById('edPph').value)||0; s.bpjsKes = parseInt(document.getElementById('edBpjsKes').value)||0; s.bpjsTk = parseInt(document.getElementById('edBpjsTk').value)||0; s.total = s.gajiPokok+s.bonus-s.pph-s.bpjsKes-s.bpjsTk; await db.put('slip_gaji', s); closeEditModal(); await loadHRDSlip(); toast('✅ Diperbarui!', 'success'); }
 async function deleteSlip(id) { await db.del('slip_gaji', id); await loadHRDSlip(); }
-async function loadHRDSettings() { const hrds = await db.getAll('hrd'); document.getElementById('pageTitle').textContent = 'Pengaturan HRD'; document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>👔 Akun HRD</h3><button class="btn-action btn-primary" onclick="openAddHRD()"><i class="fas fa-plus"></i> Tambah</button><table class="data-table"><thead><tr><th>Nama</th><th>Email</th><th>Aksi</th></tr></thead><tbody>${hrds.map(h => `<tr><td>${h.name}</td><td>${h.email}</td><td><button class="btn-action btn-warning" onclick="openEditHRD(${h.id})"><i class="fas fa-edit"></i></button> ${!h.isPermanent?`<button class="btn-action btn-danger" onclick="deleteHRD(${h.id})"><i class="fas fa-trash"></i></button>`:'<small>Permanen</small>'}</td></tr>`).join('')}</tbody></table></div>`; }
+async function loadHRDSettings() { const hrds = await db.getAll('hrd'); document.getElementById('pageTitle').textContent = 'Pengaturan'; document.getElementById('mainContent').innerHTML = `<div class="section-card"><h3>👔 Akun HRD</h3><button class="btn-action btn-primary" onclick="openAddHRD()"><i class="fas fa-plus"></i> Tambah</button><table class="data-table"><thead><tr><th>Nama</th><th>Email</th><th>Aksi</th></tr></thead><tbody>${hrds.map(h => `<tr><td>${h.name}</td><td>${h.email}</td><td><button class="btn-action btn-warning" onclick="openEditHRD(${h.id})"><i class="fas fa-edit"></i></button> ${h.isPermanent==='true'?'<small>Permanen</small>':`<button class="btn-action btn-danger" onclick="deleteHRD(${h.id})"><i class="fas fa-trash"></i></button>`}</td></tr>`).join('')}</tbody></table></div>`; }
 async function openEditHRD(id) { const h = await db.get('hrd', id); document.getElementById('editModalTitle').textContent = 'Edit HRD'; document.getElementById('editModalContent').innerHTML = `<div class="form-group"><label class="form-label">Nama</label><input class="form-input" id="hName" value="${h.name}"></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" id="hEmail" value="${h.email}"></div><div class="form-group"><label class="form-label">Password Baru</label><div class="input-with-icon"><input type="password" class="form-input" id="hPass"><button class="toggle-vis" onclick="togglePass('hPass', this)"><i class="fas fa-eye-slash"></i></button></div></div><button class="btn-submit" onclick="saveHRD(${h.id})">Simpan</button>`; document.getElementById('editModal').classList.add('active'); }
 async function saveHRD(id) { const h = await db.get('hrd', id); h.name = document.getElementById('hName').value||h.name; h.email = document.getElementById('hEmail').value||h.email; if (document.getElementById('hPass').value) h.password = document.getElementById('hPass').value; await db.put('hrd', h); closeEditModal(); await loadHRDSettings(); toast('✅ Diperbarui!', 'success'); }
 function openAddHRD() { document.getElementById('editModalTitle').textContent = 'Tambah HRD'; document.getElementById('editModalContent').innerHTML = `<div class="form-group"><label class="form-label">Nama</label><input class="form-input" id="hName"></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" id="hEmail"></div><div class="form-group"><label class="form-label">Password</label><div class="input-with-icon"><input type="password" class="form-input" id="hPass"><button class="toggle-vis" onclick="togglePass('hPass', this)"><i class="fas fa-eye-slash"></i></button></div></div><button class="btn-submit" onclick="addNewHRD()">Tambah</button>`; document.getElementById('editModal').classList.add('active'); }
 async function addNewHRD() { await db.put('hrd', { name: document.getElementById('hName').value, email: document.getElementById('hEmail').value, password: document.getElementById('hPass').value, department: 'HR', isPermanent: false, photo: '' }); closeEditModal(); await loadHRDSettings(); toast('✅ Ditambahkan!', 'success'); }
-async function deleteHRD(id) { const h = await db.get('hrd', id); if (h.isPermanent) return toast('Akun permanen!', 'warning'); await db.del('hrd', id); await loadHRDSettings(); }
+async function deleteHRD(id) { const h = await db.get('hrd', id); if (h.isPermanent === 'true') return toast('Akun permanen!', 'warning'); await db.del('hrd', id); await loadHRDSettings(); }
 
 function exportExcel() { const table = document.getElementById('exportTable'); if (!table) return toast('Tidak ada data!', 'warning'); const wb = XLSX.utils.table_to_book(table, { sheet: "Data" }); XLSX.writeFile(wb, `Absensi_${new Date().toISOString().split('T')[0]}.xlsx`); toast('✅ Export berhasil!', 'success'); }
-
 function logout() { APP.user = null; APP.role = null; document.getElementById('dashboardPage').classList.remove('show'); document.getElementById('loginPage').style.display = 'flex'; clearPin(); }
 function refreshData() { if (APP.role === 'employee') loadEmpDashboard(); else loadHRDDashboard(); }
-
-document.addEventListener('keydown', e => {
-    if (e.key >= '0' && e.key <= '9' && document.getElementById('loginPage').style.display !== 'none') inputPin(e.key);
-    if (e.key === 'Backspace') { APP.pin = APP.pin.slice(0, -1); updatePD(); }
-    if (e.key === 'Escape') { closeAttModal(); closeEditModal(); closeConfirm(); }
-});
-
-// PWA Install
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-window.addEventListener('appinstalled', () => { deferredPrompt = null; });
-function installApp() {
-    if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then((r) => { if (r.outcome === 'accepted') toast('✅ Ter-install!', 'success'); deferredPrompt = null; }); }
-    else { alert('📲 Install via Chrome Menu > Tambahkan ke Layar Utama'); }
-}
+document.addEventListener('keydown', e => { if (e.key >= '0' && e.key <= '9' && document.getElementById('loginPage').style.display !== 'none') inputPin(e.key); if (e.key === 'Backspace') { APP.pin = APP.pin.slice(0, -1); updatePD(); } if (e.key === 'Escape') { closeAttModal(); closeEditModal(); closeConfirm(); } });
 if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').catch(() => {}); }
 </script>
 </body>
